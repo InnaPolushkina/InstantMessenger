@@ -1,5 +1,10 @@
-package client.model;
+package main.java.clientSide.model;
 
+
+import ua.sumdu.lab2.group7.Model.Room;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Map;
@@ -9,6 +14,37 @@ public class User {
     private int id;
     private Socket userSocket;
     private boolean isOnline;
+    private BufferedReader in;
+    private BufferedWriter out;
+    private BufferedReader userMes;
+
+    public void setOnline(boolean online) {
+        isOnline = online;
+    }
+
+    public BufferedReader getIn() {
+        return in;
+    }
+
+    public void setIn(BufferedReader in) {
+        this.in = in;
+    }
+
+    public BufferedWriter getOut() {
+        return out;
+    }
+
+    public void setOut(BufferedWriter out) {
+        this.out = out;
+    }
+
+    public BufferedReader getUserMes() {
+        return userMes;
+    }
+
+    public void setUserMes(BufferedReader userMes) {
+        this.userMes = userMes;
+    }
 
     private Map<Room, ArrayList<Message>> chatText;
 
@@ -36,9 +72,14 @@ public class User {
         this.userSocket = userSocket;
     }
 
-    /*public String getUserStatus() {
-
-    }*/
+    public String getUserStatus() {
+        if (isOnline) {
+            return "Online";
+        }
+        else {
+            return "Offline";
+        }
+    }
     public boolean isOnline() {
         return isOnline;
     }

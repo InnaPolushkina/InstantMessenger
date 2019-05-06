@@ -1,4 +1,5 @@
-package client.model;
+package main.java.clientSide.model;
+
 
 public class Message {
     private String text;

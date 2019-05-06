@@ -1,22 +1,36 @@
-package client.controller;
+package main.java.clientSide.controller;
 
-import client.model.Room;
-import client.model.User;
+import main.java.clientSide.model.User;
+import main.java.clientSide.view.View;
+import ua.sumdu.lab2.group7.Model.Room;
 
+import java.io.IOException;
+import java.net.Socket;
 import java.util.Set;
 
 public class Rooter {
-    private User user;
+    private static User user = new User();
     private Set<Room> roomList;
 
     public static void main(String[] args) {
+        View.showLog("Start client  . . . ");
+        try {
+            Socket socket = new Socket("localhost", 2020);
+            Listener listener = new Listener(socket);
+            listener.start();
+
+        }
+        catch (IOException ex) {
+            //logger.error(ex);
+            ex.printStackTrace();
+        }
 
     }
 
     public void createRoom(User[] users) {
         Room room = new Room();
         for(int i = 0; i <users.length; i++ ) {
-            room.addUser(users[i]);
+           // room.addUser(users[i]);
         }
         roomList.add(room);
     }
@@ -24,7 +38,7 @@ public class Rooter {
     public void leaveRoom(Room room) {
         for (Room r: roomList) {
             if(r.equals(room)) {
-                r.removeUser(user);
+                //r.removeUser(user);
             }
         }
     }
@@ -45,7 +59,7 @@ public class Rooter {
         Set<User> res = null;
         for (Room r: roomList) {
             if(r.equals(room)) {
-                res = r.getUsersList();
+                //res = r.getUsersList();
             }
         }
         return res;
