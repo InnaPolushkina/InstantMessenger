@@ -1,4 +1,4 @@
-package ua.sumdu.lab2.group7.Model.XML;
+package messenger.model.xml;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -45,8 +45,7 @@ public class XMLGen {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
-            /*src/ua/sumdu/lab2/group7/Model/XML/XMLFiles/*/
-            StreamResult result = new StreamResult(new File("SendMassage.xml"));
+            StreamResult result = new StreamResult(new File("src/main/java/messenger/model/xml/xmlFiles/SendMassage.xml"));
             transformer.transform(source, result);
             System.out.println("File saved!");
         } catch (ParserConfigurationException pce) {

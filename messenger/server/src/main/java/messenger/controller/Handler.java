@@ -1,14 +1,13 @@
-package ua.sumdu.lab2.group7.Controller;
+package messenger.controller;
 
-import ua.sumdu.lab2.group7.Model.User;
+import messenger.model.User;
 
 import java.io.*;
 import java.net.Socket;
-import java.nio.file.Files;
 import java.util.Iterator;
 
 public class Handler extends Thread{
-   private User user = new User();
+    private User user = new User();
     public Handler(Socket socket) {
         user.setUserSocket(socket);
     }
@@ -43,8 +42,7 @@ public class Handler extends Thread{
                 }
                 Rooter.getInstense().getXmlGen().sendMassage(input,user.getName());
                 for (User writer : Rooter.getInstense().getUserList()) {
-                    /*src/ua/sumdu/lab2/group7/Model/XML/XMLFiles/*/
-                    File massage = new File("SendMassage.xml");
+                    File massage = new File("src/main/java/messenger/model/xml/xmlFiles/SendMassage.xml");
                     Reader msg = new BufferedReader(new FileReader(massage));
                     writer.getOut().write(((BufferedReader) msg).readLine() + "\n");
                     writer.getOut().flush();
@@ -70,4 +68,3 @@ public class Handler extends Thread{
         return true;
     }
 }
-

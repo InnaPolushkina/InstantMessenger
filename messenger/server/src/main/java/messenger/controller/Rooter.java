@@ -1,9 +1,9 @@
-package ua.sumdu.lab2.group7.Controller;
+package messenger.controller;
 
-import ua.sumdu.lab2.group7.Model.Room;
-import ua.sumdu.lab2.group7.Model.User;
-import ua.sumdu.lab2.group7.Model.XML.XMLGen;
-import ua.sumdu.lab2.group7.View.ViewLogs;
+import messenger.model.Room;
+import messenger.model.User;
+import messenger.model.xml.XMLGen;
+import messenger.view.ViewLogs;
 
 import java.net.ServerSocket;
 import java.util.HashSet;

@@ -1,4 +1,4 @@
-package ua.sumdu.lab2.group7.Model;
+package messenger.model;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
