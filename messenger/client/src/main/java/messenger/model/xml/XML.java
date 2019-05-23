@@ -11,4 +11,5 @@ public interface XML {
     void unbun();
     void mute();
     void unmute();
+    void parseMessage();
 }

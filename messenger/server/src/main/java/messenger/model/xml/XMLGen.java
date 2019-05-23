@@ -45,7 +45,7 @@ public class XMLGen {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File("src/main/java/messenger/model/xml/xmlFiles/SendMassage.xml"));
+            StreamResult result = new StreamResult(new File("server/src/main/java/messenger/model/xml/xmlFiles/SendMassage.xml"));
             transformer.transform(source, result);
             System.out.println("File saved!");
         } catch (ParserConfigurationException pce) {

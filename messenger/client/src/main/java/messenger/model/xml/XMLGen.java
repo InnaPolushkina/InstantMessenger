@@ -1,6 +1,9 @@
 package messenger.model.xml;
 
 public class XMLGen implements XML {
+    public void parseMessage() {
+
+    }
     public void createRoom() {
 
     }

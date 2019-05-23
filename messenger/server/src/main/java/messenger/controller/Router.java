@@ -9,12 +9,12 @@ import java.net.ServerSocket;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Rooter {
+public class Router {
     private Set<User> userList = new HashSet<>();
     private Set<Room> roomList;
     private static final int PORT = 2020;
     private static ViewLogs viewLogs = new ViewLogs();
-    private static Rooter instense = new Rooter();
+    private static Router instense = new Router();
     private XMLGen xmlGen = new XMLGen();
 
     public static void main(String[] args) throws Exception{
@@ -38,11 +38,11 @@ public class Rooter {
     private void createRoom(User[] users){
 
     }
-    private Rooter(){
+    private Router(){
 
     }
 
-    public static Rooter getInstense() {
+    public static Router getInstense() {
         return instense;
     }
 

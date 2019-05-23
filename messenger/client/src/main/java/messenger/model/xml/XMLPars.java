@@ -1,6 +1,11 @@
 package messenger.model.xml;
 
 public class XMLPars implements XML {
+
+    public void parseMessage() {
+
+    }
+
     public void createRoom() {
 
     }

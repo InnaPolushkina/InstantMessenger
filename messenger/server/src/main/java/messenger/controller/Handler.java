@@ -24,8 +24,8 @@ public class Handler extends Thread{
                 }
                 synchronized (user.getName()) {
                     if (validateUser(user.getName())) {
-                        Rooter.getInstense().getUserList().add(user);
-                        Rooter.getInstense().getViewLogs().print("New User");
+                        Router.getInstense().getUserList().add(user);
+                        Router.getInstense().getViewLogs().print("New User");
                         break;
                     }else {
                         isValidLogin = false;
@@ -40,9 +40,9 @@ public class Handler extends Thread{
                 if (input == null) {
                     continue;
                 }
-                Rooter.getInstense().getXmlGen().sendMassage(input,user.getName());
-                for (User writer : Rooter.getInstense().getUserList()) {
-                    File massage = new File("src/main/java/messenger/model/xml/xmlFiles/SendMassage.xml");
+                Router.getInstense().getXmlGen().sendMassage(input,user.getName());
+                for (User writer : Router.getInstense().getUserList()) {
+                    File massage = new File( "server/src/main/java/messenger/model/xml/xmlFiles/SendMassage.xml");
                     Reader msg = new BufferedReader(new FileReader(massage));
                     writer.getOut().write(((BufferedReader) msg).readLine() + "\n");
                     writer.getOut().flush();
@@ -58,7 +58,7 @@ public class Handler extends Thread{
         }
     }
     private boolean validateUser(String name) {
-        Iterator<User> iterator = Rooter.getInstense().getUserList().iterator();
+        Iterator<User> iterator = Router.getInstense().getUserList().iterator();
         while (iterator.hasNext()){
             User user = iterator.next();
             if(user.getName().equals(name)){

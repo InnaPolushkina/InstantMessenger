@@ -4,27 +4,35 @@ import messenger.model.Room;
 import messenger.model.User;
 import messenger.view.View;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.util.Set;
 
-public class Rooter {
+public class Router {
     private static User user = new User();
     private Set<Room> roomList;
+    //private Listener listener;
+    static Socket socket;
 
     public static void main(String[] args) {
+        new Router();
+    }
+
+
+    public Router() {
+
         View.showLog("Start client  . . . ");
+        System.out.println("Write something");
         try {
-            Socket socket = new Socket("localhost", 2020);
+            socket = new Socket("localhost", 2020);
             Listener listener = new Listener(socket);
             listener.start();
-
+            new SendMessage().start();
         }
         catch (IOException ex) {
             //logger.error(ex);
             ex.printStackTrace();
         }
-
     }
 
     public void createRoom(User[] users) {
@@ -51,9 +59,28 @@ public class Rooter {
 
     }
 
-    public void sendMessage() {
+   /* public void sendMessage() {
 
-    }
+
+    }*/
+   class SendMessage extends Thread {
+       @Override
+       public void run() {
+           while(true) {
+               try {
+                   BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+                   BufferedReader message = new BufferedReader(new InputStreamReader(System.in));
+                   String mes = message.readLine();
+                   out.write(mes + "\n");
+                   out.flush();
+               } catch (IOException e) {
+                   System.out.println(e);
+                   break;
+               }
+           }
+
+       }
+   }
 
     public Set<User> getUserList(Room room) {
         Set<User> res = null;
