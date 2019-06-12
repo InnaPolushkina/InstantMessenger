@@ -6,6 +6,10 @@ import messenger.model.User;
 
 import java.util.Set;
 
+/**
+ * the class will be have working with GUI
+ * @author Inna
+ */
 public class View {
     public void showListOfAllRoom(Set<Room> rooms) {
 

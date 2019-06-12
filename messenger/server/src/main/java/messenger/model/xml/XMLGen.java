@@ -13,6 +13,9 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 
+/**
+ * @author Danil
+ */
 public class XMLGen {
     public void reg(){
 

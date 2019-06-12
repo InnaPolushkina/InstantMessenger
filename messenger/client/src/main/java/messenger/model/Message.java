@@ -1,5 +1,9 @@
 package messenger.model;
 
+/**
+ * the class contains methods for working with messages
+ * @author Inna
+ */
 public class Message {
     private String text;
     private User user;

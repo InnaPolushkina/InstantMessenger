@@ -2,6 +2,9 @@ package messenger.model;
 
 import java.util.Set;
 
+/**
+ * @author Danil
+ */
 public class Room {
     private Set<User> userList;
     private Set<User> adminList;

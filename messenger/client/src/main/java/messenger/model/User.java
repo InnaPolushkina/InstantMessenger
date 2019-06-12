@@ -6,6 +6,10 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * The class for contain info about user
+ * @author Inna
+ */
 public class User {
     private String name;
     private int id;

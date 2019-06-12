@@ -9,6 +9,9 @@ import java.net.ServerSocket;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * @author Danil
+ */
 public class Router {
     private Set<User> userList = new HashSet<>();
     private Set<Room> roomList;

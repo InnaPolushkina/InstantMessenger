@@ -11,8 +11,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>client</module>
-        <module>server</module>
+        <module>client</module><!--The author of module is Inna-->
+        <module>server</module><!--The author of module is Danil -->
     </modules>
 
 

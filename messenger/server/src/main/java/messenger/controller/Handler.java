@@ -1,18 +1,24 @@
 package messenger.controller;
 
 import messenger.model.User;
+import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.net.Socket;
 import java.util.Iterator;
 
+/**
+ * @author Danil
+ */
 public class Handler extends Thread{
     private User user = new User();
+    private static final Logger logger = Logger.getLogger(Handler.class);
     public Handler(Socket socket) {
         user.setUserSocket(socket);
     }
     public void run() {
         System.out.println("OK");
+        logger.info("Server started . . .");
         try {
             user.setIn(new BufferedReader(new InputStreamReader(user.getUserSocket().getInputStream())));
             user.setOut(new BufferedWriter(new OutputStreamWriter(user.getUserSocket().getOutputStream())));
