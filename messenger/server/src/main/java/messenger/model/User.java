@@ -4,9 +4,6 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.net.Socket;
 
-/**
- * @author Danil
- */
 public class User {
     private String name;
     private  int id;

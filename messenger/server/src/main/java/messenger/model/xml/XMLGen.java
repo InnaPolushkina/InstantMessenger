@@ -1,4 +1,4 @@
-package messenger.model.xml;
+package messenger.model.XML;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -13,9 +13,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 
-/**
- * @author Danil
- */
 public class XMLGen {
     public void reg(){
 
@@ -48,7 +45,7 @@ public class XMLGen {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File("server/src/main/java/messenger/model/xml/xmlFiles/SendMassage.xml"));
+            StreamResult result = new StreamResult(new File("src/ua/sumdu/lab2/group7/Model/XML/XMLFiles/SendMassage.xml"));
             transformer.transform(source, result);
             System.out.println("File saved!");
         } catch (ParserConfigurationException pce) {
