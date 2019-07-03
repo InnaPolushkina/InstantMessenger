@@ -38,11 +38,11 @@
                     <executions>
                         <execution>
                             <configuration>
-                                <outputDirectory>${basedir}/target/classes/messenger/views</outputDirectory>
+                                <outputDirectory>${basedir}/target/classes/messenger/view</outputDirectory>
                                 <resources>
                                     <resource>
-                                        <directory>src/main/java/messenger/views</directory>
-                                        <filtering>true</filtering>
+                                        <directory>src/main/java/messenger/view/fxml</directory>
+                                        <filtering>false</filtering>
                                     </resource>
                                 </resources>
                             </configuration>
@@ -72,8 +72,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>7</source>
-                    <target>7</target>
+                    <source>8</source>
+                    <target>8</target>
                 </configuration>
             </plugin>
         </plugins>

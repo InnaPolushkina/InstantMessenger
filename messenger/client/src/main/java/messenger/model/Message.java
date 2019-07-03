@@ -13,6 +13,9 @@ public class Message {
         this.user = user;
     }
 
+    public Message() {
+    }
+
     public String getText() {
         return text;
     }
@@ -27,5 +30,13 @@ public class Message {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "text='" + text + '\'' +
+                ", user=" + user.getName() +
+                '}';
     }
 }

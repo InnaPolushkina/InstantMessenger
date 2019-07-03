@@ -1,27 +1,71 @@
 package messenger.model;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Map;
-
 /**
- * The class for contain info about user
+ * The class for contains info about user
  * @author Inna
  */
 public class User {
     private String name;
     private int id;
-    private Socket userSocket;
+    private boolean isOnline;
+    private boolean isMuted;
+    private boolean isBanned;
+
+
+    public User(String name) {
+        this.name = name;
+    }
+
+    public User() {
+    }
+
+    public void setOnline(boolean online) {
+        isOnline = online;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public boolean isOnline() {
+        return isOnline;
+    }
+
+    public boolean isMuted() {
+        return isMuted;
+    }
+
+    public void setMuted(boolean muted) {
+        isMuted = muted;
+    }
+
+    public boolean isBanned() {
+        return isBanned;
+    }
+
+    public void setBanned(boolean banned) {
+        isBanned = banned;
+    }
+
+    /* private Socket userSocket;
     private boolean isOnline;
     private BufferedReader in;
     private BufferedWriter out;
     private BufferedReader userMes;
 
-    public void setOnline(boolean online) {
-        isOnline = online;
-    }
+
 
     public BufferedReader getIn() {
         return in;
@@ -49,21 +93,7 @@ public class User {
 
     private Map<Room, ArrayList<Message>> chatText;
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public Socket getUserSocket() {
         return userSocket;
@@ -91,5 +121,5 @@ public class User {
 
     public void setChatText(Map<Room, ArrayList<Message>> chatText) {
         this.chatText = chatText;
-    }
+    }*/
 }
