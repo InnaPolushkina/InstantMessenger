@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox;
 import messenger.controller.Router;
 import messenger.model.Message;
 
+
 /**
  * Class contain methods and FXML components for handling actions of user with main of messenger
  * @see @FXML

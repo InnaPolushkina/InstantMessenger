@@ -91,7 +91,7 @@ public class User {
         this.userMes = userMes;
     }
 
-    private Map<Room, ArrayList<Message>> chatText;
+    private Map<Room, ArrayList<MessageServer>> chatText;
 
 
 
@@ -115,11 +115,11 @@ public class User {
         return isOnline;
     }
 
-    public Map<Room, ArrayList<Message>> getChatText() {
+    public Map<Room, ArrayList<MessageServer>> getChatText() {
         return chatText;
     }
 
-    public void setChatText(Map<Room, ArrayList<Message>> chatText) {
+    public void setChatText(Map<Room, ArrayList<MessageServer>> chatText) {
         this.chatText = chatText;
     }*/
 }

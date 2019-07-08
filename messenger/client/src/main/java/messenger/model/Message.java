@@ -34,7 +34,7 @@ public class Message {
 
     @Override
     public String toString() {
-        return "Message{" +
+        return "MessageServer{" +
                 "text='" + text + '\'' +
                 ", user=" + user.getName() +
                 '}';

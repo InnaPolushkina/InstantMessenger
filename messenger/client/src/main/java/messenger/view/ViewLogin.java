@@ -2,7 +2,7 @@ package messenger.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import messenger.model.Message;
+import messenger.model.message.MessageServer;
 import messenger.model.Room;
 import messenger.model.User;
 
@@ -22,7 +22,7 @@ public class ViewLogin {
     @FXML
     private TextField userName;
     @FXML
-    private TextField userPassword;
+    private PasswordField userPassword;
     @FXML
     private Label errorUserMessage;
 
@@ -58,7 +58,7 @@ public class ViewLogin {
         return userPassword;
     }
 
-    public void setUserPassword(TextField userPassword) {
+    public void setUserPassword(PasswordField userPassword) {
         this.userPassword = userPassword;
     }
 
@@ -82,7 +82,7 @@ public class ViewLogin {
 
     }
 
-    public void showMessage(Message message) {
+    public void showMessage(MessageServer messageServer) {
 
     }
 

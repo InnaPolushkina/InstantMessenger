@@ -1,19 +1,46 @@
 package messenger.model;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.net.Socket;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author Danil
  */
-public class User {
+public class User implements Serializable {
     private String name;
-    private  int id;
-    private Socket userSocket;
+    private String password;
     private boolean isOnline;
-    private BufferedReader in;
-    private BufferedWriter out;
+    private boolean isMuted;
+    private boolean isBanned;
+
+
+    public User(String name, String password) {
+        this.name = name;
+        this.password = password;
+    }
+
+    public User() {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return
+                Objects.equals(name, user.name) &&
+                Objects.equals(password, user.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, password);
+    }
+
+    public void setOnline(boolean online) {
+        isOnline = online;
+    }
 
     public String getName() {
         return name;
@@ -23,43 +50,31 @@ public class User {
         this.name = name;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Socket getUserSocket() {
-        return userSocket;
-    }
-
-    public void setUserSocket(Socket userSocket) {
-        this.userSocket = userSocket;
-    }
-
     public boolean isOnline() {
         return isOnline;
     }
 
-    public void setOnline(boolean online) {
-        isOnline = online;
+    public boolean isMuted() {
+        return isMuted;
     }
 
-    public BufferedReader getIn() {
-        return in;
+    public void setMuted(boolean muted) {
+        isMuted = muted;
     }
 
-    public void setIn(BufferedReader in) {
-        this.in = in;
+    public boolean isBanned() {
+        return isBanned;
     }
 
-    public BufferedWriter getOut() {
-        return out;
+    public void setBanned(boolean banned) {
+        isBanned = banned;
     }
 
-    public void setOut(BufferedWriter out) {
-        this.out = out;
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

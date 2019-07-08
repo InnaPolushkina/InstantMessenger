@@ -37,7 +37,7 @@ public class XMLGen {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             Document doc = docBuilder.newDocument();
-            Element rootElement = doc.createElement("massage");
+            Element rootElement = doc.createElement("message");
             doc.appendChild(rootElement);
             Element firstname = doc.createElement("nick");
             firstname.appendChild(doc.createTextNode(name));

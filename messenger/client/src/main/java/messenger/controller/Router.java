@@ -4,11 +4,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import messenger.model.Room;
-import messenger.model.User;
+import messenger.model.*;
+import messenger.model.exceptions.AuthException;
+import messenger.model.exceptions.UserRegistrationException;
 import messenger.view.ViewChat;
 import messenger.view.ViewLogin;
 
+import messenger.view.ViewRegister;
 import org.apache.log4j.Logger;
 
 import java.io.*;
@@ -31,7 +33,9 @@ public class Router {
    private Stage stage ;
    private ViewLogin viewLogin;
    private ViewChat viewChat;
+   private ViewRegister viewRegister;
    private static final Router instance = new Router();
+   private UserRegistrationServiceImpl userRegistrationService;
 
 
    public static Router getInstance() {
@@ -59,6 +63,7 @@ public class Router {
         viewChat = new ViewChat(this);
         stage = new Stage();
         user = new User();
+        userRegistrationService = new UserRegistrationServiceImpl(this);
         FXMLLoader loader = new FXMLLoader();
         loader.setController(viewLogin);
         try {
@@ -70,10 +75,8 @@ public class Router {
             logger.info("show login scene ");
         }
         catch (IOException e) {
-            logger.warn("while showing login scene " + e);
+            logger.warn("while showing login scene ",e);
         }
-
-        System.out.println("Write your nick name");
         try {
 
             socket = new Socket("localhost", 2020);
@@ -86,6 +89,7 @@ public class Router {
         }
         catch (IOException ex) {
             logger.error(ex);
+            viewLogin.setErrorUserMessage("Can't connect to server");
         }
 
     }
@@ -97,42 +101,34 @@ public class Router {
             String password = viewLogin.getUserPassword().getText().trim();
            // System.out.println(name + " " + password);
             user.setName(name);
-            sendMessage(name);
-            while (true) {
-                if (login()) {
-
-                    listener.start();
-
-                    FXMLLoader loader = new FXMLLoader();
-                    // viewChat = new ViewChat();
-                    loader.setController(viewChat);
-
-                    try {
-                        loader.setLocation(Router.class.getResource("/mainView.fxml"));
-                        Parent root = loader.load();
-                        Scene scene = new Scene(root);
-                        stage.setScene(scene);
-                        stage.show();
-                        viewChat.setUserName(name);
-                        logger.info("show main scene ");
-
-                    } catch (IOException e) {
-                        logger.warn("while showing main scene " + e);
-                    }
-                    break;
-                } else {
-                    viewLogin.setErrorUserMessage("Name or password is`t true");
-                }
-            }
+            //sendMessage("<user><nick>" + name + "</nick><password>" + password + "</password></user>");
+            login(name,password);
         });
         viewLogin.getRegisterButton().setOnAction(event -> {
             System.out.println("register" + viewLogin.getUserName().getText());
+            viewRegister = new ViewRegister();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setController(viewRegister);
+
+            try {
+                loader.setLocation(Router.class.getResource("/register.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            }
+            catch (IOException e) {
+                logger.warn("while opening form for registration",e);
+            }
         });
       // viewChat.getSendButton().setOnAction(event ->  sendMessage(viewChat.getMessageText()));
 
 
     }
 
+    public Listener getListener() {
+        return listener;
+    }
 
     public void createRoom(User[] users) {
         Room room = new Room();
@@ -152,19 +148,35 @@ public class Router {
 
     /**
      * the method for authorization user
-     * get response from server and return boolean result
-     * @return <p>true if user enter correct name and password and server have info about him,else return false,</p>
-     * <p>if while parsing response from server fall IOException return false</p>
+     * get response from server and return main form of messenger if user was authorized
+     * @see UserRegistrationService
      */
-    public boolean login() {
+    public void login(String name, String pass) {
         try {
-            String login = listener.messageFromServer();
-            boolean result = Boolean.parseBoolean(login);
-            return  result;
-        } catch (IOException e) {
-            logger.warn(e);
+            userRegistrationService.auth(name,pass);
+            listener.start();
+
+            FXMLLoader loader = new FXMLLoader();
+            // viewChat = new ViewChat();
+            loader.setController(viewChat);
+
+            try {
+                loader.setLocation(Router.class.getResource("/mainView.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+                viewChat.setUserName(name);
+                logger.info("show main scene ");
+
+            } catch (IOException e) {
+                logger.warn("while showing main scene " + e);
+            }
+
+        } catch (AuthException e) {
+            logger.warn("User can't authorize",e);
+            viewLogin.setErrorUserMessage("Name or password is`t true");
         }
-        return false;
     }
 
     public void register() {
@@ -177,8 +189,9 @@ public class Router {
      */
     public void sendMessage(String msg) {
         try {
+            MessageService messageService = new MessageServiceImpl();
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            out.write(msg + "\n");
+            out.write(messageService.sendMessage(new Message(msg,user)) + "\n");
             out.flush();
         } catch (IOException e) {
             logger.info(e);

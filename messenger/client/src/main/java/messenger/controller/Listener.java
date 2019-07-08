@@ -1,7 +1,9 @@
 package messenger.controller;
 
 import javafx.application.Platform;
+
 import messenger.model.*;
+
 import messenger.view.*;
 import org.apache.log4j.Logger;
 
@@ -58,6 +60,7 @@ public class Listener extends Thread {
         try {
             String msg = messageFromServer();
             MessageService messageService = new MessageServiceImpl();
+            //MessageServer message = messageService.parseMessage(msg);
             Message message = messageService.parseMessage(msg);
             Platform.runLater(
                     () -> {

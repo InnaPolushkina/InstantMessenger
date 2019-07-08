@@ -1,80 +1,47 @@
-2019-06-12 21:37:16 INFO  Handler:21 - Server started . . .
-2019-06-13 21:23:52 INFO  Handler:21 - Server started . . .
-2019-06-13 21:24:11 INFO  Handler:21 - Server started . . .
-2019-06-21 20:33:14 INFO  Handler:21 - Server started . . .
-2019-06-21 20:33:14 INFO  Handler:21 - Server started . . .
-2019-06-21 20:33:55 INFO  Handler:21 - Server started . . .
-2019-06-21 20:33:55 INFO  Handler:21 - Server started . . .
-2019-06-21 20:34:44 INFO  Handler:21 - Server started . . .
-2019-06-21 20:34:44 INFO  Handler:21 - Server started . . .
-2019-06-21 20:35:15 INFO  Handler:21 - Server started . . .
-2019-06-21 20:35:15 INFO  Handler:21 - Server started . . .
-2019-06-21 20:35:52 INFO  Handler:21 - Server started . . .
-2019-06-21 20:35:52 INFO  Handler:21 - Server started . . .
-2019-06-21 20:38:51 INFO  Handler:21 - Server started . . .
-2019-06-21 20:43:15 INFO  Handler:21 - Server started . . .
-2019-06-21 20:44:32 INFO  Handler:21 - Server started . . .
-2019-06-21 20:45:02 INFO  Handler:21 - Server started . . .
-2019-06-21 20:45:32 INFO  Handler:21 - Server started . . .
-2019-06-21 22:19:34 INFO  Handler:21 - Server started . . .
-2019-06-21 22:20:54 INFO  Handler:21 - Server started . . .
-2019-06-21 22:22:01 INFO  Handler:21 - Server started . . .
-2019-06-23 17:29:58 INFO  Handler:21 - Server started . . .
-2019-06-23 17:30:32 INFO  Handler:21 - Server started . . .
-2019-06-23 17:31:05 INFO  Handler:21 - Server started . . .
-2019-07-02 17:51:37 INFO  Handler:21 - Server started . . .
-2019-07-02 17:52:06 INFO  Handler:21 - Server started . . .
-2019-07-02 17:52:56 INFO  Handler:21 - Server started . . .
-2019-07-02 17:53:19 INFO  Handler:21 - Server started . . .
-2019-07-03 14:32:27 INFO  Handler:21 - Server started . . .
-2019-07-03 14:50:20 INFO  Handler:21 - Server started . . .
-2019-07-03 15:04:29 INFO  Handler:21 - Server started . . .
-2019-07-03 15:05:14 INFO  Handler:21 - Server started . . .
-2019-07-03 15:08:10 INFO  Handler:21 - Server started . . .
-2019-07-03 15:09:08 INFO  Handler:21 - Server started . . .
-2019-07-03 15:11:16 INFO  Handler:21 - Server started . . .
-2019-07-03 15:11:47 INFO  Handler:21 - Server started . . .
-2019-07-03 15:12:56 INFO  Handler:21 - Server started . . .
-2019-07-03 15:14:10 INFO  Handler:21 - Server started . . .
-2019-07-03 15:22:05 INFO  Handler:21 - Server started . . .
-2019-07-03 15:22:54 INFO  Handler:21 - Server started . . .
-2019-07-03 15:24:11 INFO  Handler:21 - Server started . . .
-2019-07-03 15:31:27 INFO  Handler:21 - Server started . . .
-2019-07-03 15:34:38 INFO  Handler:21 - Server started . . .
-2019-07-03 15:40:45 INFO  Handler:21 - Server started . . .
-2019-07-03 15:49:33 INFO  Handler:21 - Server started . . .
-2019-07-03 15:52:27 INFO  Handler:21 - Server started . . .
-2019-07-03 15:54:49 INFO  Handler:21 - Server started . . .
-2019-07-03 15:58:22 INFO  Handler:21 - Server started . . .
-2019-07-03 16:00:54 INFO  Handler:21 - Server started . . .
-2019-07-03 16:21:34 INFO  Handler:21 - Server started . . .
-2019-07-03 16:22:57 INFO  Handler:21 - Server started . . .
-2019-07-03 17:55:13 INFO  Handler:21 - Server started . . .
-2019-07-03 17:55:36 INFO  Handler:21 - Server started . . .
-2019-07-03 18:10:53 INFO  Handler:21 - Server started . . .
-2019-07-03 18:11:38 INFO  Handler:21 - Server started . . .
-2019-07-03 18:12:16 INFO  Handler:21 - Server started . . .
-2019-07-03 18:15:23 INFO  Handler:21 - Server started . . .
-2019-07-03 18:20:32 INFO  Handler:21 - Server started . . .
-2019-07-03 18:21:11 INFO  Handler:21 - Server started . . .
-2019-07-03 18:21:57 INFO  Handler:21 - Server started . . .
-2019-07-03 18:23:29 INFO  Handler:21 - Server started . . .
-2019-07-03 18:41:35 INFO  Handler:21 - Server started . . .
-2019-07-03 18:50:05 INFO  Handler:21 - Server started . . .
-2019-07-03 18:53:11 INFO  Handler:21 - Server started . . .
-2019-07-03 19:05:29 INFO  Handler:21 - Server started . . .
-2019-07-03 19:06:27 INFO  Handler:21 - Server started . . .
-2019-07-03 19:11:14 INFO  Handler:21 - Server started . . .
-2019-07-03 19:15:27 INFO  Handler:21 - Server started . . .
-2019-07-03 19:16:42 INFO  Handler:21 - Server started . . .
-2019-07-03 19:18:38 INFO  Handler:21 - Server started . . .
-2019-07-03 19:19:20 INFO  Handler:21 - Server started . . .
-2019-07-03 19:27:23 INFO  Handler:21 - Server started . . .
-2019-07-03 19:31:34 INFO  Handler:21 - Server started . . .
-2019-07-03 19:34:09 INFO  Handler:21 - Server started . . .
-2019-07-03 19:35:46 INFO  Handler:21 - Server started . . .
-2019-07-03 21:02:25 INFO  Handler:21 - Server started . . .
-2019-07-03 21:02:51 INFO  Handler:21 - Server started . . .
-2019-07-03 21:34:31 INFO  Handler:21 - Server started . . .
-2019-07-03 21:34:51 INFO  Handler:21 - Server started . . .
-2019-07-03 21:37:23 INFO  Handler:21 - Server started . . .
+2019-07-08 10:43:06 WARN  UserRegistrationServiceImpl:69 - exception while parsing string with xml from client when one authorizing
+org.xml.sax.SAXParseException; lineNumber: 1; columnNumber: 1; Content is not allowed in prolog.
+	at com.sun.org.apache.xerces.internal.parsers.DOMParser.parse(DOMParser.java:257)
+	at com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:339)
+	at messenger.model.UserRegistrationServiceImpl.auth(UserRegistrationServiceImpl.java:45)
+	at messenger.controller.Handler.run(Handler.java:39)
+2019-07-08 10:46:14 INFO  Handler:34 - Server started . . . 
+2019-07-08 10:46:40 WARN  Handler:63 - java.net.SocketException: Connection reset
+2019-07-08 10:48:58 INFO  Handler:34 - Server started . . . 
+2019-07-08 10:51:02 WARN  Handler:63 - java.net.SocketException: Connection reset
+2019-07-08 10:51:58 INFO  Handler:35 - Server started . . . 
+2019-07-08 10:52:30 WARN  Handler:64 - java.net.SocketException: Connection reset
+2019-07-08 11:00:08 INFO  Handler:36 - Server started . . . 
+2019-07-08 11:00:24 INFO  Handler:36 - Server started . . . 
+2019-07-08 11:00:41 INFO  Handler:36 - Server started . . . 
+2019-07-08 11:01:04 INFO  Handler:36 - Server started . . . 
+2019-07-08 11:03:10 WARN  Handler:66 - java.net.SocketException: Connection reset
+2019-07-08 11:03:12 WARN  Handler:66 - java.net.SocketException: Connection reset
+2019-07-08 11:03:18 WARN  Handler:66 - java.net.SocketException: Connection reset
+2019-07-08 11:06:54 INFO  Handler:36 - Server started . . . 
+2019-07-08 11:13:30 INFO  Handler:36 - Server started . . . 
+2019-07-08 11:15:30 INFO  Handler:36 - Server started . . . 
+2019-07-08 11:16:18 INFO  Handler:36 - Server started . . . 
+2019-07-08 11:39:29 INFO  Handler:36 - Server started . . . 
+2019-07-08 11:40:11 WARN  Handler:66 - java.net.SocketException: Connection reset
+2019-07-08 11:40:16 INFO  Handler:36 - Server started . . . 
+2019-07-08 11:41:06 WARN  Handler:66 - java.net.SocketException: Connection reset
+2019-07-08 13:34:52 INFO  Handler:36 - Server started . . . 
+2019-07-08 13:35:54 WARN  Handler:69 - java.net.SocketException: Connection reset
+2019-07-08 13:46:42 INFO  Handler:36 - Server started . . . 
+2019-07-08 13:47:24 WARN  Handler:69 - java.net.SocketException: Connection reset
+2019-07-08 19:11:38 INFO  Handler:36 - Server started . . . 
+2019-07-08 19:11:59 INFO  Handler:36 - Server started . . . 
+2019-07-08 19:12:51 WARN  Handler:69 - java.net.SocketException: Connection reset
+2019-07-08 19:12:59 INFO  Handler:36 - Server started . . . 
+2019-07-08 19:13:14 INFO  Handler:36 - Server started . . . 
+2019-07-08 19:18:21 WARN  Handler:69 - java.net.SocketException: Connection reset
+2019-07-08 19:18:32 INFO  Handler:36 - Server started . . . 
+2019-07-08 19:18:47 INFO  Handler:36 - Server started . . . 
+2019-07-08 19:19:23 WARN  Handler:70 - java.net.SocketException: Connection reset
+2019-07-08 19:19:24 WARN  Handler:70 - java.net.SocketException: Connection reset
+2019-07-08 19:43:52 INFO  Handler:36 - Server started . . . 
+2019-07-08 19:44:09 INFO  Handler:36 - Server started . . . 
+2019-07-08 19:44:32 WARN  Handler:70 - java.net.SocketException: Connection reset
+2019-07-08 19:44:33 WARN  Handler:70 - java.net.SocketException: Connection reset
+2019-07-08 19:45:07 INFO  Handler:36 - Server started . . . 
+2019-07-08 19:45:36 WARN  Handler:70 - java.net.SocketException: Connection reset

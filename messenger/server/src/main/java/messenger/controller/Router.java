@@ -2,6 +2,7 @@ package messenger.controller;
 
 import messenger.model.Room;
 import messenger.model.User;
+import messenger.model.UserConnection;
 import messenger.model.xml.XMLGen;
 import messenger.view.ViewLogs;
 
@@ -13,7 +14,7 @@ import java.util.Set;
  * @author Danil
  */
 public class Router {
-    private Set<User> userList = new HashSet<>();
+    private Set<UserConnection> userList = new HashSet<>();
     private Set<Room> roomList;
     private static final int PORT = 2020;
     private static ViewLogs viewLogs = new ViewLogs();
@@ -53,7 +54,7 @@ public class Router {
         return viewLogs;
     }
 
-    public Set<User> getUserList() {
+    public Set<UserConnection> getUserList() {
         return userList;
     }
 

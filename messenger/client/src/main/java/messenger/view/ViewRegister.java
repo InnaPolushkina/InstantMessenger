@@ -3,6 +3,7 @@ package messenger.view;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 public class ViewRegister {
@@ -11,7 +12,7 @@ public class ViewRegister {
     @FXML
     private TextField userName;
     @FXML
-    private TextField userPassword;
+    private PasswordField userPassword;
     @FXML
     private Label errorMsg;
 
@@ -38,7 +39,7 @@ public class ViewRegister {
         return userPassword;
     }
 
-    public void setUserPassword(TextField userPassword) {
+    public void setUserPassword(PasswordField userPassword) {
         this.userPassword = userPassword;
     }
 
