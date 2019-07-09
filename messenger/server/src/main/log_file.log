@@ -45,3 +45,61 @@ org.xml.sax.SAXParseException; lineNumber: 1; columnNumber: 1; Content is not al
 2019-07-08 19:44:33 WARN  Handler:70 - java.net.SocketException: Connection reset
 2019-07-08 19:45:07 INFO  Handler:36 - Server started . . . 
 2019-07-08 19:45:36 WARN  Handler:70 - java.net.SocketException: Connection reset
+2019-07-08 22:14:44 INFO  Handler:36 - Server started . . . 
+2019-07-08 22:15:00 INFO  Handler:36 - Server started . . . 
+2019-07-08 22:15:26 WARN  Handler:70 - java.net.SocketException: Connection reset
+2019-07-08 22:15:27 WARN  Handler:70 - java.net.SocketException: Connection reset
+2019-07-09 11:56:09 INFO  Handler:36 - Server started . . . 
+2019-07-09 12:05:36 INFO  Handler:35 - Server started . . . 
+2019-07-09 12:05:45 WARN  Handler:69 - java.net.SocketException: Connection reset
+2019-07-09 17:37:37 INFO  Handler:35 - Server started . . . 
+2019-07-09 17:38:11 WARN  Handler:69 - java.net.SocketException: Connection reset
+2019-07-09 20:02:19 INFO  Handler:35 - Server started . . . 
+2019-07-09 20:03:01 WARN  Handler:69 - java.net.SocketException: Connection reset
+2019-07-09 20:44:43 INFO  Handler:35 - Server started . . . 
+2019-07-09 20:47:02 INFO  Handler:35 - Server started . . . 
+2019-07-09 20:48:53 INFO  Handler:35 - Server started . . . 
+2019-07-09 21:28:50 INFO  Handler:35 - Server started . . . 
+2019-07-09 21:29:32 WARN  Handler:85 - java.net.SocketException: Connection reset
+2019-07-09 21:36:14 INFO  Handler:35 - Server started . . . 
+2019-07-09 21:36:30 INFO  Handler:35 - Server started . . . 
+2019-07-09 21:39:41 INFO  Handler:35 - Server started . . . 
+2019-07-09 21:39:58 INFO  Handler:35 - Server started . . . 
+2019-07-09 21:42:23 WARN  Handler:97 - java.net.SocketException: Connection reset
+2019-07-09 21:42:31 INFO  Handler:35 - Server started . . . 
+2019-07-09 21:42:42 WARN  Handler:97 - java.net.SocketException: Connection reset
+2019-07-09 21:42:52 INFO  Handler:35 - Server started . . . 
+2019-07-09 21:46:45 INFO  Handler:35 - Server started . . . 
+2019-07-09 21:47:05 INFO  Handler:35 - Server started . . . 
+2019-07-09 21:49:00 WARN  Handler:103 - java.net.SocketException: Connection reset
+2019-07-09 21:49:03 WARN  Handler:103 - java.net.SocketException: Connection reset
+2019-07-09 21:49:08 INFO  Handler:35 - Server started . . . 
+2019-07-09 21:53:20 WARN  Handler:103 - java.net.SocketException: Connection reset
+2019-07-09 21:56:30 INFO  Handler:35 - Server started . . . 
+2019-07-09 21:58:22 WARN  Handler:103 - java.net.SocketException: Connection reset
+2019-07-09 21:58:27 INFO  Handler:35 - Server started . . . 
+2019-07-09 21:58:36 WARN  Handler:103 - java.net.SocketException: Socket closed
+2019-07-09 21:59:16 INFO  Handler:35 - Server started . . . 
+2019-07-09 21:59:46 WARN  Handler:103 - java.net.SocketException: Socket closed
+2019-07-09 22:01:59 INFO  Handler:35 - Server started . . . 
+2019-07-09 22:02:10 WARN  Handler:103 - java.net.SocketException: Connection reset
+2019-07-09 22:05:22 INFO  Handler:35 - Server started . . . 
+2019-07-09 22:05:46 INFO  Handler:35 - Server started . . . 
+2019-07-09 22:08:52 WARN  Handler:103 - java.net.SocketException: Connection reset
+2019-07-09 22:08:59 INFO  Handler:35 - Server started . . . 
+2019-07-09 22:09:09 WARN  Handler:103 - java.net.SocketException: Socket closed
+2019-07-09 22:10:45 WARN  Handler:103 - java.net.SocketException: Connection reset
+2019-07-09 22:10:54 INFO  Handler:35 - Server started . . . 
+2019-07-09 22:10:57 INFO  Handler:35 - Server started . . . 
+2019-07-09 22:11:34 WARN  Handler:103 - java.net.SocketException: Socket closed
+2019-07-09 22:12:18 WARN  Handler:103 - java.net.SocketException: Socket closed
+2019-07-09 22:14:37 INFO  Handler:35 - Server started . . . 
+2019-07-09 22:14:58 INFO  Handler:35 - Server started . . . 
+2019-07-09 22:17:56 WARN  Handler:103 - java.net.SocketException: Connection reset
+2019-07-09 22:18:01 INFO  Handler:35 - Server started . . . 
+2019-07-09 22:18:16 WARN  Handler:103 - java.net.SocketException: Socket closed
+2019-07-09 22:19:42 INFO  Handler:35 - Server started . . . 
+2019-07-09 22:20:08 WARN  Handler:103 - java.net.SocketException: Socket closed
+2019-07-09 22:20:22 WARN  Handler:103 - java.net.SocketException: Connection reset
+2019-07-09 23:20:59 INFO  Handler:45 - Server started . . . 
+2019-07-09 23:21:27 WARN  Handler:97 - java.net.SocketException: Connection reset

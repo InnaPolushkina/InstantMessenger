@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import messenger.controller.Router;
 
 public class ViewRegister {
     @FXML
@@ -16,7 +17,23 @@ public class ViewRegister {
     @FXML
     private Label errorMsg;
 
-    public ViewRegister() {
+    private Router router;
+
+    public ViewRegister(Router router) {
+        this.router = router;
+    }
+
+    public void initialize() {
+        registrationButton.setOnAction(event -> {
+            String name = userName.getText();
+            String password = userPassword.getText();
+            router.register(name,password);
+            router.getUser().setName(name);
+        });
+    }
+
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg.setText(errorMsg);
     }
 
     public Button getRegistrationButton() {
@@ -47,7 +64,5 @@ public class ViewRegister {
         return errorMsg;
     }
 
-    public void setErrorMsg(Label errorMsg) {
-        this.errorMsg = errorMsg;
-    }
+
 }

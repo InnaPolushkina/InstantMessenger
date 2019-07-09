@@ -3,7 +3,6 @@ package messenger.controller;
 import messenger.model.Room;
 import messenger.model.User;
 import messenger.model.UserConnection;
-import messenger.model.xml.XMLGen;
 import messenger.view.ViewLogs;
 
 import java.net.ServerSocket;
@@ -12,6 +11,7 @@ import java.util.Set;
 
 /**
  * @author Danil
+ * fixed by Inna
  */
 public class Router {
     private Set<UserConnection> userList = new HashSet<>();
@@ -19,7 +19,6 @@ public class Router {
     private static final int PORT = 2020;
     private static ViewLogs viewLogs = new ViewLogs();
     private static Router instense = new Router();
-    private XMLGen xmlGen = new XMLGen();
 
     public static void main(String[] args) throws Exception{
         viewLogs.print("The chat server is running.");
@@ -33,18 +32,22 @@ public class Router {
             listener.close();
         }
     }
-    private void save(){
-
+   /* private void save(){
+        userRegistrationService.saveUsers("server/src/main/java/messenger/db/users.txt");
     }
     private void load(){
-
-    }
+        userRegistrationService.getUsers("server/src/main/java/messenger/db/users.txt");
+    }*/
     private void createRoom(User[] users){
 
     }
     private Router(){
 
     }
+
+   /* public UserRegistrationServiceImpl getUserRegistrationService() {
+        return userRegistrationService;
+    }*/
 
     public static Router getInstense() {
         return instense;
@@ -58,7 +61,4 @@ public class Router {
         return userList;
     }
 
-    public XMLGen getXmlGen() {
-        return xmlGen;
-    }
 }

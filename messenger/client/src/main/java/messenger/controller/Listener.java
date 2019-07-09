@@ -26,7 +26,7 @@ public class Listener extends Thread {
      * The public constructor for class Listener
      * @param socket for connect to server
      */
-    public Listener(Socket socket,ViewChat viewChat) throws IOException {
+    public Listener(Socket socket) throws IOException {
         user = new User();
         userServerConnection = new UserServerConnection(user,socket);
         this.viewChat = viewChat;
@@ -83,4 +83,7 @@ public class Listener extends Thread {
         return s;
     }
 
+    public void setViewChat(ViewChat viewChat) {
+        this.viewChat = viewChat;
+    }
 }
