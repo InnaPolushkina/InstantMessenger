@@ -75,6 +75,10 @@ public class Handler extends Thread{
                         router.getUserList().add(userConnection);
 
                         user = userRegistrationService.getUser();
+
+                        //userRegistrationService.saveUsers();
+                        //userRegistrationService.getUsers();
+
                         break;
                     }
                 }

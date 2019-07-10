@@ -11,6 +11,12 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +26,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     private List<User> userList = new ArrayList<>();
     private static final Logger logger = Logger.getLogger(UserRegistrationServiceImpl.class);
     private User user;
-    private String fileUsers = "server/src/main/java/messenger/db/users.txt";
+    private String fileUsersXml = "server/src/main/java/messenger/db/users.xml";
 
     /**
      * the public constructor
@@ -31,49 +37,82 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     }
 
     /**
-     * the method deserialize list of users from file
+     * the method parse list of users from xml file
      */
     public void getUsers(/*String fileName*/) {
         try {
-            FileInputStream fileInputStream = new FileInputStream(fileUsers);
+            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            Document document = documentBuilder.parse(new InputSource(new FileReader(fileUsersXml)));
 
-            userList = (List<User>) objectInputStream.readObject();
+            Element root = document.getDocumentElement();
 
-            fileInputStream.close();
-            objectInputStream.close();
+            NodeList nodeList = document.getElementsByTagName("user");
 
-        } catch (FileNotFoundException e) {
-            logger.warn("can't find file for loading list of users ",e);
+                for (int i = 0; i < nodeList.getLength(); i++) {
+                    Node node = nodeList.item(i);
+                    if (node.getNodeType() == Node.ELEMENT_NODE) {
+                        Element element = (Element) node;
+                        String nick = element.getElementsByTagName("nick").item(0).getTextContent();
+                        String password = element.getElementsByTagName("password").item(0).getTextContent();
+
+                        User newUser = new User(nick,password);
+                        userList.add(newUser);
+                    }
+                }
+        }
+        catch (ParserConfigurationException e) {
+            logger.warn(e);
+        }
+        catch (FileNotFoundException e) {
+            logger.warn(e);
         }
         catch (IOException e) {
-            logger.warn("can't load list of users",e);
+            logger.warn(e);
         }
-        catch (ClassNotFoundException e) {
-            logger.warn("problems with loading list of users from file",e);
+        catch (SAXException e) {
+            logger.warn(e);
         }
     }
 
     /**
-     * the method serialize list of users to file
+     * the method parse list of users to xml file
      */
     public void saveUsers(/*String fileName*/) {
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream(fileUsers);
+            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            Document document = documentBuilder.newDocument();
 
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            Element root = document.createElement("users");
+            document.appendChild(root);
 
-            objectOutputStream.writeObject(userList);
+            for (User user : userList) {
+                Element elementUser = document.createElement("user");
+                root.appendChild(elementUser);
 
-            objectOutputStream.close();
-            fileOutputStream.close();
+                Element nick = document.createElement("nick");
+                nick.appendChild(document.createTextNode(user.getName()));
+                elementUser.appendChild(nick);
+
+                Element password = document.createElement("password");
+                password.appendChild(document.createTextNode(user.getPassword()));
+                elementUser.appendChild(password);
+            }
+
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource domSource = new DOMSource(document);
+            StreamResult streamResult = new StreamResult(new File(fileUsersXml));
+            transformer.setOutputProperty(OutputKeys.INDENT,"yes");
+            transformer.transform(domSource, streamResult);
         }
-        catch (FileNotFoundException e) {
-            logger.warn("can't find for saving list of users",e);
+        catch (ParserConfigurationException e) {
+           logger.warn("while saving list of users to xml file");
         }
-        catch (IOException e) {
-            logger.warn("can't save list of users to file ",e);
+        catch (TransformerException e) {
+            logger.warn("while saving list of users to xml file",e);
         }
     }
 
@@ -119,7 +158,6 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     @Override
     public boolean auth(String userData) {
         try {
-            //user = getUserFromXml(userData);
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = builderFactory.newDocumentBuilder();
             Document document = builder.parse(new InputSource(new StringReader(userData)));

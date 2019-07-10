@@ -2,22 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b98c236f-63b1-4958-9d48-96f19baa1a06" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/messenger/db/users.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/messenger/controller/Listener.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/messenger/controller/Listener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/messenger/controller/Router.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/messenger/controller/Router.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/messenger/model/UserRegistrationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/messenger/model/UserRegistrationServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/messenger/view/ViewRegister.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/messenger/view/ViewRegister.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/messenger/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/messenger/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/messenger/view/ViewChat.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/messenger/view/ViewChat.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/log_file.log" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/log_file.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/resources/mainView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/resources/mainView.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/resources/register.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/resources/register.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/messenger/controller/Handler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/messenger/controller/Handler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/messenger/controller/Router.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/messenger/controller/Router.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/messenger/db/users.txt" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/messenger/db/users.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/messenger/db/users.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/messenger/model/UserRegistrationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/messenger/model/UserRegistrationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/messenger/db/users.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/messenger/model/UserRegistrationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/messenger/model/UserRegistrationServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/messenger/model/xml/XMLGen.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/messenger/model/xml/xmlFiles/SendMassage.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/log_file.log" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/log_file.log" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
@@ -40,7 +32,7 @@
     <session id="-64775022">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="26" />
+          <entry key="project.closed" value="27" />
           <entry key="project.open.time.17" value="1" />
           <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.26" value="1" />
@@ -48,7 +40,7 @@
           <entry key="project.open.time.29" value="1" />
           <entry key="project.open.time.3" value="4" />
           <entry key="project.open.time.33" value="2" />
-          <entry key="project.open.time.36" value="1" />
+          <entry key="project.open.time.36" value="2" />
           <entry key="project.open.time.37" value="2" />
           <entry key="project.open.time.42" value="3" />
           <entry key="project.open.time.45" value="2" />
@@ -59,7 +51,7 @@
           <entry key="project.open.time.53" value="1" />
           <entry key="project.open.time.6" value="1" />
           <entry key="project.open.time.64" value="1" />
-          <entry key="project.opened" value="27" />
+          <entry key="project.opened" value="28" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -67,20 +59,20 @@
           <entry key="1" value="5" />
           <entry key="class" value="3" />
           <entry key="fxml" value="19" />
-          <entry key="java" value="207" />
-          <entry key="log" value="21" />
+          <entry key="java" value="215" />
+          <entry key="log" value="23" />
           <entry key="properties" value="4" />
           <entry key="txt" value="4" />
-          <entry key="xml" value="21" />
+          <entry key="xml" value="24" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CLASS" value="3" />
-          <entry key="JAVA" value="207" />
-          <entry key="PLAIN_TEXT" value="30" />
+          <entry key="JAVA" value="215" />
+          <entry key="PLAIN_TEXT" value="32" />
           <entry key="Properties" value="4" />
-          <entry key="XML" value="40" />
+          <entry key="XML" value="43" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
@@ -88,18 +80,18 @@
           <entry key="1" value="84" />
           <entry key="dummy" value="14" />
           <entry key="fxml" value="131" />
-          <entry key="java" value="14919" />
+          <entry key="java" value="16314" />
           <entry key="properties" value="24" />
-          <entry key="txt" value="233" />
-          <entry key="xml" value="66" />
+          <entry key="txt" value="237" />
+          <entry key="xml" value="548" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="14919" />
-          <entry key="PLAIN_TEXT" value="331" />
+          <entry key="JAVA" value="16314" />
+          <entry key="PLAIN_TEXT" value="335" />
           <entry key="Properties" value="24" />
-          <entry key="XML" value="197" />
+          <entry key="XML" value="679" />
         </counts>
       </usages-collector>
     </session>
@@ -107,78 +99,31 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/src/main/java/messenger/model/UserRegistrationService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="38" selection-start-line="12" selection-start-column="38" selection-end-line="12" selection-end-column="38" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/src/main/java/messenger/controller/Router.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1054">
-              <caret line="62" selection-start-line="62" selection-end-line="62" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1602#1603#0" expanded="true" />
-                <element signature="e#1633#1634#0" expanded="true" />
-                <element signature="e#1670#1671#0" expanded="true" />
-                <element signature="e#1701#1702#0" expanded="true" />
-                <element signature="e#1749#1750#0" expanded="true" />
-                <element signature="e#1780#1781#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/client/src/main/log_file.log">
+        <entry file="file://$PROJECT_DIR$/client/src/main/java/messenger/App.java">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret lean-forward="true" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/src/main/java/messenger/model/UserRegistrationServiceImpl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="341">
-              <caret line="158" column="29" selection-start-line="158" selection-start-column="29" selection-end-line="158" selection-end-column="29" />
+              <caret column="18" selection-start-column="18" selection-end-column="18" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#5525#5526#0" expanded="true" />
-                <element signature="e#5552#5553#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/src/main/java/messenger/model/UserService.java">
+        <entry file="file://$PROJECT_DIR$/server/src/main/log_file.log">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="25" column="27" selection-start-line="25" selection-start-column="27" selection-end-line="25" selection-end-column="27" />
+            <state relative-caret-position="-496">
+              <caret line="57" column="81" selection-start-line="57" selection-start-column="81" selection-end-line="57" selection-end-column="81" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/src/main/java/messenger/model/User.java">
+        <entry file="file://$PROJECT_DIR$/server/src/main/java/messenger/db/users.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="17" column="11" selection-start-line="17" selection-start-column="11" selection-end-line="17" selection-end-column="11" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/src/main/java/messenger/model/Room.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="31" selection-start-line="8" selection-start-column="31" selection-end-line="8" selection-end-column="31" />
+            <state>
+              <caret column="54" lean-forward="true" selection-start-column="54" selection-end-column="54" />
             </state>
           </provider>
         </entry>
@@ -186,8 +131,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/src/main/java/messenger/controller/Handler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="103">
-              <caret line="83" column="65" selection-start-line="83" selection-start-column="65" selection-end-line="83" selection-end-column="65" />
+            <state relative-caret-position="392">
+              <caret line="79" column="26" selection-start-line="79" selection-start-column="26" selection-end-line="79" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -195,11 +140,37 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/src/main/java/messenger/model/RoomService.java">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/server/src/main/java/messenger/model/UserRegistrationServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="25" column="50" selection-start-line="25" selection-start-column="50" selection-end-line="25" selection-end-column="50" />
+            <state relative-caret-position="108">
+              <caret line="27" column="22" selection-start-line="27" selection-start-column="22" selection-end-line="27" selection-end-column="22" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#7961#7962#0" expanded="true" />
+                <element signature="e#7988#7989#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://C:/Program Files/Java/jdk1.8.0_181/src.zip!/javax/xml/transform/OutputKeys.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2340">
+              <caret line="36" column="13" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/src/main/java/messenger/controller/Router.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="952">
+              <caret line="62" selection-start-line="62" selection-end-line="62" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -254,14 +225,12 @@
         <option value="$PROJECT_DIR$/client/src/main/java/messenger/model/AuthException.java" />
         <option value="$PROJECT_DIR$/client/src/main/java/messenger/model/exceptions/AuthException.java" />
         <option value="$PROJECT_DIR$/client/src/main/java/messenger/model/exceptions/UserRegistrationException.java" />
-        <option value="$PROJECT_DIR$/client/src/main/java/messenger/App.java" />
         <option value="$PROJECT_DIR$/client/src/main/java/messenger/view/ViewLogin.java" />
         <option value="$PROJECT_DIR$/client/src/main/resources/register.fxml" />
         <option value="$PROJECT_DIR$/client/src/main/resources/login.fxml" />
         <option value="$PROJECT_DIR$/server/src/main/java/messenger/model/xml/XMLGen.java" />
         <option value="$PROJECT_DIR$/server/src/main/java/messenger/model/xml/xmlFiles/SendMassage.xml" />
         <option value="$PROJECT_DIR$/client/src/main/resources/mainView.fxml" />
-        <option value="$PROJECT_DIR$/server/src/main/java/messenger/db/users.xml" />
         <option value="$PROJECT_DIR$/server/src/main/java/messenger/model/UserService.java" />
         <option value="$PROJECT_DIR$/client/src/main/java/messenger/model/RoomService.java" />
         <option value="$PROJECT_DIR$/server/src/main/java/messenger/model/RoomService.java" />
@@ -272,7 +241,6 @@
         <option value="$PROJECT_DIR$/server/src/main/java/messenger/model/User.java" />
         <option value="$PROJECT_DIR$/server/src/main/java/messenger/model/message/Message.java" />
         <option value="$PROJECT_DIR$/server/src/main/java/messenger/model/message/MessageServer.java" />
-        <option value="$PROJECT_DIR$/client/src/main/java/messenger/view/ViewChat.java" />
         <option value="$PROJECT_DIR$/server/src/main/log_file.log" />
         <option value="$PROJECT_DIR$/client/src/main/java/messenger/model/MessageService.java" />
         <option value="$PROJECT_DIR$/client/src/main/java/messenger/model/MessageServiceImpl.java" />
@@ -282,10 +250,13 @@
         <option value="$PROJECT_DIR$/client/src/main/java/messenger/view/ViewRegister.java" />
         <option value="$PROJECT_DIR$/client/src/main/java/messenger/controller/Router.java" />
         <option value="$PROJECT_DIR$/server/src/main/java/messenger/model/UserRegistrationService.java" />
-        <option value="$PROJECT_DIR$/server/src/main/java/messenger/model/UserRegistrationServiceImpl.java" />
-        <option value="$PROJECT_DIR$/server/src/main/java/messenger/controller/Handler.java" />
         <option value="$PROJECT_DIR$/server/src/main/java/messenger/controller/Router.java" />
         <option value="$PROJECT_DIR$/client/src/main/log_file.log" />
+        <option value="$PROJECT_DIR$/client/src/main/java/messenger/view/ViewChat.java" />
+        <option value="$PROJECT_DIR$/client/src/main/java/messenger/App.java" />
+        <option value="$PROJECT_DIR$/server/src/main/java/messenger/controller/Handler.java" />
+        <option value="$PROJECT_DIR$/server/src/main/java/messenger/db/users.xml" />
+        <option value="$PROJECT_DIR$/server/src/main/java/messenger/model/UserRegistrationServiceImpl.java" />
       </list>
     </option>
   </component>
@@ -356,36 +327,6 @@
             <path>
               <item name="messenger" type="b2602c69:ProjectViewProjectNode" />
               <item name="messenger" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="messenger" type="462c0819:PsiDirectoryNode" />
-              <item name="controller" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="messenger" type="b2602c69:ProjectViewProjectNode" />
-              <item name="messenger" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="messenger" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="messenger" type="b2602c69:ProjectViewProjectNode" />
-              <item name="messenger" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="messenger" type="462c0819:PsiDirectoryNode" />
-              <item name="view" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="messenger" type="b2602c69:ProjectViewProjectNode" />
-              <item name="messenger" type="462c0819:PsiDirectoryNode" />
               <item name="server" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -448,17 +389,6 @@
               <item name="messenger" type="462c0819:PsiDirectoryNode" />
               <item name="model" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="messenger" type="b2602c69:ProjectViewProjectNode" />
-              <item name="messenger" type="462c0819:PsiDirectoryNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="messenger" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
-              <item name="message" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -469,8 +399,8 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1562703908596" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../anyTests/testForLab2" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1562769573665" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../javaEE/prJDBC" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.31954023" />
@@ -500,7 +430,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Router">
+  <component name="RunManager" selected="Application.App">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="messenger.App" />
       <module name="client" />
@@ -623,7 +553,14 @@
       <option name="project" value="LOCAL" />
       <updated>1562606731988</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="add registration on server and client side">
+      <created>1562704094810</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1562704094811</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -640,9 +577,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.218509" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22107969" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -651,7 +587,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32884097" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.20080863" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.19407009" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39892185" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -720,10 +656,10 @@
     <MESSAGE value="parsing messages in client side, logging, some comments" />
     <MESSAGE value="GUI by JavaFX; changed classes and interfaces in model" />
     <MESSAGE value="Add authorizing" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add authorizing" />
+    <MESSAGE value="add registration on server and client side" />
+    <option name="LAST_COMMIT_MESSAGE" value="add registration on server and client side" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/client/src/main/java/messenger/model/xml/XMLPars.java" />
     <entry file="file://$PROJECT_DIR$/client/src/main/resources/log4j.properties">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
@@ -768,12 +704,12 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/client/src/main/resources/register.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="6" column="33" selection-start-line="6" selection-start-column="33" selection-end-line="6" selection-end-column="33" />
         </state>
       </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder" />
     </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_181/javafx-src.zip!/javafx/application/Application.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -783,12 +719,12 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/client/src/main/resources/login.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="8" selection-start-line="8" selection-end-line="8" />
         </state>
       </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder" />
     </entry>
     <entry file="file://$PROJECT_DIR$/server/src/main/java/messenger/view/ViewLogs.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -798,12 +734,12 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/client/src/main/resources/mainView.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="481">
           <caret line="47" column="26" selection-start-line="47" selection-start-column="26" selection-end-line="47" selection-end-column="26" />
         </state>
       </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder" />
     </entry>
     <entry file="file://$PROJECT_DIR$/client/src/main/java/messenger/model/UserServerConnection.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -837,13 +773,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
           <caret line="19" column="37" selection-start-line="19" selection-start-column="37" selection-end-line="19" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/src/main/java/messenger/db/users.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="8" lean-forward="true" selection-start-line="5" selection-start-column="8" selection-end-line="5" selection-end-column="8" />
         </state>
       </provider>
     </entry>
@@ -934,20 +863,6 @@
     <entry file="file://$PROJECT_DIR$/server/src/main/java/messenger/db/users.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/src/main/log_file.log">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="67">
-          <caret line="57" column="81" lean-forward="true" selection-start-line="57" selection-start-column="81" selection-end-line="57" selection-end-column="81" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/main/java/messenger/view/ViewChat.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="64" column="16" selection-start-line="64" selection-start-column="16" selection-end-line="64" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/src/main/java/messenger/controller/Listener.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="647">
@@ -958,27 +873,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/src/main/java/messenger/model/xml/xmlFiles/SendMassage.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="126" selection-start-column="126" selection-end-column="126" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/main/java/messenger/model/xml/xmlFiles/SendMassage.xml" />
     <entry file="file://$PROJECT_DIR$/client/src/main/java/messenger/model/MessageServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="20" column="44" selection-start-line="20" selection-start-column="44" selection-end-line="20" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/main/java/messenger/App.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1020,22 +919,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/src/main/java/messenger/model/UserRegistrationService.java">
+    <entry file="file://$PROJECT_DIR$/server/src/main/java/messenger/model/xml/XMLGen.java" />
+    <entry file="file://$PROJECT_DIR$/client/src/main/log_file.log.1" />
+    <entry file="file://$PROJECT_DIR$/client/src/main/log_file.log">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="38" selection-start-line="12" selection-start-column="38" selection-end-line="12" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/src/main/java/messenger/model/UserRegistrationServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="341">
-          <caret line="158" column="29" selection-start-line="158" selection-start-column="29" selection-end-line="158" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#5525#5526#0" expanded="true" />
-            <element signature="e#5552#5553#0" expanded="true" />
-          </folding>
+        <state>
+          <caret lean-forward="true" />
         </state>
       </provider>
     </entry>
@@ -1060,50 +949,83 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/src/main/java/messenger/controller/Handler.java">
+    <entry file="file://$PROJECT_DIR$/server/src/main/java/messenger/model/UserRegistrationService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="103">
-          <caret line="83" column="65" selection-start-line="83" selection-start-column="65" selection-end-line="83" selection-end-column="65" />
+        <state relative-caret-position="204">
+          <caret line="12" column="38" selection-start-line="12" selection-start-column="38" selection-end-line="12" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/main/java/messenger/view/ViewChat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="99">
+          <caret line="80" lean-forward="true" selection-start-line="80" selection-end-line="80" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/src/main/java/messenger/model/xml/XMLGen.java">
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_181/src.zip!/javax/xml/transform/OutputKeys.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
+        <state relative-caret-position="-2340">
+          <caret line="36" column="13" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server/src/main/java/messenger/controller/Router.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1054">
+        <state relative-caret-position="952">
           <caret line="62" selection-start-line="62" selection-end-line="62" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1602#1603#0" expanded="true" />
-            <element signature="e#1633#1634#0" expanded="true" />
-            <element signature="e#1670#1671#0" expanded="true" />
-            <element signature="e#1701#1702#0" expanded="true" />
-            <element signature="e#1749#1750#0" expanded="true" />
-            <element signature="e#1780#1781#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/main/log_file.log.1">
-      <provider selected="true" editor-type-id="LargeFileEditor">
-        <state relative-caret-position="838">
-          <caret line="15272" column="70" lean-forward="true" selection-end-line="15274" selection-end-column="70" />
+    <entry file="file://$PROJECT_DIR$/client/src/main/java/messenger/App.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="18" selection-start-column="18" selection-end-column="18" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/main/log_file.log">
+    <entry file="file://$PROJECT_DIR$/server/src/main/log_file.log">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-496">
+          <caret line="57" column="81" selection-start-line="57" selection-start-column="81" selection-end-line="57" selection-end-column="81" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/main/java/messenger/controller/Handler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="392">
+          <caret line="79" column="26" selection-start-line="79" selection-start-column="26" selection-end-line="79" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/main/java/messenger/db/users.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state>
-          <caret lean-forward="true" />
+          <caret column="54" lean-forward="true" selection-start-column="54" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/main/java/messenger/model/UserRegistrationServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="27" column="22" selection-start-line="27" selection-start-column="22" selection-end-line="27" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#7961#7962#0" expanded="true" />
+            <element signature="e#7988#7989#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

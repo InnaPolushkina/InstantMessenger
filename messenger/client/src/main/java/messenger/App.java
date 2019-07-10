@@ -5,7 +5,7 @@ import javafx.stage.Stage;
 import messenger.controller.Router;
 
 /**
- * Class App contain start point of Application
+ * Class App contain start point of Messenger
  * @see Application
  * @author Inna
  */

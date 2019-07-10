@@ -11,6 +11,9 @@ import javafx.scene.layout.VBox;
 import messenger.controller.Router;
 import messenger.model.Message;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 
 /**
  * Class contain methods and FXML components for handling actions of user with main of messenger
@@ -47,9 +50,10 @@ public class ViewChat {
 
     @FXML
     public void initialize() {
-        //Date date = new Date();
+       // Date date = new Date();
+
         messagesList.setItems(observableListMessages);
-       // observableListMessages.add(date.toString());
+       // observableListMessages.add(date.);
 
         sendButton.setOnAction(event -> {
             if (messageText.getText() != null && !messageText.getText().trim().equals("")) {
