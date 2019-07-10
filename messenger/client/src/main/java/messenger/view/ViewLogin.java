@@ -2,9 +2,9 @@ package messenger.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import messenger.model.message.MessageServer;
-import messenger.model.Room;
-import messenger.model.User;
+import messenger.model.serverEntity.MessageServer;
+import messenger.model.serverEntity.Room;
+import messenger.model.entity.User;
 
 import java.util.Set;
 

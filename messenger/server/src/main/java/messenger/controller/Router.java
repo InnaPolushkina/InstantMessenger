@@ -1,8 +1,8 @@
 package messenger.controller;
 
-import messenger.model.Room;
-import messenger.model.User;
-import messenger.model.UserConnection;
+import messenger.model.serverEntity.Room;
+import messenger.model.serverEntity.User;
+import messenger.model.serverEntity.UserConnection;
 import messenger.view.ViewLogs;
 
 import java.net.ServerSocket;

@@ -9,10 +9,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import messenger.controller.Router;
-import messenger.model.Message;
-
-import java.time.LocalDate;
-import java.util.Date;
+import messenger.model.entity.Message;
 
 
 /**

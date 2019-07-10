@@ -2,7 +2,7 @@
 org.xml.sax.SAXParseException; lineNumber: 1; columnNumber: 1; Content is not allowed in prolog.
 	at com.sun.org.apache.xerces.internal.parsers.DOMParser.parse(DOMParser.java:257)
 	at com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:339)
-	at messenger.model.UserRegistrationServiceImpl.auth(UserRegistrationServiceImpl.java:45)
+	at messenger.model.serverServicesImlp.UserRegistrationServiceImpl.auth(UserRegistrationServiceImpl.java:45)
 	at messenger.controller.Handler.run(Handler.java:39)
 2019-07-08 10:46:14 INFO  Handler:34 - Server started . . . 
 2019-07-08 10:46:40 WARN  Handler:63 - java.net.SocketException: Connection reset
@@ -170,3 +170,60 @@ org.xml.sax.SAXParseException; lineNumber: 1; columnNumber: 1; Content is not al
 2019-07-10 17:54:09 WARN  Handler:101 - java.net.SocketException: Connection reset
 2019-07-10 17:58:19 INFO  Handler:45 - Server started . . . 
 2019-07-10 17:58:50 WARN  Handler:101 - java.net.SocketException: Connection reset
+2019-07-10 19:32:32 INFO  Handler:50 - Server started . . . 
+2019-07-10 21:00:27 WARN  UserRegistrationServiceImpl:71 - java.io.FileNotFoundException: server\src\main\java\messenger\db\users.xml (Системе не удается найти указанный путь)
+2019-07-10 21:00:27 INFO  Handler:45 - Server started . . . 
+2019-07-10 21:00:42 WARN  Handler:89 - java.net.SocketException: Connection reset
+2019-07-10 21:00:42 WARN  UserRegistrationServiceImpl:117 - while saving list of users to xml file
+javax.xml.transform.TransformerException: java.io.FileNotFoundException: D:\JAVA\Laba2\messengerProject\messenger\server\src\main\java\messenger\db\users.xml (Системе не удается найти указанный путь)
+	at com.sun.org.apache.xalan.internal.xsltc.trax.TransformerImpl.getOutputHandler(TransformerImpl.java:513)
+	at com.sun.org.apache.xalan.internal.xsltc.trax.TransformerImpl.transform(TransformerImpl.java:328)
+	at messenger.model.serverServicesImlp.UserRegistrationServiceImpl.saveUsers(UserRegistrationServiceImpl.java:111)
+	at messenger.controller.Handler.run(Handler.java:93)
+Caused by: java.io.FileNotFoundException: D:\JAVA\Laba2\messengerProject\messenger\server\src\main\java\messenger\db\users.xml (Системе не удается найти указанный путь)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:101)
+	at com.sun.org.apache.xalan.internal.xsltc.trax.TransformerImpl.getOutputHandler(TransformerImpl.java:486)
+	... 3 more
+---------
+java.io.FileNotFoundException: D:\JAVA\Laba2\messengerProject\messenger\server\src\main\java\messenger\db\users.xml (Системе не удается найти указанный путь)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:101)
+	at com.sun.org.apache.xalan.internal.xsltc.trax.TransformerImpl.getOutputHandler(TransformerImpl.java:486)
+	at com.sun.org.apache.xalan.internal.xsltc.trax.TransformerImpl.transform(TransformerImpl.java:328)
+	at messenger.model.serverServicesImlp.UserRegistrationServiceImpl.saveUsers(UserRegistrationServiceImpl.java:111)
+	at messenger.controller.Handler.run(Handler.java:93)
+2019-07-10 21:01:35 INFO  Handler:45 - Server started . . . 
+2019-07-10 21:02:06 WARN  Handler:89 - java.net.SocketException: Connection reset
+2019-07-10 21:05:26 INFO  Handler:45 - Server started . . . 
+2019-07-10 21:05:56 INFO  Handler:45 - Server started . . . 
+2019-07-10 21:06:29 WARN  Handler:89 - client Kit disconnected 
+java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:210)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at messenger.controller.Handler.sendMessage(Handler.java:102)
+	at messenger.controller.Handler.run(Handler.java:86)
+2019-07-10 21:06:33 WARN  Handler:89 - client Inna disconnected 
+java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:210)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at messenger.controller.Handler.sendMessage(Handler.java:102)
+	at messenger.controller.Handler.run(Handler.java:86)

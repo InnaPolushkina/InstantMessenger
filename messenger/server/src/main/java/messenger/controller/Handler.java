@@ -1,15 +1,14 @@
 package messenger.controller;
 
-import messenger.model.User;
-import messenger.model.UserConnection;
-import messenger.model.UserRegistrationService;
-import messenger.model.UserRegistrationServiceImpl;
-import messenger.view.ViewLogs;
+import messenger.model.serverEntity.User;
+import messenger.model.serverEntity.UserConnection;
+import messenger.model.serverServicesImlp.UserRegistrationServiceImpl;
+import messenger.model.serverServices.MessageService;
+import messenger.model.serverServicesImlp.MessageServiceImpl;
 import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Iterator;
 
 /**
  * Class Handler using for processing from client
@@ -22,6 +21,7 @@ public class Handler extends Thread{
     private static final Logger logger = Logger.getLogger(Handler.class);
     private UserRegistrationServiceImpl userRegistrationService = new UserRegistrationServiceImpl();
     private Router router;
+    private MessageService messageService = new MessageServiceImpl();
 
 
     /**
@@ -76,35 +76,35 @@ public class Handler extends Thread{
 
                         user = userRegistrationService.getUser();
 
-                        //userRegistrationService.saveUsers();
-                        //userRegistrationService.getUsers();
+                        userRegistrationService.saveUsers();
+                        userRegistrationService.getUsers();
 
                         break;
                     }
                 }
             }
+            sendMessage();
 
-            while (true) {
-                String input = userConnection.getIn().readLine();
-                //Router.getInstense().getXmlGen().sendMassage(input, user.getName());
-                for (UserConnection writer : Router.getInstense().getUserList()) {
-                    // File massage = new File( "server/src/main/java/messenger/model/xml/xmlFiles/SendMassage.xml");
-                    //Reader msg = new BufferedReader(new FileReader(massage));
-
-                    // writer.getOut().write(((BufferedReader) msg).readLine() + "\n");
-
-                    writer.getOut().write(input + "\n");
-                    writer.getOut().flush();
-                }
-            }
         } catch (IOException e) {
-            logger.warn(e);
+            logger.warn("client " + user.getName() + " disconnected ",e);
         } finally {
             try {
                 userConnection.getUserSocket().close();
                 userRegistrationService.saveUsers();
             } catch (IOException e) {
                 logger.warn("close client socket in sever", e);
+            }
+        }
+    }
+
+    public void sendMessage() throws IOException {
+        while (true) {
+            String input = userConnection.getIn().readLine();
+            //MessageServer messageServer = messageService.parseMessage(input);
+            //User recipient = messageServer.getUser();
+            for (UserConnection writer : Router.getInstense().getUserList()) {
+                    writer.getOut().write(input + "\n");
+                    writer.getOut().flush();
             }
         }
     }

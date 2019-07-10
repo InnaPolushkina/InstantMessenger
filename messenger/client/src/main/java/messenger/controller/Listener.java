@@ -2,8 +2,11 @@ package messenger.controller;
 
 import javafx.application.Platform;
 
-import messenger.model.*;
-
+import messenger.model.entity.Message;
+import messenger.model.service.MessageService;
+import messenger.model.serviceRealization.MessageServiceImpl;
+import messenger.model.entity.User;
+import messenger.model.entity.UserServerConnection;
 import messenger.view.*;
 import org.apache.log4j.Logger;
 

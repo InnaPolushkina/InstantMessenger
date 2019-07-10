@@ -4,9 +4,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import messenger.model.*;
 import messenger.model.exceptions.AuthException;
 import messenger.model.exceptions.UserRegistrationException;
+import messenger.model.serverEntity.UserConnection;
+import messenger.model.service.UserRegistrationService;
+import messenger.model.serviceRealization.UserRegistrationServiceImpl;
+import messenger.model.entity.Message;
+import messenger.model.service.MessageService;
+import messenger.model.serviceRealization.MessageServiceImpl;
+import messenger.model.serverEntity.Room;
+import messenger.model.entity.User;
 import messenger.view.ViewChat;
 import messenger.view.ViewLogin;
 
