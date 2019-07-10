@@ -164,3 +164,9 @@ org.xml.sax.SAXParseException; lineNumber: 1; columnNumber: 1; Content is not al
 2019-07-10 17:39:22 WARN  Handler:101 - java.net.SocketException: Connection reset
 2019-07-10 17:39:36 INFO  Handler:45 - Server started . . . 
 2019-07-10 17:39:47 WARN  Handler:101 - java.net.SocketException: Connection reset
+2019-07-10 17:50:15 INFO  Handler:45 - Server started . . . 
+2019-07-10 17:50:47 WARN  Handler:101 - java.net.SocketException: Connection reset
+2019-07-10 17:53:48 INFO  Handler:45 - Server started . . . 
+2019-07-10 17:54:09 WARN  Handler:101 - java.net.SocketException: Connection reset
+2019-07-10 17:58:19 INFO  Handler:45 - Server started . . . 
+2019-07-10 17:58:50 WARN  Handler:101 - java.net.SocketException: Connection reset

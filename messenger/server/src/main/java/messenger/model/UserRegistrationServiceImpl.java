@@ -135,13 +135,13 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
                 user = new User(nick,password);
             }
 
-            if(userList.contains(user)) {
-                return false;
+            for (User u: userList) {
+                if(u.getName().equals(user.getName()) )
+                    return false;
             }
-            else {
-                userList.add(user);
-                return true;
-            }
+            userList.add(user);
+            return true;
+
         } catch (ParserConfigurationException e) {
             logger.warn("exception while parsing string with xml from client when one registering ",e);
         }

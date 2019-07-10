@@ -24,11 +24,17 @@ public class ViewRegister {
     }
 
     public void initialize() {
+        setErrorMsg("");
         registrationButton.setOnAction(event -> {
-            String name = userName.getText();
-            String password = userPassword.getText();
-            router.register(name,password);
-            router.getUser().setName(name);
+            String name = userName.getText().trim();
+            String password = userPassword.getText().trim();
+            if (name.length() != 0 && password.length() !=0) {
+                router.register(name, password);
+                router.getUser().setName(name);
+            }
+            else {
+                setErrorMsg("Fields can't be empty !");
+            }
         });
     }
 
