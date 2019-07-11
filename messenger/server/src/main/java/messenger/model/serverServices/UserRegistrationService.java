@@ -1,5 +1,7 @@
 package messenger.model.serverServices;
 
+import messenger.model.serverEntity.User;
+
 public interface UserRegistrationService {
     /**
      * the method register new user
@@ -13,4 +15,11 @@ public interface UserRegistrationService {
      * @return true if user authorized, else return false
      */
     boolean auth(String userData);
+
+    /**
+     * The method for getting authorized user
+     * @return authorized user
+     */
+    User getAuthorizedUser();
+
 }

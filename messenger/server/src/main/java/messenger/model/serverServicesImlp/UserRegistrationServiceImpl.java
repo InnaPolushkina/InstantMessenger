@@ -13,12 +13,6 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,94 +22,14 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     private List<User> userList = new ArrayList<>();
     private static final Logger logger = Logger.getLogger(UserRegistrationServiceImpl.class);
     private User user;
-    private final String fileUsersXml = "server/src/main/java/messenger/model/db/users.xml";
 
     /**
      * the public constructor
      * create object of this class
      */
-    public UserRegistrationServiceImpl() {
+    public UserRegistrationServiceImpl(List<User> userList) {
+        this.userList = userList;
        // getUsers(fileUsers);
-    }
-
-    /**
-     * the method parse list of users from xml file
-     */
-    public void getUsers(/*String fileName*/) {
-        try {
-            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-
-            Document document = documentBuilder.parse(new InputSource(new FileReader(fileUsersXml)));
-
-            Element root = document.getDocumentElement();
-
-            NodeList nodeList = document.getElementsByTagName("user");
-
-                for (int i = 0; i < nodeList.getLength(); i++) {
-                    Node node = nodeList.item(i);
-                    if (node.getNodeType() == Node.ELEMENT_NODE) {
-                        Element element = (Element) node;
-                        String nick = element.getElementsByTagName("nick").item(0).getTextContent();
-                        String password = element.getElementsByTagName("password").item(0).getTextContent();
-
-                        User newUser = new User(nick,password);
-                        userList.add(newUser);
-                    }
-                }
-        }
-        catch (ParserConfigurationException e) {
-            logger.warn(e);
-        }
-        catch (FileNotFoundException e) {
-            logger.warn(e);
-        }
-        catch (IOException e) {
-            logger.warn(e);
-        }
-        catch (SAXException e) {
-            logger.warn(e);
-        }
-    }
-
-    /**
-     * the method parse list of users to xml file
-     */
-    public void saveUsers(/*String fileName*/) {
-        try {
-            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            Document document = documentBuilder.newDocument();
-
-            Element root = document.createElement("users");
-            document.appendChild(root);
-
-            for (User user : userList) {
-                Element elementUser = document.createElement("user");
-                root.appendChild(elementUser);
-
-                Element nick = document.createElement("nick");
-                nick.appendChild(document.createTextNode(user.getName()));
-                elementUser.appendChild(nick);
-
-                Element password = document.createElement("password");
-                password.appendChild(document.createTextNode(user.getPassword()));
-                elementUser.appendChild(password);
-            }
-
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource domSource = new DOMSource(document);
-            StreamResult streamResult = new StreamResult(new File(fileUsersXml));
-            transformer.setOutputProperty(OutputKeys.INDENT,"yes");
-            transformer.transform(domSource, streamResult);
-        }
-        catch (ParserConfigurationException e) {
-           logger.warn("while saving list of users to xml file");
-        }
-        catch (TransformerException e) {
-            logger.warn("while saving list of users to xml file",e);
-        }
     }
 
     @Override
@@ -194,10 +108,10 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     }
 
     /**
-     * the method for getting user, what connecting to server
+     * the method for getting user, what authorized to server
      * @return object of User
      */
-    public User getUser() {
+    public User getAuthorizedUser() {
         return user;
     }
 }

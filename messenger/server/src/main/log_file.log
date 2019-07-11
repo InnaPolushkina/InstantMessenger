@@ -227,3 +227,57 @@ java.net.SocketException: Connection reset
 	at java.io.BufferedReader.readLine(BufferedReader.java:389)
 	at messenger.controller.Handler.sendMessage(Handler.java:102)
 	at messenger.controller.Handler.run(Handler.java:86)
+2019-07-11 21:36:50 INFO  Handler:70 - Server started . . . 
+2019-07-11 21:37:10 WARN  Handler:118 - client Inna disconnected 
+java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:210)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at messenger.controller.Handler.run(Handler.java:113)
+2019-07-11 21:37:17 INFO  Handler:70 - Server started . . . 
+2019-07-11 21:37:41 WARN  Handler:118 - client kris disconnected 
+java.net.SocketException: Socket closed
+	at java.net.SocketOutputStream.socketWrite(SocketOutputStream.java:118)
+	at java.net.SocketOutputStream.write(SocketOutputStream.java:155)
+	at sun.nio.cs.StreamEncoder.writeBytes(StreamEncoder.java:221)
+	at sun.nio.cs.StreamEncoder.implFlushBuffer(StreamEncoder.java:291)
+	at sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:295)
+	at sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:141)
+	at java.io.OutputStreamWriter.flush(OutputStreamWriter.java:229)
+	at java.io.BufferedWriter.flush(BufferedWriter.java:254)
+	at messenger.controller.Handler.sendMessage(Handler.java:132)
+	at messenger.controller.Handler.run(Handler.java:114)
+2019-07-11 21:38:48 INFO  Handler:70 - Server started . . . 
+2019-07-11 21:39:16 INFO  Handler:70 - Server started . . . 
+2019-07-11 21:39:45 WARN  Handler:118 - client Inna disconnected 
+java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:210)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at messenger.controller.Handler.run(Handler.java:113)
+2019-07-11 21:39:48 WARN  Handler:118 - client 2288 disconnected 
+java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:210)
+	at java.net.SocketInputStream.read(SocketInputStream.java:141)
+	at sun.nio.cs.StreamDecoder.readBytes(StreamDecoder.java:284)
+	at sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:326)
+	at sun.nio.cs.StreamDecoder.read(StreamDecoder.java:178)
+	at java.io.InputStreamReader.read(InputStreamReader.java:184)
+	at java.io.BufferedReader.fill(BufferedReader.java:161)
+	at java.io.BufferedReader.readLine(BufferedReader.java:324)
+	at java.io.BufferedReader.readLine(BufferedReader.java:389)
+	at messenger.controller.Handler.run(Handler.java:113)
+2019-07-11 21:43:09 INFO  Handler:70 - Server started . . . 
+2019-07-11 21:46:07 INFO  Handler:70 - Server started . . . 

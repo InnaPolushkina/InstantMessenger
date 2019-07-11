@@ -47,9 +47,9 @@ public class Listener extends Thread {
             try {
                 userServerConnection.setIn(new BufferedReader(new InputStreamReader(userServerConnection.getUserSocket().getInputStream())));
                 showMessage();
-            } catch (IOException ex) {
-                //System.out.println(ex);
-                logger.error(ex);
+            } catch (Exception e) {
+                logger.error("catch NullPointerException, server don't work ",e);
+                break;
            }
         }
     }
@@ -59,8 +59,8 @@ public class Listener extends Thread {
      * @see MessageService parseMessage()
      * @see MessageServiceImpl parseMessage()
      */
-    public void showMessage() {
-        try {
+    public void showMessage() throws Exception{
+        //try {
             String msg = messageFromServer();
             MessageService messageService = new MessageServiceImpl();
             //MessageServer message = messageService.parseMessage(msg);
@@ -71,9 +71,9 @@ public class Listener extends Thread {
                     }
             );
 
-        } catch (Exception e) {
+      /*  } catch (Exception e) {
             logger.info(e);
-        }
+        }*/
     }
 
     /**
