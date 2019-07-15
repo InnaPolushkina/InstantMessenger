@@ -28,7 +28,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
         try {
             result = Boolean.parseBoolean(router.getListener().messageFromServer());
         } catch (IOException e) {
-            throw new UserRegistrationException(e);
+            throw new UserRegistrationException(e.getMessage(),e);
         }
         if(!result) {
             throw new UserRegistrationException("Name is not correct, one of users have this nick");

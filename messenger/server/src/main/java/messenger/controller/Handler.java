@@ -119,7 +119,7 @@ public class Handler extends Thread{
                             logger.warn(e.getMessage(),e);
                         }
                         break;
-                    case SendMsg:
+                    case SEND_MSG:
                         //send message
                         sendMessage(clientData);
                         break;

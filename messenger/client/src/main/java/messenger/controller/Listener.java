@@ -62,20 +62,12 @@ public class Listener extends Thread {
      * @see MessageServiceImpl parseMessage()
      */
     public void showMessage() throws Exception{
-        //try {
-            String msg = messageFromServer();
-            //MessageService messageService = new MessageServiceImpl();
-            //MessageServer message = messageService.parseMessage(msg);
-            Message message = messageService.parseMessage(msg);
-            Platform.runLater(
-                    () -> {
-                        viewChat.showMessage(message);
-                    }
-            );
-
-      /*  } catch (Exception e) {
-            logger.info(e);
-        }*/
+        String msg = messageFromServer();
+        Message message = messageService.parseMessage(msg);
+        Platform.runLater(
+                () -> {
+                    viewChat.showMessage(message);
+                });
     }
 
     /**

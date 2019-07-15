@@ -6,5 +6,12 @@ package messenger.model.serverEntity;
 public enum ClientAction {
     REGISTER,
     AUTH,
-    SendMsg
+    SEND_MSG,
+    MUTE,
+    UNMUTE,
+    BAN,
+    UNBAN,
+    CREATE_ROOM,
+    ADD_TO_ROOM,
+    LEAVE_ROOM
 }

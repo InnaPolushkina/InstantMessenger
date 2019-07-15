@@ -1,8 +1,5 @@
 package messenger.controller;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import messenger.model.entity.UserServerConnection;
 import messenger.model.exceptions.AuthException;
@@ -63,29 +60,10 @@ public class Router {
      * connects client with server
      */
     private Router() {
-        viewLogin = new ViewLogin();
         stage = new Stage();
-
-        //user = new User();
-        //create object of interface UserRegistrationService
+        viewLogin = new ViewLogin(stage);
         userRegistrationService = new UserRegistrationServiceImpl(this);
-
-        FXMLLoader loader = new FXMLLoader();
-        loader.setController(viewLogin);
         try {
-            //loadForm("/login.fxml",viewLogin);
-            loader.setLocation(Router.class.getResource("/login.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-            logger.info("show login scene ");
-        }
-        catch (IOException e) {
-            logger.warn("while showing login scene ",e);
-        }
-        try {
-
             socket = new Socket("localhost", 2020);
             userConnection = new UserServerConnection(new User(),socket);
             listener = new Listener(socket);
@@ -93,7 +71,7 @@ public class Router {
             messageService = new MessageServiceImpl();
             listener.setMessageService(messageService);
             logger.info("start client ");
-            actions();
+            //actions();
         }
         catch (IOException ex) {
             logger.error(ex);
@@ -102,35 +80,6 @@ public class Router {
 
     }
 
-    /**
-     * the method for setting actions to components of fxml login form
-     */
-    private void actions() {
-        viewLogin.getLoginButton().setOnAction(event -> {
-            String name = viewLogin.getUserName().getText().trim();
-            String password = viewLogin.getUserPassword().getText().trim();
-            userConnection.getUser().setName(name);
-            //user.setName(name);
-            login(name,password);
-        });
-        viewLogin.getRegisterButton().setOnAction(event -> {
-            viewRegister = new ViewRegister();
-                //loadForm("/register.fxml",viewRegister);
-            FXMLLoader loader = new FXMLLoader();
-            loader.setController(viewRegister);
-
-            try {
-                loader.setLocation(Router.class.getResource("/register.fxml"));
-                Parent root = loader.load();
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
-                stage.show();
-            }
-            catch (IOException e) {
-                logger.warn("while opening form for registration",e);
-            }
-        });
-    }
 
     /**
      * the method gets Listener of messages from server
@@ -147,6 +96,10 @@ public class Router {
     public User getUser() {
        // return user;
         return userConnection.getUser();
+    }
+
+    public UserServerConnection getUserConnection() {
+        return userConnection;
     }
 
     /**
@@ -195,29 +148,9 @@ public class Router {
      * @param name have String with name of user
      */
     private void showMainChat(String name) {
-        viewChat = new ViewChat();
+        viewChat = new ViewChat(stage);
         listener.setViewChat(viewChat);
-        /*try {
-            loadForm("/mainView.fxml", viewChat);
-            viewChat.setUserName(name);
-        }catch (IOException e) {
-            logger.warn("while showing main scene ", e);
-        }*/
-        FXMLLoader loader = new FXMLLoader();
-        loader.setController(viewChat);
-
-        try {
-            loader.setLocation(Router.class.getResource("/mainView.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-            viewChat.setUserName(name);
-            logger.info("show main scene ");
-
-        } catch (IOException e) {
-            logger.warn("while showing main scene ", e);
-        }
+        viewChat.setUserName(name);
     }
 
     /**
@@ -245,18 +178,6 @@ public class Router {
             logger.info(e);
         }
     }
-
-   /* private void loadForm(String fxmlLocation, Object controller) throws IOException{
-        FXMLLoader loader = new FXMLLoader();
-        loader.setController(controller);
-        loader.setLocation(Router.class.getResource(fxmlLocation));
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-            //viewChat.setUserName(name);
-            //logger.info("show main scene ");
-    }*/
 
     public Set<User> getUserList(Room room) {
         Set<User> res = null;
