@@ -1,5 +1,6 @@
 package messenger.model.serverServicesImlp;
 
+import messenger.model.serverEntity.ClientAction;
 import messenger.model.serverEntity.MessageServer;
 import messenger.model.serverEntity.User;
 import messenger.model.serverServices.MessageService;
@@ -57,5 +58,29 @@ public class MessageServiceImpl implements MessageService {
             logger.warn("while parsing message from user",e);
         }
         return msg;
+    }
+
+    @Override
+    public ClientAction parseClientAction(String clientAction) {
+        ClientAction result = null;
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(new InputSource(new StringReader(clientAction)));
+
+            NodeList nodeList = document.getElementsByTagName("action");
+            Element element = (Element) nodeList.item(0);
+            result = ClientAction.valueOf(ClientAction.class,element.getTextContent());
+        }
+        catch (IOException e) {
+            logger.warn("while parsing message from user",e);
+        }
+        catch (ParserConfigurationException e) {
+            logger.warn("while parsing message from user",e);
+        }
+        catch (SAXException e) {
+            logger.warn("while parsing message from user",e);
+        }
+        return result;
     }
 }

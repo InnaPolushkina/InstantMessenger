@@ -31,6 +31,12 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
+    public String sendAction(String action) {
+        String result = "<action>" + action + "</action>";
+        return result;
+    }
+
+    @Override
     public Message parseMessage(String message) {
         Message msg = null;
         try {

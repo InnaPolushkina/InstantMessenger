@@ -12,6 +12,10 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
 
     private Router router;
 
+    public UserRegistrationServiceImpl() {
+        this.router = Router.getInstance();
+    }
+
     public UserRegistrationServiceImpl(Router router) {
         this.router = router;
     }

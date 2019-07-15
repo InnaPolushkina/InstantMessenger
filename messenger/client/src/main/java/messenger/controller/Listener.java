@@ -24,6 +24,7 @@ public class Listener extends Thread {
     private static final Logger logger = Logger.getLogger(Listener.class);
     private ViewLogin viewLogin;
     private ViewChat viewChat;
+    private MessageService messageService;
 
     /**
      * The public constructor for class Listener
@@ -33,7 +34,7 @@ public class Listener extends Thread {
         user = new User();
         userServerConnection = new UserServerConnection(user,socket);
         this.viewChat = viewChat;
-        userServerConnection.setIn(new BufferedReader(new InputStreamReader(userServerConnection.getUserSocket().getInputStream())));
+        //userServerConnection.setIn(new BufferedReader(new InputStreamReader(userServerConnection.getUserSocket().getInputStream())));
         //user.setUserSocket(socket);
        // viewLogin = new ViewLogin();
     }
@@ -45,7 +46,8 @@ public class Listener extends Thread {
     public void run() {
         while (true) {
             try {
-                userServerConnection.setIn(new BufferedReader(new InputStreamReader(userServerConnection.getUserSocket().getInputStream())));
+                //userServerConnection.setIn(new BufferedReader(new InputStreamReader(userServerConnection.getUserSocket().getInputStream())));
+                userServerConnection.setIn();
                 showMessage();
             } catch (Exception e) {
                 logger.error("catch NullPointerException, server don't work ",e);
@@ -62,7 +64,7 @@ public class Listener extends Thread {
     public void showMessage() throws Exception{
         //try {
             String msg = messageFromServer();
-            MessageService messageService = new MessageServiceImpl();
+            //MessageService messageService = new MessageServiceImpl();
             //MessageServer message = messageService.parseMessage(msg);
             Message message = messageService.parseMessage(msg);
             Platform.runLater(
@@ -88,5 +90,9 @@ public class Listener extends Thread {
 
     public void setViewChat(ViewChat viewChat) {
         this.viewChat = viewChat;
+    }
+
+    public void setMessageService(MessageService messageService) {
+        this.messageService = messageService;
     }
 }

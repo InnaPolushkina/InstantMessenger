@@ -1,6 +1,7 @@
 package messenger.model.serverServicesImlp;
 
 import messenger.model.serverEntity.User;
+import messenger.model.serverServices.UserKeeper;
 import messenger.model.serverServices.UserRegistrationService;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
@@ -22,18 +23,21 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     private List<User> userList = new ArrayList<>();
     private static final Logger logger = Logger.getLogger(UserRegistrationServiceImpl.class);
     private User user;
+    private UserKeeper userKeeper;
 
     /**
      * the public constructor
      * create object of this class
      */
-    public UserRegistrationServiceImpl(List<User> userList) {
-        this.userList = userList;
+    public UserRegistrationServiceImpl(/*List<User> userList*/ UserKeeper userKeeper) {
+        this.userList = userKeeper.loadFromFile();
        // getUsers(fileUsers);
+        this.userKeeper = userKeeper;
     }
 
     @Override
     public boolean registration(String userData) {
+       userList = userKeeper.loadFromFile();
         try {
 
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
@@ -56,6 +60,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
                     return false;
             }
             userList.add(user);
+           userKeeper.saveToFile(userList);
             return true;
 
         } catch (ParserConfigurationException e) {
@@ -73,6 +78,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
 
     @Override
     public boolean auth(String userData) {
+        userList = userKeeper.loadFromFile();
         try {
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = builderFactory.newDocumentBuilder();

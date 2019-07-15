@@ -1,7 +1,5 @@
 package messenger.model.serverEntity;
 
-import messenger.model.serverEntity.User;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.net.Socket;

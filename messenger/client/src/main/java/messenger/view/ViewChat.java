@@ -41,8 +41,8 @@ public class ViewChat {
     ObservableList<String> observableListMessages = FXCollections.observableArrayList();
     private Router router;
 
-    public ViewChat(Router router) {
-        this.router = router;
+    public ViewChat() {
+        this.router = Router.getInstance();
     }
 
     @FXML
@@ -54,7 +54,8 @@ public class ViewChat {
 
         sendButton.setOnAction(event -> {
             if (messageText.getText() != null && !messageText.getText().trim().equals("")) {
-                router.sendMessage(messageText.getText());
+                router.sendAction("SendMsg");
+                router.sendMessage(messageText.getText().replace("\n", ""));
                 messageText.setText("");
             }
         });

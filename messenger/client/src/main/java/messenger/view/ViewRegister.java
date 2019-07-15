@@ -19,8 +19,8 @@ public class ViewRegister {
 
     private Router router;
 
-    public ViewRegister(Router router) {
-        this.router = router;
+    public ViewRegister() {
+        this.router = Router.getInstance();
     }
 
     public void initialize() {

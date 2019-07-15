@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import messenger.model.entity.UserServerConnection;
 import messenger.model.exceptions.AuthException;
 import messenger.model.exceptions.UserRegistrationException;
 import messenger.model.serverEntity.UserConnection;
@@ -34,10 +35,11 @@ import java.util.Set;
  * @author Inna
  */
 public class Router {
-    private User user;
+    //private User user;
     private Set<Room> roomList;
     private Listener listener;
     private Socket socket;
+    private UserServerConnection userConnection;
     private static final Logger logger = Logger.getLogger(Router.class);
    // private ViewLogin mainView ;
    private Stage stage ;
@@ -45,7 +47,8 @@ public class Router {
    private ViewChat viewChat;
    private ViewRegister viewRegister;
    private static final Router instance = new Router();
-   private UserRegistrationServiceImpl userRegistrationService;
+   private UserRegistrationService userRegistrationService;
+   private MessageService messageService;
 
     /**
      * the public method for getting object of class Router
@@ -62,11 +65,15 @@ public class Router {
     private Router() {
         viewLogin = new ViewLogin();
         stage = new Stage();
-        user = new User();
+
+        //user = new User();
+        //create object of interface UserRegistrationService
         userRegistrationService = new UserRegistrationServiceImpl(this);
+
         FXMLLoader loader = new FXMLLoader();
         loader.setController(viewLogin);
         try {
+            //loadForm("/login.fxml",viewLogin);
             loader.setLocation(Router.class.getResource("/login.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
@@ -80,7 +87,11 @@ public class Router {
         try {
 
             socket = new Socket("localhost", 2020);
+            userConnection = new UserServerConnection(new User(),socket);
             listener = new Listener(socket);
+            //create object of interface MessageService
+            messageService = new MessageServiceImpl();
+            listener.setMessageService(messageService);
             logger.info("start client ");
             actions();
         }
@@ -98,11 +109,13 @@ public class Router {
         viewLogin.getLoginButton().setOnAction(event -> {
             String name = viewLogin.getUserName().getText().trim();
             String password = viewLogin.getUserPassword().getText().trim();
-            user.setName(name);
+            userConnection.getUser().setName(name);
+            //user.setName(name);
             login(name,password);
         });
         viewLogin.getRegisterButton().setOnAction(event -> {
-            viewRegister = new ViewRegister(this);
+            viewRegister = new ViewRegister();
+                //loadForm("/register.fxml",viewRegister);
             FXMLLoader loader = new FXMLLoader();
             loader.setController(viewRegister);
 
@@ -132,7 +145,8 @@ public class Router {
      * @return User
      */
     public User getUser() {
-        return user;
+       // return user;
+        return userConnection.getUser();
     }
 
     /**
@@ -142,6 +156,7 @@ public class Router {
      */
     public void login(String name, String pass) {
         try {
+            sendAction("AUTH");
             userRegistrationService.auth(name,pass);
             showMainChat(name);
             listener.start();
@@ -160,6 +175,7 @@ public class Router {
     public void register(String name, String password) {
         if(password.length()>=4) {
             try {
+                sendAction("REGISTER");
                 userRegistrationService.registration(name,password);
                 showMainChat(name);
                 listener.start();
@@ -179,8 +195,14 @@ public class Router {
      * @param name have String with name of user
      */
     private void showMainChat(String name) {
-        viewChat = new ViewChat(this);
+        viewChat = new ViewChat();
         listener.setViewChat(viewChat);
+        /*try {
+            loadForm("/mainView.fxml", viewChat);
+            viewChat.setUserName(name);
+        }catch (IOException e) {
+            logger.warn("while showing main scene ", e);
+        }*/
         FXMLLoader loader = new FXMLLoader();
         loader.setController(viewChat);
 
@@ -194,9 +216,8 @@ public class Router {
             logger.info("show main scene ");
 
         } catch (IOException e) {
-            logger.warn("while showing main scene " + e);
+            logger.warn("while showing main scene ", e);
         }
-
     }
 
     /**
@@ -205,14 +226,37 @@ public class Router {
      */
     public void sendMessage(String msg) {
         try {
-            MessageService messageService = new MessageServiceImpl();
-            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            out.write(messageService.sendMessage(new Message(msg,user)) + "\n");
+            //BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+            BufferedWriter out = userConnection.getOut();
+            out.write(messageService.sendMessage(new Message(msg,userConnection.getUser())) + "\n");
             out.flush();
         } catch (IOException e) {
             logger.info(e);
         }
     }
+
+    public void sendAction(String msg) {
+        try {
+            BufferedWriter out = userConnection.getOut();
+            out.write(messageService.sendAction(msg) + "\n");
+            out.flush();
+        }
+        catch (IOException e) {
+            logger.info(e);
+        }
+    }
+
+   /* private void loadForm(String fxmlLocation, Object controller) throws IOException{
+        FXMLLoader loader = new FXMLLoader();
+        loader.setController(controller);
+        loader.setLocation(Router.class.getResource(fxmlLocation));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+            //viewChat.setUserName(name);
+            //logger.info("show main scene ");
+    }*/
 
     public Set<User> getUserList(Room room) {
         Set<User> res = null;

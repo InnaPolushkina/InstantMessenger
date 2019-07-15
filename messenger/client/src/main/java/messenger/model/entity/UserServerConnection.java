@@ -2,8 +2,7 @@ package messenger.model.entity;
 
 import messenger.model.entity.User;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.*;
 import java.net.Socket;
 
 /**
@@ -19,9 +18,11 @@ public class UserServerConnection {
     private BufferedWriter out;
     private BufferedReader userMes;
 
-    public UserServerConnection(User user, Socket userSocket) {
+    public UserServerConnection(User user, Socket userSocket) throws IOException{
         this.user = user;
         this.userSocket = userSocket;
+        setIn();
+        setOut();
     }
 
     public User getUser() {
@@ -44,16 +45,16 @@ public class UserServerConnection {
         return in;
     }
 
-    public void setIn(BufferedReader in) {
-        this.in = in;
+    public void setIn() throws IOException{
+       this.in = new BufferedReader(new InputStreamReader(userSocket.getInputStream()));
     }
 
     public BufferedWriter getOut() {
         return out;
     }
 
-    public void setOut(BufferedWriter out) {
-        this.out = out;
+    public void setOut() throws IOException{
+        this.out = new BufferedWriter(new OutputStreamWriter(userSocket.getOutputStream()));
     }
 
     public BufferedReader getUserMes() {
