@@ -1,7 +1,10 @@
 package messenger.model.service;
 
+import messenger.model.entity.User;
 import messenger.model.exceptions.AuthException;
 import messenger.model.exceptions.UserRegistrationException;
+
+import java.util.List;
 
 /**
  * Interface UserRegistrationService contains methods for authorization and registration user
@@ -25,5 +28,7 @@ public interface UserRegistrationService {
      * @see AuthException
      */
     void auth(String username, String password) throws AuthException;
+
+    List<User> parseUserList(String userList);
 
 }

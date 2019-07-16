@@ -14,9 +14,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import messenger.controller.Router;
 import messenger.model.entity.Message;
+import messenger.model.entity.User;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
+import java.util.List;
 
 
 /**
@@ -46,8 +48,11 @@ public class ViewChat {
     private ListView<String> messagesList = new ListView<>();
 
     ObservableList<String> observableListMessages = FXCollections.observableArrayList();
+    ObservableList<String> userObservableList = FXCollections.observableArrayList();
     private Router router;
     private static final Logger logger = Logger.getLogger(ViewChat.class);
+
+    private List<User> list;
 
 
 
@@ -60,6 +65,7 @@ public class ViewChat {
             loader.setLocation(Router.class.getResource("/mainView.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
+            stage.setTitle("Messenger");
             stage.setScene(scene);
             stage.show();
 
@@ -73,6 +79,8 @@ public class ViewChat {
     @FXML
     public void initialize() {
        // Date date = new Date();
+
+        usersList.setItems(userObservableList);
 
         messagesList.setItems(observableListMessages);
        // observableListMessages.add(date.);
@@ -92,6 +100,13 @@ public class ViewChat {
     public void showMessage(Message message) {
         String mess = message.getUser().getName() + " << " + message.getText();
         observableListMessages.add(mess);
+    }
+
+    public void setList(List<User> list) {
+        this.list = list;
+        for (User user: list) {
+            userObservableList.add(user.getName());
+        }
     }
 
     public VBox getvBox() {

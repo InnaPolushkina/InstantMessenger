@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.List;
 import java.util.Set;
 
 
@@ -112,11 +113,15 @@ public class Router {
             sendAction("AUTH");
             userRegistrationService.auth(name,pass);
             showMainChat(name);
+            viewChat.setList(userRegistrationService.parseUserList(listener.messageFromServer()));
             listener.start();
 
         } catch (AuthException e) {
             logger.warn("User can't authorize",e);
             viewLogin.setErrorUserMessage("Name or password is`t true");
+        }
+        catch (Exception e) {
+            logger.info(e);
         }
     }
 
@@ -130,12 +135,18 @@ public class Router {
             try {
                 sendAction("REGISTER");
                 userRegistrationService.registration(name,password);
+
+                //List<User> list = userRegistrationService.parseUserList(listener.messageFromServer());
                 showMainChat(name);
+                viewChat.setList(userRegistrationService.parseUserList(listener.messageFromServer()));
                 listener.start();
 
             } catch (UserRegistrationException e) {
                 logger.warn("when registering new user ",e);
                 viewRegister.setErrorMsg(e.getMessage());
+            }
+            catch (Exception e) {
+                logger.info(e);
             }
         }
         else {

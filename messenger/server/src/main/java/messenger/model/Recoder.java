@@ -4,6 +4,7 @@ import messenger.controller.Router;
 import messenger.model.exceptions.ServerRegistrationException;
 import messenger.model.serverEntity.User;
 import messenger.model.serverEntity.UserConnection;
+import messenger.model.serverServices.UserKeeper;
 import messenger.model.serverServices.UserRegistrationService;
 
 import java.io.IOException;
@@ -11,6 +12,8 @@ import java.io.IOException;
 public class Recoder {
     private UserConnection userConnection;
     private UserRegistrationService userRegistrationService;
+    private UserKeeper userKeeper;
+
     //private Router router;
 
     public User register(String userData) throws ServerRegistrationException{
@@ -21,12 +24,12 @@ public class Recoder {
             userConnection.getOut().flush();
 
             if (result) {
-                /*router = Router.getInstense();
-                router.getViewLogs().print("User authorized");
-                router.getUserList().add(userConnection);*/
                 Router.getInstense().getUserList().add(userConnection);
                 Router.getInstense().getViewLogs().print("User registered and authorized");
                 user = userRegistrationService.getAuthorizedUser();
+                //userConnection.getOut().write(userRegistrationService.);
+                userConnection.getOut().write(userKeeper.userListToString(userKeeper.loadFromFile()) + "\n");
+                userConnection.getOut().flush();
                 return user;
             }
             else {
@@ -43,9 +46,10 @@ public class Recoder {
         super();
     }
 
-    public Recoder(UserConnection userConnection, UserRegistrationService userRegistrationService) {
+    public Recoder(UserConnection userConnection, UserRegistrationService userRegistrationService, UserKeeper userKeeper) {
         this.userConnection = userConnection;
         this.userRegistrationService = userRegistrationService;
+        this.userKeeper = userKeeper;
     }
 
     public UserConnection getUserConnection() {

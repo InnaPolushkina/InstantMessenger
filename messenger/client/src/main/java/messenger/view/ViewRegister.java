@@ -35,6 +35,7 @@ public class ViewRegister {
             loader.setLocation(Router.class.getResource("/register.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
+            stage.setTitle("Registration");
             stage.setScene(scene);
             stage.show();
         }

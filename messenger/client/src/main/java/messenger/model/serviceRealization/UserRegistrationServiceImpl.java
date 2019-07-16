@@ -1,12 +1,26 @@
 package messenger.model.serviceRealization;
 
 import messenger.controller.Router;
+import messenger.model.entity.Message;
+import messenger.model.entity.User;
 import messenger.model.exceptions.AuthException;
 import messenger.model.exceptions.UserRegistrationException;
 import messenger.model.service.UserRegistrationService;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserRegistrationServiceImpl implements UserRegistrationService {
 
@@ -48,5 +62,41 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
         if(!result) {
             throw new AuthException("Name or password is not correct");
         }
+    }
+
+    @Override
+    public List<User> parseUserList(String userList) {
+        List<User> list = new ArrayList<>();
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(new InputSource(new StringReader(userList)));
+            NodeList nodeList = document.getElementsByTagName("user");
+
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                Node node = nodeList.item(i);
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    Element element = (Element) node;
+                    String nick = element.getElementsByTagName("nick").item(0).getTextContent();
+                    User user = new User(nick);
+                    list.add(user);
+                    //String text = element.getElementsByTagName("text").item(0).getTextContent();
+                    //msg = new Message(text, new User(nick));
+                }
+            }
+
+        }
+        catch (IOException e) {
+            //logger.warn("while parsing message from user",e);
+        }
+        catch (ParserConfigurationException e) {
+           // logger.warn("while parsing message from user",e);
+        }
+        catch (SAXException e) {
+            //logger.warn("while parsing message from user",e);
+        }
+
+
+        return list;
     }
 }

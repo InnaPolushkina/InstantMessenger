@@ -8,6 +8,7 @@ import messenger.model.serverEntity.ClientAction;
 import messenger.model.serverEntity.User;
 import messenger.model.serverEntity.UserConnection;
 import messenger.model.serverServices.MessageService;
+import messenger.model.serverServices.UserKeeper;
 import messenger.model.serverServices.UserRegistrationService;
 import messenger.view.ViewLogs;
 import org.apache.log4j.Logger;
@@ -30,7 +31,7 @@ public class Handler extends Thread{
     private ClientAction clientAction;
     private ViewLogs view = new ViewLogs();
     private MessageService messageService;
-    //private UserKeeper userKeeper;
+    private UserKeeper userKeeper;
     //private MessageService messageService = new MessageServiceImpl();
 
 
@@ -78,9 +79,9 @@ public class Handler extends Thread{
         this.router = router;
     }
 
-   /* public void setUserKeeper(UserKeeper userKeeper) {
+    public void setUserKeeper(UserKeeper userKeeper) {
         this.userKeeper = userKeeper;
-    }*/
+    }
 
     /**
      * The method creates new Thread for one user
@@ -101,7 +102,7 @@ public class Handler extends Thread{
                     case REGISTER:
                         //call methods from class for registration
                         try {
-                            Recoder recoder = new Recoder(userConnection, userRegistrationService);
+                            Recoder recoder = new Recoder(userConnection, userRegistrationService,userKeeper);
                             user = recoder.register(clientData);
 
                         }
@@ -112,7 +113,7 @@ public class Handler extends Thread{
                     case AUTH:
                         //call methods from class for authorization
                         try {
-                            Authorizer authorizer = new Authorizer(userConnection, userRegistrationService);
+                            Authorizer authorizer = new Authorizer(userConnection, userRegistrationService,userKeeper);
                             user = authorizer.authorize(clientData);
                         }
                         catch (ServerAuthorizationException e) {

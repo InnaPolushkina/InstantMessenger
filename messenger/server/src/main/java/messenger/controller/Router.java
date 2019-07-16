@@ -42,7 +42,7 @@ public class Router {
                 handler.setUserConnection(new UserConnection(listener.accept()));
                 handler.setUserRegistrationService(userRegistrationService);
                 handler.setMessageService(messageService);
-               // handler.setUserKeeper(userKeeper);
+                handler.setUserKeeper(userKeeper);
                 handler.start();
                 //new Handler(listener.accept(),userRegistrationService).start();
             }
