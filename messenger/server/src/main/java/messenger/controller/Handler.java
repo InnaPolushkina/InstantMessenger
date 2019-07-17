@@ -2,14 +2,17 @@ package messenger.controller;
 
 import messenger.model.Authorizer;
 import messenger.model.Recoder;
+import messenger.model.SenderMessage;
 import messenger.model.exceptions.ServerAuthorizationException;
 import messenger.model.exceptions.ServerRegistrationException;
 import messenger.model.serverEntity.ClientAction;
+import messenger.model.serverEntity.MessageServer;
 import messenger.model.serverEntity.User;
 import messenger.model.serverEntity.UserConnection;
 import messenger.model.serverServices.MessageService;
 import messenger.model.serverServices.UserKeeper;
 import messenger.model.serverServices.UserRegistrationService;
+import messenger.model.serverServicesImlp.MessageServiceImpl;
 import messenger.view.ViewLogs;
 import org.apache.log4j.Logger;
 
@@ -83,6 +86,10 @@ public class Handler extends Thread{
         this.userKeeper = userKeeper;
     }
 
+    public UserConnection getUserConnection() {
+        return userConnection;
+    }
+
     /**
      * The method creates new Thread for one user
      *  and handles user actions using other classes
@@ -115,6 +122,7 @@ public class Handler extends Thread{
                         try {
                             Authorizer authorizer = new Authorizer(userConnection, userRegistrationService,userKeeper);
                             user = authorizer.authorize(clientData);
+                            //Router.getInstense().addUserToBigRoom(userConnection);
                         }
                         catch (ServerAuthorizationException e) {
                             logger.warn(e.getMessage(),e);
@@ -122,7 +130,10 @@ public class Handler extends Thread{
                         break;
                     case SEND_MSG:
                         //send message
-                        sendMessage(clientData);
+                        //MessageServer messageServer = messageService.parseMessage(clientData);
+                        SenderMessage senderMessage = new SenderMessage(messageService,userConnection);
+                        senderMessage.sendMessage(clientData);
+                       // sendMessage(clientData);
                         break;
                         //here will be cases for other client actions . . .
                 }

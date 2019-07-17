@@ -2,6 +2,7 @@ package messenger.model.serverServices;
 
 import messenger.model.serverEntity.Room;
 import messenger.model.serverEntity.User;
+import messenger.model.serverEntity.UserConnection;
 
 public interface RoomService {
     /**
@@ -17,7 +18,7 @@ public interface RoomService {
      * @see Room
      * @see User
      */
-    void addUserToRoom(User user, Room room);
+    void addUserToRoom(UserConnection user, Room room);
 
     /**
      * the method removes user from room
@@ -26,5 +27,5 @@ public interface RoomService {
      * @see Room
      * @see User
      */
-    void removeUserFromRoom(User user, Room room);
+    void removeUserFromRoom(UserConnection user, Room room);
 }

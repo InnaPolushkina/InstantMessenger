@@ -2,6 +2,7 @@ package messenger.model.serverServicesImlp;
 
 import messenger.model.serverEntity.ClientAction;
 import messenger.model.serverEntity.MessageServer;
+import messenger.model.serverEntity.Room;
 import messenger.model.serverEntity.User;
 import messenger.model.serverServices.MessageService;
 import org.apache.log4j.Logger;
@@ -43,9 +44,14 @@ public class MessageServiceImpl implements MessageService {
                 Element element = (Element) node;
                 String nick = element.getElementsByTagName("nick").item(0).getTextContent();
                 String text = element.getElementsByTagName("text").item(0).getTextContent();
-                User user = new User();
-                user.setName(nick);
-                msg = new MessageServer(user, text);
+                String recipient = element.getElementsByTagName("recipient").item(0).getTextContent();
+                System.out.println(recipient);
+                User userSender = new User();
+                userSender.setName(nick);
+                Room roomRecipient = new Room(recipient);
+                //roomRecipient.setRoomName();
+                msg = new MessageServer(userSender, text);
+                msg.setRecipient(roomRecipient);
             }
         }
          catch (IOException e) {

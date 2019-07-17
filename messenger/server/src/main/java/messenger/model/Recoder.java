@@ -14,8 +14,14 @@ public class Recoder {
     private UserRegistrationService userRegistrationService;
     private UserKeeper userKeeper;
 
-    //private Router router;
 
+    /**
+     * The method for registering new user
+     * checks unique user name, if it's true, register new user and add to big chat
+     * @param userData have string with about new user
+     * @return authorized user
+     * @throws ServerRegistrationException if user have any problems with registration
+     */
     public User register(String userData) throws ServerRegistrationException{
         boolean result = userRegistrationService.registration(userData);
         User user = null;
@@ -30,6 +36,9 @@ public class Recoder {
                 //userConnection.getOut().write(userRegistrationService.);
                 userConnection.getOut().write(userKeeper.userListToString(userKeeper.loadFromFile()) + "\n");
                 userConnection.getOut().flush();
+
+                Router.getInstense().addUserToBigRoom(userConnection);
+
                 return user;
             }
             else {

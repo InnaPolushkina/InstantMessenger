@@ -12,6 +12,7 @@ import messenger.model.serverServicesImlp.UserRegistrationServiceImpl;
 import messenger.view.ViewLogs;
 
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,8 +21,8 @@ import java.util.Set;
  * fixed by Inna
  */
 public class Router {
-    private Set<UserConnection> userList = new HashSet<>();
-    private Set<Room> roomList;
+    private static Set<UserConnection> userList = new HashSet<>();
+    private Set<Room> roomList = new HashSet<>();
     private static final int PORT = 2020;
     private static ViewLogs viewLogs = new ViewLogs();
     private static Router instense = new Router();
@@ -39,11 +40,15 @@ public class Router {
         try {
             while (true) {
                 Handler handler = new Handler();
+               // UserConnection userConnection = new UserConnection(listener.accept());
                 handler.setUserConnection(new UserConnection(listener.accept()));
+                //handler.setUserConnection(userConnection);
+
                 handler.setUserRegistrationService(userRegistrationService);
                 handler.setMessageService(messageService);
                 handler.setUserKeeper(userKeeper);
                 handler.start();
+               // addUserToBigRoom(handler.getUserConnection());
                 //new Handler(listener.accept(),userRegistrationService).start();
             }
         }
@@ -57,16 +62,33 @@ public class Router {
     private void loadFromFile(){
         userRegistrationService.getUsers("server/src/main/java/messenger/db/users.txt");
     }*/
-    private void createRoom(User[] users){
+    private void createRoom(UserConnection users){
 
     }
     private Router(){
-
+        Room bigChat = new Room("Big chat");
+        //bigChat.addUser(users);
+        roomList.add(bigChat);
     }
 
    /* public UserRegistrationServiceImpl getUserRegistrationService() {
         return userRegistrationService;
     }*/
+
+    /**
+     * The method add user to room with all users
+     * @param userConnection have data with userConnection for adding to Big room
+     */
+   public void addUserToBigRoom(UserConnection userConnection) {
+       for (Room room: roomList) {
+           if(room.getRoomName().equals("Big chat")) {
+               room.addUser(userConnection);
+               System.out.println("new user added");
+           }
+       }
+   }
+
+
 
     public static Router getInstense() {
         return instense;
@@ -80,4 +102,7 @@ public class Router {
         return userList;
     }
 
+    public Set<Room> getRoomList() {
+        return roomList;
+    }
 }

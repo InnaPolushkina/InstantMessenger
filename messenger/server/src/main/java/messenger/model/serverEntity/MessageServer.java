@@ -1,24 +1,25 @@
 package messenger.model.serverEntity;
 
-import messenger.model.serverEntity.User;
+
 
 import java.io.Serializable;
 
 public class MessageServer implements Serializable {
-    private User user;
+    private User sender;
     private String text;
+    private Room recipient;
 
-    public MessageServer(User user, String text) {
-        this.user = user;
+    public MessageServer(User sender, String text) {
+        this.sender = sender;
         this.text = text;
     }
 
-    public User getUser() {
-        return user;
+    public User getSender() {
+        return sender;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setSender(User sender) {
+        this.sender = sender;
     }
 
     public String getText() {
@@ -27,5 +28,13 @@ public class MessageServer implements Serializable {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public Room getRecipient() {
+        return recipient;
+    }
+
+    public void setRecipient(Room recipient) {
+        this.recipient = recipient;
     }
 }

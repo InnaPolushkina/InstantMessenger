@@ -98,7 +98,7 @@ public class ViewChat {
     }
 
     public void showMessage(Message message) {
-        String mess = message.getUser().getName() + " << " + message.getText();
+        String mess = message.getUserSender().getName() + " << " + message.getText();
         observableListMessages.add(mess);
     }
 

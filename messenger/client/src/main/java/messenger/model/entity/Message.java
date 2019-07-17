@@ -6,11 +6,18 @@ package messenger.model.entity;
  */
 public class Message {
     private String text;
-    private User user;
+    private User userSender;
+    private Room roomRecipient;
 
-    public Message(String text, User user) {
+    public Message(String text, User userSender, Room roomRecipient) {
         this.text = text;
-        this.user = user;
+        this.userSender = userSender;
+        this.roomRecipient = roomRecipient;
+    }
+
+    public Message(String text, User userSender) {
+        this.text = text;
+        this.userSender = userSender;
     }
 
     public Message() {
@@ -24,20 +31,20 @@ public class Message {
         this.text = text;
     }
 
-    public User getUser() {
-        return user;
+    public User getUserSender() {
+        return userSender;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserSender(User userSender) {
+        this.userSender = userSender;
     }
 
     @Override
     public String toString() {
-        return "Message from " + user.getName() + ": \n " + text;
+        return "Message from " + userSender.getName() + ": \n " + text;
         /*return "Message {" +
                 "text='" + text + '\'' +
-                ", user=" + user.getName() +
+                ", userSender=" + userSender.getName() +
                 '}';*/
     }
 }

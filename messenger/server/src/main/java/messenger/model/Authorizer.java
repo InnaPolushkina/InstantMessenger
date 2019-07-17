@@ -14,7 +14,13 @@ public class Authorizer {
     private UserRegistrationService userRegistrationService;
     private UserKeeper userKeeper;
 
-
+    /**
+     * The method for authorizing user
+     * if user authorized add to big room
+     * @param userData have string with user data
+     * @return authorized user
+     * @throws ServerAuthorizationException if user have any problem with registration
+     */
     public User authorize(String userData) throws ServerAuthorizationException {
         User user = null;
         boolean result = userRegistrationService.auth(userData);
@@ -28,6 +34,9 @@ public class Authorizer {
                 user = userRegistrationService.getAuthorizedUser();
                 userConnection.getOut().write(userKeeper.userListToString(userKeeper.loadFromFile()) + "\n");
                 userConnection.getOut().flush();
+
+                Router.getInstense().addUserToBigRoom(userConnection);
+
                 return user;
             }
             else {

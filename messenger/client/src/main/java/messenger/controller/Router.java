@@ -1,6 +1,7 @@
 package messenger.controller;
 
 import javafx.stage.Stage;
+import messenger.model.entity.Room;
 import messenger.model.entity.UserServerConnection;
 import messenger.model.exceptions.AuthException;
 import messenger.model.exceptions.UserRegistrationException;
@@ -10,7 +11,6 @@ import messenger.model.serviceRealization.UserRegistrationServiceImpl;
 import messenger.model.entity.Message;
 import messenger.model.service.MessageService;
 import messenger.model.serviceRealization.MessageServiceImpl;
-import messenger.model.serverEntity.Room;
 import messenger.model.entity.User;
 import messenger.view.ViewChat;
 import messenger.view.ViewLogin;
@@ -207,10 +207,11 @@ public class Router {
     public void muteUser(User user, Room room, int time, boolean muteStatus) {
 
     }
-    public void createRoom(User[] users) {
-        Room room = new Room();
+    public void createRoom(UserServerConnection[] users,String roomName) {
+        Room room = new Room(roomName);
         for(int i = 0; i <users.length; i++ ) {
             // room.addUser(users[i]);
+            room.addNewUser(users[i]);
         }
         roomList.add(room);
     }
@@ -219,6 +220,12 @@ public class Router {
         for (Room r: roomList) {
             if(r.equals(room)) {
                 //r.removeUser(user);
+                /* send to server request for leaving room from this user
+                server parse request from user and send response about leaving user from room to users from room
+                all clients delete user from room and show it in the view
+
+                 */
+
             }
         }
     }

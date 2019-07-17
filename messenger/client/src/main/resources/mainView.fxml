@@ -42,9 +42,9 @@
       </Label>
       <Button layoutX="706.0" layoutY="114.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="95.0" text="New room" />
       <Button layoutX="706.0" layoutY="154.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Add users" />
-      <Button layoutX="706.0" layoutY="193.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Remove user" />
-      <Button layoutX="706.0" layoutY="228.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Ban user" />
-      <Button layoutX="706.0" layoutY="259.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Allow user" />
+      <Button layoutX="706.0" layoutY="193.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Remove sender" />
+      <Button layoutX="706.0" layoutY="228.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Ban sender" />
+      <Button layoutX="706.0" layoutY="259.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Allow sender" />
       <Button layoutX="706.0" layoutY="76.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Mute room" />
       <Label layoutX="520.0" layoutY="30.0" text="Status" />
    </children>

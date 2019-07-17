@@ -27,6 +27,7 @@ public class UserKeeperXml implements UserKeeper {
 
     private static final Logger logger = Logger.getLogger(UserKeeperXml.class);
     private String fileName;
+    private String fileHistory = "server/src/main/java/messenger/model/db/messagesHistory.xml";
 
     public UserKeeperXml(String fileName) {
         this.fileName = fileName;
@@ -144,4 +145,9 @@ public class UserKeeperXml implements UserKeeper {
         }
         return result;
     }
+
+    /*@Override
+    public void saveMsgToHistory(String message) {
+
+    }*/
 }

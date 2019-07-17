@@ -26,7 +26,7 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public String sendMessage(Message msg) {
-        String message = "<message><nick>" + msg.getUser().getName() + "</nick><text>" + msg.getText() + "</text></message>";
+        String message = "<message><nick>" + msg.getUserSender().getName() + "</nick><recipient>Big chat</recipient><text>" + msg.getText() + "</text></message>";
         return message;
     }
 
@@ -50,6 +50,7 @@ public class MessageServiceImpl implements MessageService {
                 Element element = (Element) node;
                 String nick = element.getElementsByTagName("nick").item(0).getTextContent();
                 String text = element.getElementsByTagName("text").item(0).getTextContent();
+                String recipient = element.getElementsByTagName("recipient").item(0).getTextContent();
                 msg = new Message(text, new User(nick));
             }
         }

@@ -29,4 +29,5 @@ public interface UserKeeper {
      * @return String with users data
      */
     String userListToString(List<User> userList);
+    //void saveMsgToHistory(String message);
 }
