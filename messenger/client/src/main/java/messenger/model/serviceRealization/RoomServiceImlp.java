@@ -12,6 +12,7 @@ public class RoomServiceImlp implements RoomService {
     @Override
     public String createRoom(String roomName) {
         String newRoom = "<create>" + roomName + "</create>";
+
         return newRoom;
     }
 

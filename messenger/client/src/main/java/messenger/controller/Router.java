@@ -23,7 +23,6 @@ import org.apache.log4j.Logger;
 import java.io.*;
 import java.net.Socket;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
@@ -178,6 +177,7 @@ public class Router {
             //BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             BufferedWriter out = userConnection.getOut();
             out.write(messageService.sendMessage(new Message(msg,userConnection.getUser())) + "\n");
+            //out.write(msg + "\n");
             out.flush();
             //out.close();
         } catch (IOException e) {
@@ -189,6 +189,18 @@ public class Router {
         try {
             BufferedWriter out = userConnection.getOut();
             out.write(messageService.sendAction(msg) + "\n");
+            out.flush();
+            //out.close();
+        }
+        catch (IOException e) {
+            logger.info(e);
+        }
+    }
+
+    public void sendSimpleMsg(String msg) {
+        try {
+            BufferedWriter out = userConnection.getOut();
+            out.write(msg + "\n");
             out.flush();
             //out.close();
         }

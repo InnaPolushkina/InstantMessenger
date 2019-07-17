@@ -38,7 +38,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     public void registration(String username, String password) throws UserRegistrationException {
         String regMsg = "<reg><nick>" + username + "</nick><password>" + password + "</password></reg>";
         boolean result = false;
-        router.sendMessage(regMsg);
+        router.sendSimpleMsg(regMsg);
         try {
             result = Boolean.parseBoolean(router.getListener().messageFromServer());
         } catch (IOException e) {
@@ -53,7 +53,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     public void auth(String username, String password) throws AuthException {
         String authMsg = "<auth><nick>" + username + "</nick><password>" + password + "</password></auth>";
         boolean result = false;
-        router.sendMessage(authMsg);
+        router.sendSimpleMsg(authMsg);
         try {
             result = Boolean.parseBoolean(router.getListener().messageFromServer());
         } catch (IOException e) {
