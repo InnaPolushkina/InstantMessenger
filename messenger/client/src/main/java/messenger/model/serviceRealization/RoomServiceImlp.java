@@ -9,14 +9,10 @@ public class RoomServiceImlp implements RoomService {
 
     private static final Logger logger = Logger.getLogger(RoomServiceImlp.class);
 
-    /**
-     * the method creates new room
-     *
-     * @param roomName contain String for name creating room
-     */
     @Override
-    public void createRoom(String roomName) {
-
+    public String createRoom(String roomName) {
+        String newRoom = "<create>" + roomName + "</create>";
+        return newRoom;
     }
 
     /**

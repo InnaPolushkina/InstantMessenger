@@ -12,7 +12,7 @@ public interface RoomService {
      * the method creates new room
      * @param roomName contain String for name creating room
      */
-    void createRoom(String roomName);
+    String  createRoom(String roomName);
 
     /**
      * the method adds user to room

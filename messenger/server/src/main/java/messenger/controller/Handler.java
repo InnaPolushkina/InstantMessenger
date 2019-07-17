@@ -2,6 +2,7 @@ package messenger.controller;
 
 import messenger.model.Authorizer;
 import messenger.model.Recoder;
+import messenger.model.RoomActivity;
 import messenger.model.SenderMessage;
 import messenger.model.exceptions.ServerAuthorizationException;
 import messenger.model.exceptions.ServerRegistrationException;
@@ -10,6 +11,7 @@ import messenger.model.serverEntity.MessageServer;
 import messenger.model.serverEntity.User;
 import messenger.model.serverEntity.UserConnection;
 import messenger.model.serverServices.MessageService;
+import messenger.model.serverServices.RoomService;
 import messenger.model.serverServices.UserKeeper;
 import messenger.model.serverServices.UserRegistrationService;
 import messenger.model.serverServicesImlp.MessageServiceImpl;
@@ -35,6 +37,7 @@ public class Handler extends Thread{
     private ViewLogs view = new ViewLogs();
     private MessageService messageService;
     private UserKeeper userKeeper;
+    private RoomService roomService;
     //private MessageService messageService = new MessageServiceImpl();
 
 
@@ -64,6 +67,10 @@ public class Handler extends Thread{
         this.userConnection = userConnection;
         userConnection.setIn(new BufferedReader(new InputStreamReader((userConnection.getUserSocket().getInputStream()))));
         userConnection.setOut(new BufferedWriter(new OutputStreamWriter(userConnection.getUserSocket().getOutputStream())));
+    }
+
+    public void setRoomService(RoomService roomService) {
+        this.roomService = roomService;
     }
 
     public void setUser(User user) {
@@ -136,6 +143,12 @@ public class Handler extends Thread{
                        // sendMessage(clientData);
                         break;
                         //here will be cases for other client actions . . .
+                    case CREATE_ROOM:
+                        RoomActivity roomCreator = new RoomActivity(userConnection,roomService);
+                        roomCreator.createRoom(clientData);
+                        break;
+                    case ADD_TO_ROOM:
+                        break;
                 }
            }
        }

@@ -4,9 +4,11 @@ import messenger.model.serverEntity.Room;
 import messenger.model.serverEntity.User;
 import messenger.model.serverEntity.UserConnection;
 import messenger.model.serverServices.MessageService;
+import messenger.model.serverServices.RoomService;
 import messenger.model.serverServices.UserKeeper;
 import messenger.model.serverServices.UserRegistrationService;
 import messenger.model.serverServicesImlp.MessageServiceImpl;
+import messenger.model.serverServicesImlp.RoomServiceImpl;
 import messenger.model.serverServicesImlp.UserKeeperXml;
 import messenger.model.serverServicesImlp.UserRegistrationServiceImpl;
 import messenger.view.ViewLogs;
@@ -29,6 +31,7 @@ public class Router {
     private static UserRegistrationService userRegistrationService;
     private static UserKeeper userKeeper;
     private static MessageService messageService;
+    private static RoomService roomService;
 
     public static void main(String[] args) throws Exception{
         viewLogs.print("The chat server is running.");
@@ -37,6 +40,7 @@ public class Router {
         //userRegistrationService = new UserRegistrationServiceImpl(userKeeper.loadFromFile());
         userRegistrationService = new UserRegistrationServiceImpl(userKeeper);
         messageService = new MessageServiceImpl();
+        roomService = new RoomServiceImpl();
         try {
             while (true) {
                 Handler handler = new Handler();
@@ -47,6 +51,7 @@ public class Router {
                 handler.setUserRegistrationService(userRegistrationService);
                 handler.setMessageService(messageService);
                 handler.setUserKeeper(userKeeper);
+                handler.setRoomService(roomService);
                 handler.start();
                // addUserToBigRoom(handler.getUserConnection());
                 //new Handler(listener.accept(),userRegistrationService).start();
@@ -103,6 +108,7 @@ public class Router {
     }
 
     public Set<Room> getRoomList() {
+        System.out.println("get room list");
         return roomList;
     }
 }

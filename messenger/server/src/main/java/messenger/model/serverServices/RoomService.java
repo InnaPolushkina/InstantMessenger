@@ -7,9 +7,9 @@ import messenger.model.serverEntity.UserConnection;
 public interface RoomService {
     /**
      * the method creates new room
-     * @param roomName contain String for name creating room
+     * @param roomData contain String for name creating room
      */
-    void createRoom(String roomName);
+    Room createRoom(String roomData);
 
     /**
      * the method adds user to room

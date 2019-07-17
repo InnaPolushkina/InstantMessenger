@@ -1,13 +1,14 @@
 package messenger.model.entity;
 
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Room {
     private String roomName;
-    private Set<UserServerConnection> users;
-    private Set<UserServerConnection> banList;
-    private Set<UserServerConnection> muteList;
+    private Set<UserServerConnection> users = new HashSet<>();
+    private Set<UserServerConnection> banList = new HashSet<>();
+    private Set<UserServerConnection> muteList = new HashSet<>();
 
 
     public Room(String roomName) {

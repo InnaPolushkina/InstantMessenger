@@ -6,7 +6,9 @@ import messenger.model.entity.UserServerConnection;
 import messenger.model.exceptions.AuthException;
 import messenger.model.exceptions.UserRegistrationException;
 import messenger.model.serverEntity.UserConnection;
+import messenger.model.service.RoomService;
 import messenger.model.service.UserRegistrationService;
+import messenger.model.serviceRealization.RoomServiceImlp;
 import messenger.model.serviceRealization.UserRegistrationServiceImpl;
 import messenger.model.entity.Message;
 import messenger.model.service.MessageService;
@@ -20,6 +22,7 @@ import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -34,7 +37,7 @@ import java.util.Set;
  */
 public class Router {
     //private User user;
-    private Set<Room> roomList;
+    private Set<Room> roomList = new HashSet<>();
     private Listener listener;
     private Socket socket;
     private UserServerConnection userConnection;
@@ -47,6 +50,7 @@ public class Router {
    private static final Router instance = new Router();
    private UserRegistrationService userRegistrationService;
    private MessageService messageService;
+   private RoomService roomService;
 
     /**
      * the public method for getting object of class Router
@@ -64,6 +68,7 @@ public class Router {
         stage = new Stage();
         viewLogin = new ViewLogin(stage);
         userRegistrationService = new UserRegistrationServiceImpl(this);
+        roomService = new RoomServiceImlp();
         try {
             socket = new Socket("localhost", 2020);
             userConnection = new UserServerConnection(new User(),socket);
@@ -174,6 +179,7 @@ public class Router {
             BufferedWriter out = userConnection.getOut();
             out.write(messageService.sendMessage(new Message(msg,userConnection.getUser())) + "\n");
             out.flush();
+            //out.close();
         } catch (IOException e) {
             logger.info(e);
         }
@@ -184,6 +190,7 @@ public class Router {
             BufferedWriter out = userConnection.getOut();
             out.write(messageService.sendAction(msg) + "\n");
             out.flush();
+            //out.close();
         }
         catch (IOException e) {
             logger.info(e);
@@ -207,13 +214,21 @@ public class Router {
     public void muteUser(User user, Room room, int time, boolean muteStatus) {
 
     }
-    public void createRoom(UserServerConnection[] users,String roomName) {
-        Room room = new Room(roomName);
-        for(int i = 0; i <users.length; i++ ) {
-            // room.addUser(users[i]);
-            room.addNewUser(users[i]);
+    public void createRoom(String roomName) {
+        try {
+            //sendAction("CREATE_ROOM");
+
+            BufferedWriter out = userConnection.getOut();
+            out.write(roomService.createRoom(roomName) + "\n");
+            out.flush();
+           // out.close();
+            Room room = new Room(roomName);
+            room.addNewUser(userConnection);
+            roomList.add(room);
         }
-        roomList.add(room);
+        catch (IOException e) {
+            logger.warn(e);
+        }
     }
 
     public void leaveRoom(Room room) {

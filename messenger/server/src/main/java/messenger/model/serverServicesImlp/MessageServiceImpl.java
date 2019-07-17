@@ -75,17 +75,22 @@ public class MessageServiceImpl implements MessageService {
             Document document = builder.parse(new InputSource(new StringReader(clientAction)));
 
             NodeList nodeList = document.getElementsByTagName("action");
-            Element element = (Element) nodeList.item(0);
-            result = ClientAction.valueOf(ClientAction.class,element.getTextContent());
+            Node node = nodeList.item(0);
+            if(node.getNodeType() == Node.ELEMENT_NODE) {
+                Element element = (Element) node;
+                result = ClientAction.valueOf(ClientAction.class,element.getTextContent());
+                System.out.println(result);
+                return result;
+            }
         }
         catch (IOException e) {
-            logger.warn("while parsing message from user",e);
+            logger.warn("while parsing action from user",e);
         }
         catch (ParserConfigurationException e) {
-            logger.warn("while parsing message from user",e);
+            logger.warn("while parsing action from user",e);
         }
         catch (SAXException e) {
-            logger.warn("while parsing message from user",e);
+            logger.warn("while parsing action from user",e);
         }
         return result;
     }

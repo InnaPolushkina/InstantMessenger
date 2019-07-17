@@ -40,8 +40,8 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button layoutX="706.0" layoutY="114.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="95.0" text="New room" />
-      <Button layoutX="706.0" layoutY="154.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Add users" />
+      <Button fx:id="createNewRoom" layoutX="706.0" layoutY="114.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="95.0" text="New room" />
+      <Button fx:id="addUser" layoutX="706.0" layoutY="154.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Add users" />
       <Button layoutX="706.0" layoutY="193.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Remove sender" />
       <Button layoutX="706.0" layoutY="228.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Ban sender" />
       <Button layoutX="706.0" layoutY="259.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Allow sender" />

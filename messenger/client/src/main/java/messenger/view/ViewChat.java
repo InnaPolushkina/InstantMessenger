@@ -6,10 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import messenger.controller.Router;
@@ -44,6 +41,13 @@ public class ViewChat {
     private Button logoutButton;
     @FXML
     private Label userNameLabel;
+    @FXML
+    private Button createNewRoom;
+    @FXML
+    private Button addUser;
+
+
+
     @FXML
     private ListView<String> messagesList = new ListView<>();
 
@@ -95,7 +99,38 @@ public class ViewChat {
         logoutButton.setOnAction(event -> {
             System.exit(0);
         });
+        createNewRoom.setOnAction(event -> {
+            ViewCreateRoom viewCreateRoom = new ViewCreateRoom(new Stage());
+            viewCreateRoom.getCreateNewRoomButton().setOnAction(event1 -> {
+                router.sendAction("CREATE_ROOM");
+                router.createRoom(viewCreateRoom.getNameNewRoom().getText());
+            });
+        });
+        /*
+        createNewRoomButton.setOnAction(event -> {
+            router.createRoom(nameNewRoom.getText());
+        });*/
     }
+
+   /* public void newRoomCreationView() {
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setController(this);
+
+        try {
+            loader.setLocation(ViewChat.class.getResource("/createNewRoom.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            stage.setTitle("Messenger");
+            stage.setScene(scene);
+            stage.show();
+
+            logger.info("show main scene ");
+
+        } catch (IOException e) {
+            logger.warn("while showing main scene ", e);
+        }
+    }*/
 
     public void showMessage(Message message) {
         String mess = message.getUserSender().getName() + " << " + message.getText();

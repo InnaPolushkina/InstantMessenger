@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <users>
 <user>
+<nick>new</nick>
+<password>1234</password>
+</user>
+<user>
 <nick>Inna</nick>
 <password>1234</password>
 </user>
 <user>
 <nick>Kit</nick>
 <password>1234</password>
+</user>
+<user>
+<nick>m</nick>
+<password>1234</password>
+</user>
+<user>
+<nick>You</nick>
+<password>1234</password>
+</user>
+<user>
+<nick>888888888</nick>
+<password>5555555555</password>
 </user>
 </users>
