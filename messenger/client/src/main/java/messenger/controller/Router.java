@@ -228,7 +228,7 @@ public class Router {
     }
     public void createRoom(String roomName) {
         try {
-            //sendAction("CREATE_ROOM");
+            sendAction("CREATE_ROOM");
 
             BufferedWriter out = userConnection.getOut();
             out.write(roomService.createRoom(roomName) + "\n");

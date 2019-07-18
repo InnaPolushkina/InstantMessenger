@@ -37,15 +37,6 @@ public class RoomServiceImpl implements RoomService {
             Element element =  (Element) nodeList.item(0);
             String roomName = element.getTextContent();
             room = new Room(roomName);
-           /* Node node = nodeList.item(0);
-            if (node.getNodeType() == Node.ELEMENT_NODE) {
-                Element element = (Element) node;
-                String roomName = element.getElementsByTagName("roomname").item(0).getTextContent();
-                //String password = element.getElementsByTagName("password").item(0).getTextContent();
-                room = new Room(roomName);
-               // room.setRoomName(roomName);
-                return room;
-            }*/
         }
         catch (ParserConfigurationException e) {
             logger.warn("exception while parsing string with xml from client when one create new room ",e);
@@ -62,12 +53,31 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public void addUserToRoom(UserConnection user, Room room) {
-        for (Room r: Router.getInstense().getRoomList()) {
-            if(r.getRoomName().equals(room.getRoomName())) {
-                r.addUser(user);
+    public User addUserToRoom(/*UserConnection user, Room room*/ String data) {
+        User result = null;
+        try {
+            DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = builderFactory.newDocumentBuilder();
+            Document document = builder.parse(new InputSource(new StringReader(data)));
+
+            NodeList nodeList = document.getElementsByTagName("add");
+            Node node = nodeList.item(0);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element element = (Element) node;
+                String userName = element.getElementsByTagName("user").item(0).getTextContent();
+                result = new User(userName);
             }
         }
+        catch (ParserConfigurationException e) {
+            logger.warn("exception while parsing string with xml from client when one add new client to room ",e);
+        }
+        catch (SAXException e) {
+            logger.warn("exception while parsing string with xml from client when one add new client to room ",e);
+        }
+        catch (IOException e) {
+            logger.warn("exception while parsing string with xml from client when one add new client to room ",e);
+        }
+        return result;
     }
 
     @Override
@@ -77,5 +87,30 @@ public class RoomServiceImpl implements RoomService {
                 r.removeUser(user);
             }
         }
+    }
+
+    public Room changeRoom(String roomName){
+        Room result = null;
+        try {
+            DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = builderFactory.newDocumentBuilder();
+            Document document = builder.parse(new InputSource(new StringReader(roomName)));
+
+            NodeList nodeList = document.getElementsByTagName("goToRoom");
+            Element element = (Element)nodeList.item(0);
+            String nameChangedRoom = element.getTextContent();
+            result = new Room(nameChangedRoom);
+        }
+        catch (ParserConfigurationException e) {
+            logger.warn("exception while parsing string with xml from client when one switch on rooms ",e);
+        }
+        catch (SAXException e) {
+            logger.warn("exception while parsing string with xml from client when one switch on rooms ",e);
+        }
+        catch (IOException e) {
+            logger.warn("exception while parsing string with xml from client when one switch on rooms ",e);
+        }
+
+        return result;
     }
 }

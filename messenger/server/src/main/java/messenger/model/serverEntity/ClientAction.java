@@ -13,5 +13,6 @@ public enum ClientAction {
     UNBAN,
     CREATE_ROOM,
     ADD_TO_ROOM,
+    CHANGE_ROOM,
     LEAVE_ROOM
 }

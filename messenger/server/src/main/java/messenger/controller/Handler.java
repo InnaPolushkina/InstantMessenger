@@ -7,14 +7,12 @@ import messenger.model.SenderMessage;
 import messenger.model.exceptions.ServerAuthorizationException;
 import messenger.model.exceptions.ServerRegistrationException;
 import messenger.model.serverEntity.ClientAction;
-import messenger.model.serverEntity.MessageServer;
 import messenger.model.serverEntity.User;
 import messenger.model.serverEntity.UserConnection;
 import messenger.model.serverServices.MessageService;
 import messenger.model.serverServices.RoomService;
 import messenger.model.serverServices.UserKeeper;
 import messenger.model.serverServices.UserRegistrationService;
-import messenger.model.serverServicesImlp.MessageServiceImpl;
 import messenger.view.ViewLogs;
 import org.apache.log4j.Logger;
 
@@ -30,7 +28,6 @@ public class Handler extends Thread{
     private UserConnection userConnection;
     private User user;
     private static final Logger logger = Logger.getLogger(Handler.class);
-   // private UserRegistrationServiceImpl userRegistrationService = new UserRegistrationServiceImpl();
     private UserRegistrationService userRegistrationService;
     private Router router;
     private ClientAction clientAction;
@@ -38,7 +35,7 @@ public class Handler extends Thread{
     private MessageService messageService;
     private UserKeeper userKeeper;
     private RoomService roomService;
-    //private MessageService messageService = new MessageServiceImpl();
+    private RoomActivity roomActivity;
 
 
     /**
@@ -110,7 +107,6 @@ public class Handler extends Thread{
            while (true) {
                 String clientMsgAction = userConnection.getIn().readLine();
                 clientAction = messageService.parseClientAction(clientMsgAction);
-                //clientAction = ClientAction.valueOf(ClientAction.class,clientMsgAction);
                 String clientData = userConnection.getIn().readLine();
                 switch (clientAction) {
                     case REGISTER:
@@ -118,7 +114,7 @@ public class Handler extends Thread{
                         try {
                             Recoder recoder = new Recoder(userConnection, userRegistrationService,userKeeper);
                             user = recoder.register(clientData);
-
+                            roomActivity = new RoomActivity(userConnection,roomService);
                         }
                         catch (ServerRegistrationException e) {
                             logger.warn(e.getMessage(),e);
@@ -129,7 +125,7 @@ public class Handler extends Thread{
                         try {
                             Authorizer authorizer = new Authorizer(userConnection, userRegistrationService,userKeeper);
                             user = authorizer.authorize(clientData);
-                            //Router.getInstense().addUserToBigRoom(userConnection);
+                            roomActivity = new RoomActivity(userConnection,roomService);
                         }
                         catch (ServerAuthorizationException e) {
                             logger.warn(e.getMessage(),e);
@@ -137,17 +133,20 @@ public class Handler extends Thread{
                         break;
                     case SEND_MSG:
                         //send message
-                        //MessageServer messageServer = messageService.parseMessage(clientData);
                         SenderMessage senderMessage = new SenderMessage(messageService,userConnection);
                         senderMessage.sendMessage(clientData);
                        // sendMessage(clientData);
                         break;
                         //here will be cases for other client actions . . .
                     case CREATE_ROOM:
-                        RoomActivity roomCreator = new RoomActivity(userConnection,roomService);
-                        roomCreator.createRoom(clientData);
+                        //RoomActivity roomCreator = new RoomActivity(userConnection,roomService);
+                        roomActivity.createRoom(clientData);
+                        break;
+                    case CHANGE_ROOM:
+                        roomActivity.setRoomNow(clientData);
                         break;
                     case ADD_TO_ROOM:
+                        roomActivity.addUserToRoom(clientData);
                         break;
                 }
            }
@@ -165,12 +164,12 @@ public class Handler extends Thread{
        }
    }
 
-    public void sendMessage(String input) throws IOException {
+   /* public void sendMessage(String input) throws IOException {
         for (UserConnection writer : Router.getInstense().getUserList()) {
             writer.getOut().write(input + "\n");
             writer.getOut().flush();
         }
-    }
+    }*/
 
 
 }

@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import messenger.controller.Router;
 import messenger.model.entity.Message;
+import messenger.model.entity.Room;
 import messenger.model.entity.User;
 import org.apache.log4j.Logger;
 
@@ -57,6 +58,7 @@ public class ViewChat {
     private static final Logger logger = Logger.getLogger(ViewChat.class);
 
     private List<User> list;
+    private List<Room> roomList;
 
 
 
@@ -100,37 +102,16 @@ public class ViewChat {
             System.exit(0);
         });
         createNewRoom.setOnAction(event -> {
-            ViewCreateRoom viewCreateRoom = new ViewCreateRoom(new Stage());
-            viewCreateRoom.getCreateNewRoomButton().setOnAction(event1 -> {
+            ViewCreateRoom viewCreateRoom = new ViewCreateRoom(new Stage(),this);
+            /*viewCreateRoom.getCreateNewRoomButton().setOnAction(event1 -> {
                 router.sendAction("CREATE_ROOM");
                 router.createRoom(viewCreateRoom.getNameNewRoom().getText());
-            });
+            });*/
         });
-        /*
-        createNewRoomButton.setOnAction(event -> {
-            router.createRoom(nameNewRoom.getText());
-        });*/
+
     }
 
-   /* public void newRoomCreationView() {
-        Stage stage = new Stage();
-        FXMLLoader loader = new FXMLLoader();
-        loader.setController(this);
 
-        try {
-            loader.setLocation(ViewChat.class.getResource("/createNewRoom.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            stage.setTitle("Messenger");
-            stage.setScene(scene);
-            stage.show();
-
-            logger.info("show main scene ");
-
-        } catch (IOException e) {
-            logger.warn("while showing main scene ", e);
-        }
-    }*/
 
     public void showMessage(Message message) {
         String mess = message.getUserSender().getName() + " << " + message.getText();
@@ -188,8 +169,8 @@ public class ViewChat {
         return nameRoom;
     }
 
-    public void setNameRoom(Label nameRoom) {
-        this.nameRoom = nameRoom;
+    public void setNameRoom(String nameRoom) {
+        this.nameRoom.setText(nameRoom);
     }
 
     public Button getLogoutButton() {

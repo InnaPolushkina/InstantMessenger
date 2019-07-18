@@ -17,6 +17,7 @@ public class ViewCreateRoom {
     private static final Logger logger = Logger.getLogger(ViewCreateRoom.class);
     private Stage stage;
     private Router router;
+    private ViewChat viewChat;
     @FXML
     private Label errorRoomCreatorMsg;
     @FXML
@@ -26,7 +27,8 @@ public class ViewCreateRoom {
     @FXML
     private TextField nameNewRoom;
 
-    public ViewCreateRoom(Stage stage) {
+    public ViewCreateRoom(Stage stage, ViewChat viewChat) {
+        this.viewChat = viewChat;
         this.stage = stage;
         router = Router.getInstance();
         FXMLLoader loader = new FXMLLoader();
@@ -49,14 +51,23 @@ public class ViewCreateRoom {
 
     @FXML
     public void initialize() {
-       /* createNewRoomButton.setOnAction(event -> {
-            router.sendAction("CREATE_ROOM");
-            router.createRoom(nameNewRoom.getText());
-            //Router.getInstance().createRoom(nameNewRoom.getText().trim());
+        errorRoomCreatorMsg.setText("");
+        createNewRoomButton.setOnAction(event -> {
+            //router.sendAction("CREATE_ROOM");
+            String nameRoom = nameNewRoom.getText().trim();
+            if (nameRoom != null && !nameRoom.equals("")) {
+                router.createRoom(nameRoom);
+                viewChat.setNameRoom(nameRoom);
+                stage.close();
+            }
+            else {
+                errorRoomCreatorMsg.setText("enter correct data");
+            }
+
         });
         cancelCreateNewRoomButton.setOnAction(event -> {
             stage.close();
-        });*/
+        });
     }
 
     public Button getCreateNewRoomButton() {
