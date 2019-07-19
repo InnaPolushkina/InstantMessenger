@@ -22,7 +22,9 @@ import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -41,7 +43,6 @@ public class Router {
     private Socket socket;
     private UserServerConnection userConnection;
     private static final Logger logger = Logger.getLogger(Router.class);
-   // private ViewLogin mainView ;
    private Stage stage ;
    private ViewLogin viewLogin;
    private ViewChat viewChat;
@@ -76,7 +77,6 @@ public class Router {
             messageService = new MessageServiceImpl();
             listener.setMessageService(messageService);
             logger.info("start client ");
-            //actions();
         }
         catch (IOException ex) {
             logger.error(ex);
@@ -140,7 +140,7 @@ public class Router {
                 sendAction("REGISTER");
                 userRegistrationService.registration(name,password);
 
-                //List<User> list = userRegistrationService.parseUserList(listener.messageFromServer());
+                List<User> list = userRegistrationService.parseUserList(listener.messageFromServer());
                 showMainChat(name);
                 viewChat.setList(userRegistrationService.parseUserList(listener.messageFromServer()));
                 listener.start();
@@ -165,21 +165,26 @@ public class Router {
     private void showMainChat(String name) {
         viewChat = new ViewChat(stage);
         listener.setViewChat(viewChat);
+       // viewChat.setUser(getUser());
         viewChat.setUserName(name);
     }
 
     /**
      * the method send string message to server
-     * @param msg String message
+     * @param msgText String message
      */
-    public void sendMessage(String msg) {
+    public void sendMessage(/*Message msg*/String msgText) {
         try {
+            //msg.setUserSender(userConnection.getUser());
             //BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            BufferedWriter out = userConnection.getOut();
-            out.write(messageService.sendMessage(new Message(msg,userConnection.getUser())) + "\n");
+            Room room = new Room(viewChat.getNameRoom());
+            Message msg = new Message(msgText,userConnection.getUser(),room);
+            sendMessageToServer(messageService.sendMessage(msg));
+           /* BufferedWriter out = userConnection.getOut();
+            out.write(messageService.sendMessage(msg) + "\n");
             //out.write(msg + "\n");
             out.flush();
-            //out.close();
+            //out.close();*/
         } catch (IOException e) {
             logger.info(e);
         }
@@ -187,10 +192,12 @@ public class Router {
 
     public void sendAction(String msg) {
         try {
-            BufferedWriter out = userConnection.getOut();
+           /* BufferedWriter out = userConnection.getOut();
             out.write(messageService.sendAction(msg) + "\n");
-            out.flush();
+            out.flush();*/
             //out.close();
+
+            sendMessageToServer(messageService.sendAction(msg));
         }
         catch (IOException e) {
             logger.info(e);
@@ -199,15 +206,41 @@ public class Router {
 
     public void sendSimpleMsg(String msg) {
         try {
-            BufferedWriter out = userConnection.getOut();
+            /*BufferedWriter out = userConnection.getOut();
             out.write(msg + "\n");
-            out.flush();
+            out.flush();*/
             //out.close();
+            sendMessageToServer(msg);
         }
         catch (IOException e) {
             logger.info(e);
         }
     }
+
+    private void sendMessageToServer(String msg) throws IOException{
+        BufferedWriter out = userConnection.getOut();
+        out.write(msg + "\n");
+        out.flush();
+    }
+
+   /* public List<User> getOnlineUser() {
+        sendAction("ONLINE_USERS");
+
+        List<User> userList = null;
+        try {
+            sendMessageToServer("simple string for testing ");
+            try {
+                listener.sleep(3000);
+            }
+            catch (InterruptedException e) {
+                logger.warn(e);
+            }
+            userList = roomService.parseOnlineUsers(listener.messageFromServer());
+        }catch (IOException e) {
+            logger.warn(e);
+        }
+        return userList;
+    }*/
 
     public Set<User> getUserList(Room room) {
         Set<User> res = null;
@@ -219,13 +252,6 @@ public class Router {
         return res;
     }
 
-    public void bunUser(User user, Room room, boolean bunStatus) {
-
-    }
-
-    public void muteUser(User user, Room room, int time, boolean muteStatus) {
-
-    }
     public void createRoom(String roomName) {
         try {
             sendAction("CREATE_ROOM");
@@ -243,6 +269,33 @@ public class Router {
         }
     }
 
+    public void addUserToRoom(User user/*, Room room*/) {
+        try {
+            sendAction("ADD_TO_ROOM");
+
+            BufferedWriter out = userConnection.getOut();
+            out.write(roomService.addUserToRoom(user) + "\n");
+            out.flush();
+        }
+        catch (IOException e) {
+            logger.warn(e);
+        }
+
+    }
+
+    public void switchRoom(String roomName) {
+        sendAction("SWITCH_ROOM");
+        try {
+            BufferedWriter out = userConnection.getOut();
+            out.write(roomService.switchRoom(roomName) + "\n");
+            out.flush();
+        }
+        catch (IOException e) {
+            logger.warn(e);
+        }
+
+    }
+
     public void leaveRoom(Room room) {
         for (Room r: roomList) {
             if(r.equals(room)) {
@@ -255,5 +308,13 @@ public class Router {
 
             }
         }
+    }
+
+    public void bunUser(User user, Room room, boolean bunStatus) {
+
+    }
+
+    public void muteUser(User user, Room room, int time, boolean muteStatus) {
+
     }
 }

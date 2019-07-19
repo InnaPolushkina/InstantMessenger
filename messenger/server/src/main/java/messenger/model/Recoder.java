@@ -8,6 +8,8 @@ import messenger.model.serverServices.UserKeeper;
 import messenger.model.serverServices.UserRegistrationService;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Recoder {
     private UserConnection userConnection;
@@ -37,6 +39,8 @@ public class Recoder {
                 userConnection.getOut().write(userKeeper.userListToString(userKeeper.loadFromFile()) + "\n");
                 userConnection.getOut().flush();
 
+
+                userConnection.setUser(user);
                 Router.getInstense().addUserToBigRoom(userConnection);
 
                 return user;

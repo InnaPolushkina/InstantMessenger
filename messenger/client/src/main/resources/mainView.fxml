@@ -16,7 +16,7 @@
          </children></VBox>
       <VBox layoutX="14.0" layoutY="60.0" prefHeight="448.0" prefWidth="195.0" style="-fx-background-color: #FEFEBE;">
          <children>
-            <ListView fx:id="usersList" prefHeight="450.0" prefWidth="195.0" />
+            <ListView fx:id="roomListView" prefHeight="450.0" prefWidth="195.0" />
          </children></VBox>
       <TextArea fx:id="messageText" layoutX="216.0" layoutY="465.0" prefHeight="21.0" prefWidth="402.0" promptText="Enter your messageServer . . . " style="-fx-padding: 3px;" />
       <Button fx:id="sendButton" layoutX="624.0" layoutY="465.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="67.0" text="Send" />

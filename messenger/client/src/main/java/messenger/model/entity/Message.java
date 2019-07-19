@@ -20,7 +20,20 @@ public class Message {
         this.userSender = userSender;
     }
 
+    public Message(String text, Room roomRecipient) {
+        this.text = text;
+        this.roomRecipient = roomRecipient;
+    }
+
     public Message() {
+    }
+
+    public Room getRoomRecipient() {
+        return roomRecipient;
+    }
+
+    public void setRoomRecipient(Room roomRecipient) {
+        this.roomRecipient = roomRecipient;
     }
 
     public String getText() {

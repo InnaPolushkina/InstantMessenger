@@ -3,6 +3,7 @@ package messenger.controller;
 import javafx.application.Platform;
 
 import messenger.model.entity.Message;
+import messenger.model.serverEntity.UserConnection;
 import messenger.model.service.MessageService;
 import messenger.model.serviceRealization.MessageServiceImpl;
 import messenger.model.entity.User;
@@ -34,9 +35,6 @@ public class Listener extends Thread {
         user = new User();
         userServerConnection = new UserServerConnection(user,socket);
         this.viewChat = viewChat;
-        //userServerConnection.setIn(new BufferedReader(new InputStreamReader(userServerConnection.getUserSocket().getInputStream())));
-        //user.setUserSocket(socket);
-       // viewLogin = new ViewLogin();
     }
 
     /**
@@ -46,7 +44,6 @@ public class Listener extends Thread {
     public void run() {
         while (true) {
             try {
-                //userServerConnection.setIn(new BufferedReader(new InputStreamReader(userServerConnection.getUserSocket().getInputStream())));
                 userServerConnection.setIn();
                 showMessage();
             } catch (Exception e) {
@@ -76,6 +73,7 @@ public class Listener extends Thread {
      * @throws IOException If an I/O error occurs
      */
     public String messageFromServer() throws IOException{
+        userServerConnection.setIn();
         String s = userServerConnection.getIn().readLine();
         return s;
     }
@@ -87,4 +85,5 @@ public class Listener extends Thread {
     public void setMessageService(MessageService messageService) {
         this.messageService = messageService;
     }
+
 }

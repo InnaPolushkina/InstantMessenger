@@ -58,6 +58,7 @@ public class ViewCreateRoom {
             if (nameRoom != null && !nameRoom.equals("")) {
                 router.createRoom(nameRoom);
                 viewChat.setNameRoom(nameRoom);
+                viewChat.addRoom(nameRoom);
                 stage.close();
             }
             else {
@@ -68,6 +69,8 @@ public class ViewCreateRoom {
         cancelCreateNewRoomButton.setOnAction(event -> {
             stage.close();
         });
+
+
     }
 
     public Button getCreateNewRoomButton() {

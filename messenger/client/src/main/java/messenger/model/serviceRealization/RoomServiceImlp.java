@@ -5,6 +5,8 @@ import messenger.model.entity.User;
 import messenger.model.service.RoomService;
 import org.apache.log4j.Logger;
 
+
+
 public class RoomServiceImlp implements RoomService {
 
     private static final Logger logger = Logger.getLogger(RoomServiceImlp.class);
@@ -12,7 +14,6 @@ public class RoomServiceImlp implements RoomService {
     @Override
     public String createRoom(String roomName) {
         String newRoom = "<create>" + roomName + "</create>";
-
         return newRoom;
     }
 
@@ -20,13 +21,14 @@ public class RoomServiceImlp implements RoomService {
      * the method adds user to room
      *
      * @param user contain object of Class User for adding to room
-     * @param room contain object of Class Room
+     * @param //room contain object of Class Room
      * @see Room
      * @see User
      */
     @Override
-    public void addUserToRoom(User user, Room room) {
-
+    public String addUserToRoom(User user) {
+        String result = "<add><user>" + user.getName() + "</user></add>";
+        return result;
     }
 
     /**
@@ -40,4 +42,11 @@ public class RoomServiceImlp implements RoomService {
     public void removeUserFromRoom(User user, Room room) {
 
     }
+
+    @Override
+    public String switchRoom(String roomName) {
+        String result = "<switch>" + roomName + "</switch>";
+        return result;
+    }
+
 }

@@ -14,7 +14,6 @@ import messenger.model.serverServicesImlp.UserRegistrationServiceImpl;
 import messenger.view.ViewLogs;
 
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -44,41 +43,28 @@ public class Router {
         try {
             while (true) {
                 Handler handler = new Handler();
-               // UserConnection userConnection = new UserConnection(listener.accept());
                 handler.setUserConnection(new UserConnection(listener.accept()));
-                //handler.setUserConnection(userConnection);
-
                 handler.setUserRegistrationService(userRegistrationService);
                 handler.setMessageService(messageService);
                 handler.setUserKeeper(userKeeper);
                 handler.setRoomService(roomService);
+
                 handler.start();
-               // addUserToBigRoom(handler.getUserConnection());
-                //new Handler(listener.accept(),userRegistrationService).start();
             }
         }
         finally {
             listener.close();
         }
     }
-   /* private void saveToFile(){
-        userRegistrationService.saveUsers("server/src/main/java/messenger/db/users.txt");
-    }
-    private void loadFromFile(){
-        userRegistrationService.getUsers("server/src/main/java/messenger/db/users.txt");
-    }*/
+
     private void createRoom(UserConnection users){
 
     }
     private Router(){
         Room bigChat = new Room("Big chat");
-        //bigChat.addUser(users);
         roomList.add(bigChat);
     }
 
-   /* public UserRegistrationServiceImpl getUserRegistrationService() {
-        return userRegistrationService;
-    }*/
 
     /**
      * The method add user to room with all users
@@ -88,7 +74,7 @@ public class Router {
        for (Room room: roomList) {
            if(room.getRoomName().equals("Big chat")) {
                room.addUser(userConnection);
-               System.out.println("new user added");
+               System.out.println("authorized user added to big chat");
            }
        }
    }
@@ -108,7 +94,6 @@ public class Router {
     }
 
     public Set<Room> getRoomList() {
-        System.out.println("get room list");
         return roomList;
     }
 }

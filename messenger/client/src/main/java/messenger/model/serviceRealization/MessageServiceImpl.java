@@ -26,7 +26,7 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public String sendMessage(Message msg) {
-        String message = "<message><nick>" + msg.getUserSender().getName() + "</nick><recipient>new</recipient><text>" + msg.getText() + "</text></message>";
+        String message = "<message><nick>" + msg.getUserSender().getName() + "</nick><recipient>" + msg.getRoomRecipient().getRoomName() + "</recipient><text>" + msg.getText() + "</text></message>";
         return message;
     }
 

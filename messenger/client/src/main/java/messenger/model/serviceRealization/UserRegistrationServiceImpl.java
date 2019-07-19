@@ -1,18 +1,17 @@
 package messenger.model.serviceRealization;
 
 import messenger.controller.Router;
-import messenger.model.entity.Message;
 import messenger.model.entity.User;
 import messenger.model.exceptions.AuthException;
 import messenger.model.exceptions.UserRegistrationException;
 import messenger.model.service.UserRegistrationService;
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -25,6 +24,7 @@ import java.util.List;
 public class UserRegistrationServiceImpl implements UserRegistrationService {
 
     private Router router;
+    private static final Logger logger = Logger.getLogger(UserRegistrationServiceImpl.class);
 
     public UserRegistrationServiceImpl() {
         this.router = Router.getInstance();
@@ -80,23 +80,22 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
                     String nick = element.getElementsByTagName("nick").item(0).getTextContent();
                     User user = new User(nick);
                     list.add(user);
-                    //String text = element.getElementsByTagName("text").item(0).getTextContent();
-                    //msg = new Message(text, new User(nick));
                 }
             }
 
         }
         catch (IOException e) {
-            //logger.warn("while parsing message from user",e);
+            logger.warn("while parsing list of online users ",e);
         }
         catch (ParserConfigurationException e) {
-           // logger.warn("while parsing message from user",e);
+            logger.warn("while parsing list of online users ",e);
         }
         catch (SAXException e) {
-            //logger.warn("while parsing message from user",e);
+            logger.warn("while parsing list of online users ",e);
         }
-
 
         return list;
     }
+
+
 }

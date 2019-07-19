@@ -3,6 +3,8 @@ package messenger.model.service;
 import messenger.model.entity.Room;
 import messenger.model.entity.User;
 
+import java.util.List;
+
 /**
  * Interface RoomService contains methods for service rooms in messenger
  * @author Inna
@@ -17,11 +19,11 @@ public interface RoomService {
     /**
      * the method adds user to room
      * @param user contain object of Class User for adding to room
-     * @param room contain object of Class Room
+     * @param //room contain object of Class Room
      * @see Room
      * @see User
      */
-    void addUserToRoom(User user, Room room);
+    String addUserToRoom(User user);
 
     /**
      * the method removes user from room
@@ -30,5 +32,9 @@ public interface RoomService {
      * @see User
      */
     void removeUserFromRoom(User user, Room room);
+
+    String switchRoom(String roomName);
+
+    //List<User> parseOnlineUsers(String listOnline);
 
 }

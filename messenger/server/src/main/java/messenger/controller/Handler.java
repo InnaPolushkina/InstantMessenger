@@ -108,6 +108,7 @@ public class Handler extends Thread{
                 String clientMsgAction = userConnection.getIn().readLine();
                 clientAction = messageService.parseClientAction(clientMsgAction);
                 String clientData = userConnection.getIn().readLine();
+                //System.out.println(clientData);
                 switch (clientAction) {
                     case REGISTER:
                         //call methods from class for registration
@@ -142,12 +143,15 @@ public class Handler extends Thread{
                         //RoomActivity roomCreator = new RoomActivity(userConnection,roomService);
                         roomActivity.createRoom(clientData);
                         break;
-                    case CHANGE_ROOM:
+                    case SWITCH_ROOM:
                         roomActivity.setRoomNow(clientData);
                         break;
                     case ADD_TO_ROOM:
                         roomActivity.addUserToRoom(clientData);
                         break;
+                    /*case ONLINE_USERS:
+                        roomActivity.getOnlineUsers(userKeeper);
+                        break;*/
                 }
            }
        }

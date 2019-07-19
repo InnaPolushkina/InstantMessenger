@@ -29,7 +29,7 @@ public class ViewChat {
     @FXML
     private VBox vBox;
     @FXML
-    private ListView<String> usersList;
+    private ListView<String> roomListView;
     @FXML
     private TextArea messageText;
     @FXML
@@ -47,13 +47,15 @@ public class ViewChat {
     @FXML
     private Button addUser;
 
+    private User user;
+
 
 
     @FXML
     private ListView<String> messagesList = new ListView<>();
 
     ObservableList<String> observableListMessages = FXCollections.observableArrayList();
-    ObservableList<String> userObservableList = FXCollections.observableArrayList();
+    ObservableList<String> roomObservableList = FXCollections.observableArrayList("Big chat");
     private Router router;
     private static final Logger logger = Logger.getLogger(ViewChat.class);
 
@@ -86,14 +88,16 @@ public class ViewChat {
     public void initialize() {
        // Date date = new Date();
 
-        usersList.setItems(userObservableList);
-
+       // usersList.setItems(roomObservableList);
+        roomListView.setItems(roomObservableList);
         messagesList.setItems(observableListMessages);
        // observableListMessages.add(date.);
 
         sendButton.setOnAction(event -> {
             if (messageText.getText() != null && !messageText.getText().trim().equals("")) {
                 router.sendAction("SEND_MSG");
+                /*Message msg = new Message(messageText.getText().replace("\n", ""),new Room(nameRoom.getText().trim()));
+                router.sendMessage(msg);*/
                 router.sendMessage(messageText.getText().replace("\n", ""));
                 messageText.setText("");
             }
@@ -108,6 +112,14 @@ public class ViewChat {
                 router.createRoom(viewCreateRoom.getNameNewRoom().getText());
             });*/
         });
+        addUser.setOnAction(event -> {
+            //list = router.getOnlineUser();
+            //System.out.println(list.toString());
+            ViewAddUser viewAddUser = new ViewAddUser(new Stage(),list);
+        });
+        roomListView.setOnMouseClicked(event -> {
+            nameRoom.setText(getNameOfSelectedRoom());
+        });
 
     }
 
@@ -121,73 +133,42 @@ public class ViewChat {
     public void setList(List<User> list) {
         this.list = list;
         for (User user: list) {
-            userObservableList.add(user.getName());
+            roomObservableList.add(user.getName());
         }
     }
 
-    public VBox getvBox() {
-        return vBox;
+    public User getUser() {
+        return user;
     }
 
-    public void setvBox(VBox vBox) {
-        this.vBox = vBox;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public ListView getUsersList() {
-        return usersList;
+    private Room getSelectedRoom() {
+        String nameSelectedRoom = roomListView.getSelectionModel().getSelectedItem();
+        Room room = new Room(nameSelectedRoom);
+        return room;
     }
 
-    public void setUsersList(ListView usersList) {
-        this.usersList = usersList;
-    }
-
-    public String getMessageText() {
-        return messageText.getText();
-    }
-
-    public void setMessageText(TextArea messageText) {
-        this.messageText = messageText;
-    }
-
-    public Button getSendButton() {
-        return sendButton;
-    }
-
-    public void setSendButton(Button sendButton) {
-        this.sendButton = sendButton;
-    }
-
-    public Label getUserName() {
-        return userName;
+    private String getNameOfSelectedRoom() {
+        return roomListView.getSelectionModel().getSelectedItem();
     }
 
     public void setUserName(String userName) {
         this.userName.setText(userName);
     }
 
-    public Label getNameRoom() {
-        return nameRoom;
-    }
-
     public void setNameRoom(String nameRoom) {
         this.nameRoom.setText(nameRoom);
     }
 
-    public Button getLogoutButton() {
-        return logoutButton;
+    public void addRoom(String nameRoom) {
+        roomObservableList.add(nameRoom);
     }
 
-    public void setLogoutButton(Button logoutButton) {
-        this.logoutButton = logoutButton;
+    public String getNameRoom() {
+        return nameRoom.getText();
     }
-
-    public Label getUserNameLabel() {
-        return userNameLabel;
-    }
-
-    public void setUserNameLabel(Label userNameLabel) {
-        this.userNameLabel = userNameLabel;
-    }
-
 
 }
