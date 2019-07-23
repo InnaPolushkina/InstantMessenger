@@ -7,6 +7,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import messenger.controller.Router;
@@ -15,8 +18,11 @@ import messenger.model.entity.Room;
 import messenger.model.entity.User;
 import org.apache.log4j.Logger;
 
+import java.awt.*;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -46,8 +52,11 @@ public class ViewChat {
     private Button createNewRoom;
     @FXML
     private Button addUser;
+    @FXML
+    private Label serverError;
 
     private User user;
+    private Notificator notificator;
 
 
 
@@ -60,7 +69,7 @@ public class ViewChat {
     private static final Logger logger = Logger.getLogger(ViewChat.class);
 
     private List<User> list;
-    private List<Room> roomList;
+    //private Set<Room> roomList;
 
 
 
@@ -82,22 +91,18 @@ public class ViewChat {
         } catch (IOException e) {
             logger.warn("while showing main scene ", e);
         }
+        notificator = new Notificator();
     }
 
     @FXML
     public void initialize() {
-       // Date date = new Date();
-
-       // usersList.setItems(roomObservableList);
+        serverError.setText("");
         roomListView.setItems(roomObservableList);
         messagesList.setItems(observableListMessages);
-       // observableListMessages.add(date.);
 
         sendButton.setOnAction(event -> {
             if (messageText.getText() != null && !messageText.getText().trim().equals("")) {
                 router.sendAction("SEND_MSG");
-                /*Message msg = new Message(messageText.getText().replace("\n", ""),new Room(nameRoom.getText().trim()));
-                router.sendMessage(msg);*/
                 router.sendMessage(messageText.getText().replace("\n", ""));
                 messageText.setText("");
             }
@@ -119,15 +124,20 @@ public class ViewChat {
         });
         roomListView.setOnMouseClicked(event -> {
             nameRoom.setText(getNameOfSelectedRoom());
+            setMessageList(getNameOfSelectedRoom());
         });
 
     }
 
 
-
     public void showMessage(Message message) {
-        String mess = message.getUserSender().getName() + " << " + message.getText();
-        observableListMessages.add(mess);
+        if(message.getRoomRecipient().getRoomName().equals(nameRoom.getText())) {
+            String mess = message.getUserSender().getName() + " << " + message.getText();
+            observableListMessages.add(mess);
+        }
+        if(!message.getUserSender().getName().equals(user.getName())) {
+            notificator.notifyUser(message.getText(), "New message, from " + message.getUserSender().getName(), TrayIcon.MessageType.INFO);
+        }
     }
 
     public void setList(List<User> list) {
@@ -171,4 +181,15 @@ public class ViewChat {
         return nameRoom.getText();
     }
 
+    public void setServerError(String serverError) {
+        this.serverError.setText(serverError);
+    }
+
+   public void setMessageList(String roomName) {
+        observableListMessages.clear();
+       Room room = Router.getInstance().getRoomByName(roomName);
+       for (Message mes: room.getMessageSet()) {
+           observableListMessages.add(mes.getUserSender().getName() + " << " + mes.getText());
+       }
+    }
 }

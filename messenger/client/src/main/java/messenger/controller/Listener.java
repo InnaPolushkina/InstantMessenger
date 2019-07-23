@@ -2,15 +2,14 @@ package messenger.controller;
 
 import javafx.application.Platform;
 
-import messenger.model.entity.Message;
-import messenger.model.serverEntity.UserConnection;
+import messenger.model.entity.*;
 import messenger.model.service.MessageService;
+import messenger.model.service.RoomService;
 import messenger.model.serviceRealization.MessageServiceImpl;
-import messenger.model.entity.User;
-import messenger.model.entity.UserServerConnection;
 import messenger.view.*;
 import org.apache.log4j.Logger;
 
+import java.awt.*;
 import java.io.*;
 import java.net.Socket;
 
@@ -23,9 +22,10 @@ public class Listener extends Thread {
     private User user;
     private UserServerConnection userServerConnection;
     private static final Logger logger = Logger.getLogger(Listener.class);
-    private ViewLogin viewLogin;
+    //private ViewLogin viewLogin;
     private ViewChat viewChat;
     private MessageService messageService;
+    private RoomService roomService;
 
     /**
      * The public constructor for class Listener
@@ -35,6 +35,7 @@ public class Listener extends Thread {
         user = new User();
         userServerConnection = new UserServerConnection(user,socket);
         this.viewChat = viewChat;
+        userServerConnection.setIn();
     }
 
     /**
@@ -44,10 +45,35 @@ public class Listener extends Thread {
     public void run() {
         while (true) {
             try {
-                userServerConnection.setIn();
-                showMessage();
+                //userServerConnection.setIn();
+                //String action = messageFromServer();
+                ServerAction serverAction = messageService.parseServerAction(messageFromServer());
+                switch (serverAction) {
+                    case SEND_MSG:
+                        showMessage();
+                        break;
+                    case ONLINE_LIST:
+                        //set online list to observable list from view
+                        break;
+                    case ADDED_TO_ROOM:
+                        //set new room to room list, observable list from view, notify user by Notificator
+                        String s = messageFromServer();
+                        Room room = roomService.parseNotifyAddedToRoom(s);
+                        Router.getInstance().getRoomList().add(room);
+                        Platform.runLater( ()->{
+                            Notificator notificator = new Notificator();
+                                notificator.notifyUser(room.getRoomName(),"You added to room", TrayIcon.MessageType.INFO);
+                                viewChat.addRoom(room.getRoomName());
+                        });
+
+                        break;
+                }
             } catch (Exception e) {
                 logger.error("catch NullPointerException, server don't work ",e);
+                Platform.runLater(
+                        () -> {
+                            viewChat.setServerError("Connection was lost, please reload application");
+                        });
                 break;
            }
         }
@@ -61,6 +87,7 @@ public class Listener extends Thread {
     public void showMessage() throws Exception{
         String msg = messageFromServer();
         Message message = messageService.parseMessage(msg);
+        Router.getInstance().getRoomByName(message.getRoomRecipient().getRoomName()).addMessageToRoom(message);
         Platform.runLater(
                 () -> {
                     viewChat.showMessage(message);
@@ -73,7 +100,7 @@ public class Listener extends Thread {
      * @throws IOException If an I/O error occurs
      */
     public String messageFromServer() throws IOException{
-        userServerConnection.setIn();
+        //userServerConnection.setIn();
         String s = userServerConnection.getIn().readLine();
         return s;
     }
@@ -86,4 +113,7 @@ public class Listener extends Thread {
         this.messageService = messageService;
     }
 
+    public void setRoomService(RoomService roomService) {
+        this.roomService = roomService;
+    }
 }

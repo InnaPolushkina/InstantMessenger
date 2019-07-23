@@ -76,12 +76,14 @@ public class Router {
             //create object of interface MessageService
             messageService = new MessageServiceImpl();
             listener.setMessageService(messageService);
+            listener.setRoomService(roomService);
             logger.info("start client ");
         }
         catch (IOException ex) {
             logger.error(ex);
             viewLogin.setErrorUserMessage("Can't connect to server");
         }
+        roomList.add(new Room("Big chat"));
 
     }
 
@@ -119,6 +121,7 @@ public class Router {
             showMainChat(name);
             viewChat.setList(userRegistrationService.parseUserList(listener.messageFromServer()));
             listener.start();
+            listener.setDaemon(true);
 
         } catch (AuthException e) {
             logger.warn("User can't authorize",e);
@@ -144,6 +147,7 @@ public class Router {
                 showMainChat(name);
                 viewChat.setList(userRegistrationService.parseUserList(listener.messageFromServer()));
                 listener.start();
+                listener.setDaemon(true);
 
             } catch (UserRegistrationException e) {
                 logger.warn("when registering new user ",e);
@@ -165,7 +169,7 @@ public class Router {
     private void showMainChat(String name) {
         viewChat = new ViewChat(stage);
         listener.setViewChat(viewChat);
-       // viewChat.setUser(getUser());
+        viewChat.setUser(getUser());
         viewChat.setUserName(name);
     }
 
@@ -221,6 +225,7 @@ public class Router {
         BufferedWriter out = userConnection.getOut();
         out.write(msg + "\n");
         out.flush();
+
     }
 
    /* public List<User> getOnlineUser() {
@@ -242,6 +247,20 @@ public class Router {
         return userList;
     }*/
 
+    public Set<Room> getRoomList() {
+        return roomList;
+    }
+
+    public Room getRoomByName(String roomName) {
+        Room result = null;
+        for (Room r: roomList) {
+            if(r.getRoomName().equals(roomName)) {
+                result = r;
+            }
+        }
+        return result;
+    }
+
     public Set<User> getUserList(Room room) {
         Set<User> res = null;
         for (Room r: roomList) {
@@ -251,6 +270,8 @@ public class Router {
         }
         return res;
     }
+
+
 
     public void createRoom(String roomName) {
         try {

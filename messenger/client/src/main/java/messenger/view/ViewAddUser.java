@@ -63,9 +63,19 @@ public class ViewAddUser {
     public void initialize() {
         setUserToObserver(list);
         listViewUsers.setItems(observableListUser);
-        errorMsg.setText("");
+        if (list.size() != 0) {
+            errorMsg.setText("");
+        }
+        else {
+            errorMsg.setText("You can't add now any user, nobody is online");
+        }
+
+
         addUser.setOnAction(event -> {
-            router.addUserToRoom(getSelectedUser());
+            User user = getSelectedUser();
+            if(user != null) {
+                router.addUserToRoom(user);
+            }
         });
         cancelAddUser.setOnAction(event -> {
             stage.close();

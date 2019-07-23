@@ -1,6 +1,7 @@
 package messenger.model.service;
 
 import messenger.model.entity.Message;
+import messenger.model.entity.ServerAction;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -35,4 +36,6 @@ public interface MessageService {
      * @see Message
      */
     Message parseMessage(String message) throws ParserConfigurationException, IOException, SAXException;
+
+    ServerAction parseServerAction(String action);
 }

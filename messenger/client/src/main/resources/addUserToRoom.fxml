@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="433.0" prefWidth="382.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox layoutX="31.0" layoutY="51.0" prefHeight="324.0" prefWidth="196.0">
@@ -22,6 +21,9 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="errorMsg" layoutX="191.0" layoutY="395.0" text="Label" />
+      <Label fx:id="errorMsg" layoutX="31.0" layoutY="388.0" text="Label">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
    </children>
 </AnchorPane>

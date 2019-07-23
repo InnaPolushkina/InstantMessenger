@@ -36,5 +36,5 @@ public interface RoomService {
     String switchRoom(String roomName);
 
     //List<User> parseOnlineUsers(String listOnline);
-
+    Room parseNotifyAddedToRoom(String msg);
 }

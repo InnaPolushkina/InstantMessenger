@@ -7,6 +7,7 @@ import messenger.model.serverEntity.UserConnection;
 import messenger.model.serverServices.RoomService;
 import org.apache.log4j.Logger;
 
+import java.io.IOException;
 
 
 public class RoomActivity {
@@ -59,6 +60,12 @@ public class RoomActivity {
             if(r.getRoomName().equals(roomNow.getRoomName()) && !r.getUserList().contains(connectionAdd) && connectionAdd != null) {
                 r.addUser(connectionAdd);
                 System.out.println("user successfully added");
+                try {
+                    connectionAdd.getOut().write("<action>ADDED_TO_ROOM</action>\n<room>" + r.getRoomName() + "</room>\n");
+                    connectionAdd.getOut().flush();
+                }catch (IOException e) {
+                    logger.warn("while sending notify to user about addition to room ",e);
+                }
                /* try {
                     connectionAdd.getOut().write("<add>" + r.getRoomName() + "</add> " + "\n");
                     connectionAdd.getOut().flush();

@@ -2,6 +2,8 @@ package messenger.model.serviceRealization;
 
 
 import messenger.model.entity.Message;
+import messenger.model.entity.Room;
+import messenger.model.entity.ServerAction;
 import messenger.model.entity.User;
 import messenger.model.service.MessageService;
 import org.apache.log4j.Logger;
@@ -51,7 +53,7 @@ public class MessageServiceImpl implements MessageService {
                 String nick = element.getElementsByTagName("nick").item(0).getTextContent();
                 String text = element.getElementsByTagName("text").item(0).getTextContent();
                 String recipient = element.getElementsByTagName("recipient").item(0).getTextContent();
-                msg = new Message(text, new User(nick));
+                msg = new Message(text, new User(nick),new Room(recipient));
             }
         }
         catch (IOException e) {
@@ -64,5 +66,30 @@ public class MessageServiceImpl implements MessageService {
             logger.warn("while parsing message from user",e);
         }
         return msg;
+    }
+
+    @Override
+    public ServerAction parseServerAction(String action) {
+        ServerAction serverAction = null;
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(new InputSource(new StringReader(action)));
+            NodeList nodeList = document.getElementsByTagName("action");
+            Element element = (Element) nodeList.item(0);
+            String stringAcction = element.getTextContent();
+            serverAction = ServerAction.valueOf(stringAcction);
+        }
+        catch (IOException e) {
+            logger.warn("while parsing action from server",e);
+        }
+        catch (ParserConfigurationException e) {
+            logger.warn("while parsing action from server",e);
+        }
+        catch (SAXException e) {
+            logger.warn("while parsing action from server",e);
+        }
+
+        return serverAction;
     }
 }
