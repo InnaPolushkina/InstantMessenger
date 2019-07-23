@@ -39,8 +39,8 @@ public class Authorizer {
                 user = userRegistrationService.getAuthorizedUser();
                 userConnection.setUser(user);
                 //userConnection.getOut().write(userKeeper.userListToString(userKeeper.loadFromFile()) + "\n");
-                userConnection.getOut().write(userKeeper.userListToString(getOnlineUser()) + "\n");
-                userConnection.getOut().flush();
+                //userConnection.getOut().write(userKeeper.userListToString(getOnlineUser()) + "\n");
+                //userConnection.getOut().flush();
                 //getOnlineUsers(userKeeper);
 
 

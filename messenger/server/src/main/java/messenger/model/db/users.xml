@@ -24,4 +24,12 @@
 <nick>888888888</nick>
 <password>5555555555</password>
 </user>
+<user>
+<nick>New user</nick>
+<password>22222222</password>
+</user>
+<user>
+<nick>8888888</nick>
+<password>8888888888</password>
+</user>
 </users>

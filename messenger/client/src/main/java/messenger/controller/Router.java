@@ -38,7 +38,7 @@ import java.util.Set;
  */
 public class Router {
     //private User user;
-    private Set<Room> roomList = new HashSet<>();
+    private Set<Room> roomList;
     private Listener listener;
     private Socket socket;
     private UserServerConnection userConnection;
@@ -77,16 +77,27 @@ public class Router {
             messageService = new MessageServiceImpl();
             listener.setMessageService(messageService);
             listener.setRoomService(roomService);
+            listener.setUserRegistrationService(userRegistrationService);
             logger.info("start client ");
         }
         catch (IOException ex) {
             logger.error(ex);
             viewLogin.setErrorUserMessage("Can't connect to server");
+            viewLogin.getRegisterButton().setVisible(false);
         }
-        roomList.add(new Room("Big chat"));
 
     }
 
+   /* public void loadHistory() {
+        MessagesKeeper messagesKeeper = new MessagesKeeper(roomList);
+        roomList = messagesKeeper.loadHistory();
+        System.out.println("room list " + roomList.toString());
+    }
+
+    public void saveHistory() {
+        MessagesKeeper messagesKeeper = new MessagesKeeper(roomList);
+        messagesKeeper.saveHistory();
+    }*/
 
     /**
      * the method gets Listener of messages from server
@@ -119,7 +130,7 @@ public class Router {
             sendAction("AUTH");
             userRegistrationService.auth(name,pass);
             showMainChat(name);
-            viewChat.setList(userRegistrationService.parseUserList(listener.messageFromServer()));
+            //viewChat.setList(userRegistrationService.parseUserList(listener.messageFromServer()));
             listener.start();
             listener.setDaemon(true);
 
@@ -143,9 +154,9 @@ public class Router {
                 sendAction("REGISTER");
                 userRegistrationService.registration(name,password);
 
-                List<User> list = userRegistrationService.parseUserList(listener.messageFromServer());
+               // List<User> list = userRegistrationService.parseUserList(listener.messageFromServer());
                 showMainChat(name);
-                viewChat.setList(userRegistrationService.parseUserList(listener.messageFromServer()));
+                //viewChat.setList(userRegistrationService.parseUserList(listener.messageFromServer()));
                 listener.start();
                 listener.setDaemon(true);
 
@@ -171,6 +182,9 @@ public class Router {
         listener.setViewChat(viewChat);
         viewChat.setUser(getUser());
         viewChat.setUserName(name);
+        roomList = new HashSet<>();
+        roomList.add(new Room("Big chat"));
+        //loadHistory();
     }
 
     /**
@@ -181,8 +195,9 @@ public class Router {
         try {
             //msg.setUserSender(userConnection.getUser());
             //BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            Room room = new Room(viewChat.getNameRoom());
-            Message msg = new Message(msgText,userConnection.getUser(),room);
+            //Room room = new Room(viewChat.getNameRoom());
+            String roomName = viewChat.getNameRoom();
+            Message msg = new Message(msgText,userConnection.getUser(),roomName);
             sendMessageToServer(messageService.sendMessage(msg));
            /* BufferedWriter out = userConnection.getOut();
             out.write(messageService.sendMessage(msg) + "\n");

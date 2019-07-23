@@ -19,15 +19,4 @@ public interface UserService {
      */
     void unban(User user);
 
-    /**
-     * the method mutes user
-     * @param user contains object of class User
-     */
-    void mute(User user);
-
-    /**
-     * the method unmutes
-     * @param user contains object of class User
-     */
-    void unmute(User user);
 }

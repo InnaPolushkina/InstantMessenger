@@ -5,24 +5,28 @@ import messenger.model.serverEntity.Room;
 import messenger.model.serverEntity.User;
 import messenger.model.serverEntity.UserConnection;
 import messenger.model.serverServices.RoomService;
+import messenger.model.serverServices.UserKeeper;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class RoomActivity {
     private UserConnection userConnection;
     private RoomService roomService;
     private static final Logger logger = Logger.getLogger(RoomActivity.class);
+    private UserKeeper userKeeper;
     /**
      * The field roomNow contain info about room where user is now
      */
     private Room roomNow;
 
-    public RoomActivity(UserConnection userConnection, RoomService roomService) {
+    public RoomActivity(UserConnection userConnection, RoomService roomService, UserKeeper userKeeper) {
         this.userConnection = userConnection;
         this.roomService = roomService;
-
+        this.userKeeper = userKeeper;
     }
 
     /**
@@ -83,20 +87,28 @@ public class RoomActivity {
 
     }
 
-    /*public void getOnlineUsers(UserKeeper userKeeper) {
-        List<User> userList = new ArrayList<>();
-        for (UserConnection connection: Router.getInstense().getUserList()) {
-            userList.add(connection.getUser());
-            System.out.println("online user" + connection.getUser().getName() + "added to list");
-        }
-        String result = userKeeper.userListToString(userList);
-        System.out.println("user list parse for sending to client :\n" + result);
+    public void sendOnlineUserList() {
         try {
-            userConnection.getOut().write(result + "\n");
+            userConnection.getOut().write("<action>ONLINE_LIST</action>\n" + userKeeper.userListToString(getOnlineUser()) + "\n");
             userConnection.getOut().flush();
-            System.out.println(result);
-        }catch (IOException e) {
-            logger.warn("while send list of all online users to client ",e);
         }
-    }*/
+        catch (IOException e) {
+            logger.info("while sending list of online users to client",e);
+        }
+
+    }
+
+    private List<User> getOnlineUser() {
+        List<User> resultList = new ArrayList<>();
+        //resultList.add(userConnection.getUser());
+
+        for (UserConnection connection: Router.getInstense().getUserList()) {
+            System.out.println(connection.getUser().getName());
+            if( connection.getUser() != null  && !connection.getUser().getName().equals(userConnection.getUser().getName())) {
+                resultList.add(connection.getUser());
+            }
+        }
+
+        return resultList;
+    }
 }

@@ -45,7 +45,7 @@
       <Button layoutX="706.0" layoutY="193.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Remove sender" />
       <Button layoutX="706.0" layoutY="228.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Ban sender" />
       <Button layoutX="706.0" layoutY="259.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Allow sender" />
-      <Button layoutX="706.0" layoutY="76.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Mute room" />
+      <Button fx:id="muteRoom" layoutX="706.0" layoutY="76.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Mute room" />
       <Label fx:id="serverError" layoutX="94.0" layoutY="8.0" prefHeight="19.0" prefWidth="382.0" text="Label" textFill="#f80f07">
          <font>
             <Font name="System Bold" size="13.0" />

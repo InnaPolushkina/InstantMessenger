@@ -11,7 +11,6 @@ public class User implements Serializable {
     private String name;
     private String password;
     private boolean isOnline;
-    private boolean isMuted;
     private boolean isBanned;
 
 
@@ -56,14 +55,6 @@ public class User implements Serializable {
 
     public boolean isOnline() {
         return isOnline;
-    }
-
-    public boolean isMuted() {
-        return isMuted;
-    }
-
-    public void setMuted(boolean muted) {
-        isMuted = muted;
     }
 
     public boolean isBanned() {

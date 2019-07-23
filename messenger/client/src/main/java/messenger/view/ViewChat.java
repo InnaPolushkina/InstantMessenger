@@ -20,9 +20,7 @@ import org.apache.log4j.Logger;
 
 import java.awt.*;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -54,6 +52,8 @@ public class ViewChat {
     private Button addUser;
     @FXML
     private Label serverError;
+    @FXML
+    private Button muteRoom;
 
     private User user;
     private Notificator notificator;
@@ -104,10 +104,13 @@ public class ViewChat {
             if (messageText.getText() != null && !messageText.getText().trim().equals("")) {
                 router.sendAction("SEND_MSG");
                 router.sendMessage(messageText.getText().replace("\n", ""));
+               // Router.getInstance().sendAction("SEND_MSG");
+               // Router.getInstance().sendMessage(messageText.getText().replace("\n",""));
                 messageText.setText("");
             }
         });
         logoutButton.setOnAction(event -> {
+            //router.saveHistory();
             System.exit(0);
         });
         createNewRoom.setOnAction(event -> {
@@ -120,23 +123,48 @@ public class ViewChat {
         addUser.setOnAction(event -> {
             //list = router.getOnlineUser();
             //System.out.println(list.toString());
-            ViewAddUser viewAddUser = new ViewAddUser(new Stage(),list);
+            router.sendAction("ONLINE_USERS");
+
         });
         roomListView.setOnMouseClicked(event -> {
-            nameRoom.setText(getNameOfSelectedRoom());
-            setMessageList(getNameOfSelectedRoom());
+            if (getNameOfSelectedRoom() != null) {
+                nameRoom.setText(getNameOfSelectedRoom());
+                setMessageList(getNameOfSelectedRoom());
+                if (Router.getInstance().getRoomByName(nameRoom.getText()).isMuted()) {
+                    muteRoom.setText("UnMute");
+                }
+            }
         });
+        muteRoom.setOnAction(event -> {
+            muteRoom();
+        });
+
 
     }
 
+    public void showAddUserView() {
+        ViewAddUser viewAddUser = new ViewAddUser(new Stage(),list);
+    }
 
     public void showMessage(Message message) {
-        if(message.getRoomRecipient().getRoomName().equals(nameRoom.getText())) {
+        if(message.getNameRoomRecipient().equals(nameRoom.getText())) {
             String mess = message.getUserSender().getName() + " << " + message.getText();
             observableListMessages.add(mess);
         }
-        if(!message.getUserSender().getName().equals(user.getName())) {
+        if(!message.getUserSender().getName().equals(user.getName()) && !Router.getInstance().getRoomByName(message.getNameRoomRecipient()).isMuted() ) {
             notificator.notifyUser(message.getText(), "New message, from " + message.getUserSender().getName(), TrayIcon.MessageType.INFO);
+        }
+    }
+
+    public void muteRoom() {
+        String roomName = nameRoom.getText();
+        if (Router.getInstance().getRoomByName(roomName).isMuted()) {
+            Router.getInstance().getRoomByName(roomName).setMuted(false);
+            muteRoom.setText("Mute");
+        }
+        else {
+            Router.getInstance().getRoomByName(roomName).setMuted(true);
+            muteRoom.setText("UnMute");
         }
     }
 
@@ -185,11 +213,13 @@ public class ViewChat {
         this.serverError.setText(serverError);
     }
 
-   public void setMessageList(String roomName) {
-        observableListMessages.clear();
-       Room room = Router.getInstance().getRoomByName(roomName);
-       for (Message mes: room.getMessageSet()) {
-           observableListMessages.add(mes.getUserSender().getName() + " << " + mes.getText());
-       }
+    public void setMessageList(String roomName) {
+        if (roomName != null) {
+            observableListMessages.clear();
+            Room room = Router.getInstance().getRoomByName(roomName);
+            for (Message mes : room.getMessageSet()) {
+                observableListMessages.add(mes.getUserSender().getName() + " << " + mes.getText());
+            }
+        }
     }
 }

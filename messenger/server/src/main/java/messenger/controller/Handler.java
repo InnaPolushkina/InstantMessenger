@@ -115,7 +115,7 @@ public class Handler extends Thread{
                         try {
                             Recoder recoder = new Recoder(userConnection, userRegistrationService,userKeeper);
                             user = recoder.register(clientData);
-                            roomActivity = new RoomActivity(userConnection,roomService);
+                            roomActivity = new RoomActivity(userConnection,roomService,userKeeper);
                         }
                         catch (ServerRegistrationException e) {
                             logger.warn(e.getMessage(),e);
@@ -126,7 +126,7 @@ public class Handler extends Thread{
                         try {
                             Authorizer authorizer = new Authorizer(userConnection, userRegistrationService,userKeeper);
                             user = authorizer.authorize(clientData);
-                            roomActivity = new RoomActivity(userConnection,roomService);
+                            roomActivity = new RoomActivity(userConnection,roomService,userKeeper);
                         }
                         catch (ServerAuthorizationException e) {
                             logger.warn(e.getMessage(),e);
@@ -149,9 +149,10 @@ public class Handler extends Thread{
                     case ADD_TO_ROOM:
                         roomActivity.addUserToRoom(clientData);
                         break;
-                    /*case ONLINE_USERS:
-                        roomActivity.getOnlineUsers(userKeeper);
-                        break;*/
+                    case ONLINE_USERS:
+                        //roomActivity.getOnlineUsers(userKeeper);
+                        roomActivity.sendOnlineUserList();
+                        break;
                 }
            }
        }

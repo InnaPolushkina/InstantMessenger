@@ -1,16 +1,18 @@
 package messenger.model.entity;
 
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-public class Room {
+public class Room implements Serializable {
     private String roomName;
+    private boolean isMuted;
     private Set<UserServerConnection> users = new HashSet<>();
     private Set<UserServerConnection> banList = new HashSet<>();
-    private Set<UserServerConnection> muteList = new HashSet<>();
+   // private Set<UserServerConnection> muteList = new HashSet<>();
     private List<Message> messageSet = new LinkedList<>();
 
     public List<Message> getMessageSet() {
@@ -30,6 +32,16 @@ public class Room {
         this.users = users;
     }
 
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "roomName='" + roomName + '\'' +
+                ", users=" + users +
+                ", messageSet=" + messageSet +
+                '}';
+    }
+
     public void addNewUser(UserServerConnection user) {
         users.add(user);
     }
@@ -45,7 +57,6 @@ public class Room {
 
     public void muteUser(UserServerConnection userConnection, boolean muteStatus) {
         userConnection.getUser().setMuted(muteStatus);
-        muteList.add(userConnection);
     }
 
     public void addMessageToRoom(Message  message) {
@@ -64,10 +75,6 @@ public class Room {
         return banList;
     }
 
-    public Set<UserServerConnection> getMuteList() {
-        return muteList;
-    }
-
     public void setRoomName(String roomName) {
         this.roomName = roomName;
     }
@@ -80,7 +87,11 @@ public class Room {
         this.banList = banList;
     }
 
-    public void setMuteList(Set<UserServerConnection> muteList) {
-        this.muteList = muteList;
+    public boolean isMuted() {
+        return isMuted;
+    }
+
+    public void setMuted(boolean muted) {
+        isMuted = muted;
     }
 }

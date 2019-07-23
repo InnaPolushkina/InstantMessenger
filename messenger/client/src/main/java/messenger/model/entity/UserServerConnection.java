@@ -11,7 +11,7 @@ import java.net.Socket;
  * @see User
  * @author Inna
  */
-public class UserServerConnection {
+public class UserServerConnection implements Serializable{
     private User user;
     private Socket userSocket;
     private BufferedReader in;
@@ -59,6 +59,17 @@ public class UserServerConnection {
 
     public BufferedReader getUserMes() {
         return userMes;
+    }
+
+    @Override
+    public String toString() {
+        return "UserServerConnection{" +
+                "user=" + user +
+                ", userSocket=" + userSocket +
+                ", in=" + in +
+                ", out=" + out +
+                ", userMes=" + userMes +
+                '}';
     }
 
     public void setUserMes(BufferedReader userMes) {

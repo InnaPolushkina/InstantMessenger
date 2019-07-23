@@ -79,7 +79,7 @@ public class MessageServiceImpl implements MessageService {
             if(node.getNodeType() == Node.ELEMENT_NODE) {
                 Element element = (Element) node;
                 result = ClientAction.valueOf(ClientAction.class,element.getTextContent());
-                System.out.println(result);
+                //System.out.println(result);
                 return result;
             }
         }

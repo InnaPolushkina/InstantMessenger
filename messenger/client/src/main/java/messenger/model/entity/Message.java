@@ -1,18 +1,20 @@
 package messenger.model.entity;
 
+import java.io.Serializable;
+
 /**
  * the class contains methods for working with messages
  * @author Inna
  */
-public class Message {
+public class Message implements Serializable {
     private String text;
     private User userSender;
-    private Room roomRecipient;
+    private String nameRoomRecipient;
 
-    public Message(String text, User userSender, Room roomRecipient) {
+    public Message(String text, User userSender, String nameRoomRecipient) {
         this.text = text;
         this.userSender = userSender;
-        this.roomRecipient = roomRecipient;
+        this.nameRoomRecipient = nameRoomRecipient;
     }
 
     public Message(String text, User userSender) {
@@ -20,20 +22,20 @@ public class Message {
         this.userSender = userSender;
     }
 
-    public Message(String text, Room roomRecipient) {
+    public Message(String text, String nameRoomRecipient) {
         this.text = text;
-        this.roomRecipient = roomRecipient;
+        this.nameRoomRecipient = nameRoomRecipient;
     }
 
     public Message() {
     }
 
-    public Room getRoomRecipient() {
-        return roomRecipient;
+    public String getNameRoomRecipient() {
+        return nameRoomRecipient;
     }
 
-    public void setRoomRecipient(Room roomRecipient) {
-        this.roomRecipient = roomRecipient;
+    public void setNameRoomRecipient(String nameRoomRecipient) {
+        this.nameRoomRecipient = nameRoomRecipient;
     }
 
     public String getText() {

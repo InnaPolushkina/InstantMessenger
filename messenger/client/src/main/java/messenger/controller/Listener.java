@@ -5,6 +5,7 @@ import javafx.application.Platform;
 import messenger.model.entity.*;
 import messenger.model.service.MessageService;
 import messenger.model.service.RoomService;
+import messenger.model.service.UserRegistrationService;
 import messenger.model.serviceRealization.MessageServiceImpl;
 import messenger.view.*;
 import org.apache.log4j.Logger;
@@ -12,6 +13,7 @@ import org.apache.log4j.Logger;
 import java.awt.*;
 import java.io.*;
 import java.net.Socket;
+import java.util.List;
 
 /**
  * This class listen entering massages from socket and show its to user
@@ -26,6 +28,7 @@ public class Listener extends Thread {
     private ViewChat viewChat;
     private MessageService messageService;
     private RoomService roomService;
+    private UserRegistrationService userRegistrationService;
 
     /**
      * The public constructor for class Listener
@@ -54,6 +57,12 @@ public class Listener extends Thread {
                         break;
                     case ONLINE_LIST:
                         //set online list to observable list from view
+                        String onlineList = messageFromServer();
+                        List<User> userList = userRegistrationService.parseUserList(onlineList);
+                        Platform.runLater(() -> {
+                            viewChat.setList(userList);
+                            viewChat.showAddUserView();
+                        });
                         break;
                     case ADDED_TO_ROOM:
                         //set new room to room list, observable list from view, notify user by Notificator
@@ -74,6 +83,15 @@ public class Listener extends Thread {
                         () -> {
                             viewChat.setServerError("Connection was lost, please reload application");
                         });
+                //Router.getInstance().saveHistory();
+                //System.out.println(Router.getInstance().getRoomList().toString());
+                try {
+                    userServerConnection.getOut().close();
+                    userServerConnection.getIn().close();
+                }
+                catch (IOException ex) {
+                    logger.info(ex);
+                }
                 break;
            }
         }
@@ -87,7 +105,7 @@ public class Listener extends Thread {
     public void showMessage() throws Exception{
         String msg = messageFromServer();
         Message message = messageService.parseMessage(msg);
-        Router.getInstance().getRoomByName(message.getRoomRecipient().getRoomName()).addMessageToRoom(message);
+        Router.getInstance().getRoomByName(message.getNameRoomRecipient()).addMessageToRoom(message);
         Platform.runLater(
                 () -> {
                     viewChat.showMessage(message);
@@ -115,5 +133,9 @@ public class Listener extends Thread {
 
     public void setRoomService(RoomService roomService) {
         this.roomService = roomService;
+    }
+
+    public void setUserRegistrationService(UserRegistrationService userRegistrationService) {
+        this.userRegistrationService = userRegistrationService;
     }
 }
