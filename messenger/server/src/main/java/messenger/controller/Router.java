@@ -1,5 +1,6 @@
 package messenger.controller;
 
+import messenger.model.HistoryMessage;
 import messenger.model.serverEntity.Room;
 import messenger.model.serverEntity.User;
 import messenger.model.serverEntity.UserConnection;
@@ -32,6 +33,9 @@ public class Router {
     private static MessageService messageService;
     private static RoomService roomService;
 
+    private static HistoryMessage historyMessage;
+
+
     public static void main(String[] args) throws Exception{
         viewLogs.print("The chat server is running.");
         ServerSocket listener = new ServerSocket(PORT);
@@ -39,15 +43,19 @@ public class Router {
         //userRegistrationService = new UserRegistrationServiceImpl(userKeeper.loadFromFile());
         userRegistrationService = new UserRegistrationServiceImpl(userKeeper);
         messageService = new MessageServiceImpl();
+        historyMessage = new HistoryMessage(messageService);
         roomService = new RoomServiceImpl();
         try {
             while (true) {
                 Handler handler = new Handler();
+
                 handler.setUserConnection(new UserConnection(listener.accept()));
                 handler.setUserRegistrationService(userRegistrationService);
                 handler.setMessageService(messageService);
                 handler.setUserKeeper(userKeeper);
                 handler.setRoomService(roomService);
+                handler.setHistoryMessage(historyMessage);
+
 
                 handler.start();
             }
@@ -57,9 +65,6 @@ public class Router {
         }
     }
 
-    private void createRoom(UserConnection users){
-
-    }
     private Router(){
         Room bigChat = new Room("Big chat");
         roomList.add(bigChat);

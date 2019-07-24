@@ -75,6 +75,7 @@ public class ViewAddUser {
             User user = getSelectedUser();
             if(user != null) {
                 router.addUserToRoom(user);
+                stage.close();
             }
         });
         cancelAddUser.setOnAction(event -> {

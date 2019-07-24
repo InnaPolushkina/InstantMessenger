@@ -107,6 +107,7 @@ public class ViewChat {
                // Router.getInstance().sendAction("SEND_MSG");
                // Router.getInstance().sendMessage(messageText.getText().replace("\n",""));
                 messageText.setText("");
+                messageText.requestFocus();
             }
         });
         logoutButton.setOnAction(event -> {
@@ -214,12 +215,19 @@ public class ViewChat {
     }
 
     public void setMessageList(String roomName) {
-        if (roomName != null) {
-            observableListMessages.clear();
-            Room room = Router.getInstance().getRoomByName(roomName);
-            for (Message mes : room.getMessageSet()) {
-                observableListMessages.add(mes.getUserSender().getName() + " << " + mes.getText());
+        try {
+            if (roomName != null) {
+                observableListMessages.clear();
+                Room room = Router.getInstance().getRoomByName(roomName);
+                for (Message mes : room.getMessageSet()) {
+                    if (mes != null) {
+                        observableListMessages.add(mes.getUserSender().getName() + " << " + mes.getText());
+                    }
+                }
             }
+        }
+        catch (Exception e) {
+            logger.info("testing . . . .",e);
         }
     }
 }

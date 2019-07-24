@@ -11,10 +11,12 @@ import java.io.IOException;
 public class SenderMessage {
     private MessageService messageService;
     private UserConnection userConnection;
+    private HistoryMessage historyMessage;
 
-    public SenderMessage(MessageService messageService, UserConnection userConnection) {
+    public SenderMessage(MessageService messageService, UserConnection userConnection, HistoryMessage historyMessage) {
         this.messageService = messageService;
         this.userConnection = userConnection;
+        this.historyMessage = historyMessage;
     }
 
     /**
@@ -33,9 +35,9 @@ public class SenderMessage {
                 for (UserConnection userInRoom: room.getUserList()) {
                     userInRoom.getOut().write( "<action>SEND_MSG</action>\n" + message + "\n");
                     userInRoom.getOut().flush();
-                    System.out.println("send msg to room " + getter.getRoomName());
                 }
             }
         }
+        historyMessage.addMessageToStory(message);
     }
 }

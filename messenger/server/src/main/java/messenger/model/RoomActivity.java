@@ -18,15 +18,17 @@ public class RoomActivity {
     private RoomService roomService;
     private static final Logger logger = Logger.getLogger(RoomActivity.class);
     private UserKeeper userKeeper;
+    private HistoryMessage historyMessage;
     /**
      * The field roomNow contain info about room where user is now
      */
     private Room roomNow;
 
-    public RoomActivity(UserConnection userConnection, RoomService roomService, UserKeeper userKeeper) {
+    public RoomActivity(UserConnection userConnection, RoomService roomService, UserKeeper userKeeper, HistoryMessage historyMessage) {
         this.userConnection = userConnection;
         this.roomService = roomService;
         this.userKeeper = userKeeper;
+        this.historyMessage = historyMessage;
     }
 
     /**
@@ -67,17 +69,13 @@ public class RoomActivity {
                 try {
                     connectionAdd.getOut().write("<action>ADDED_TO_ROOM</action>\n<room>" + r.getRoomName() + "</room>\n");
                     connectionAdd.getOut().flush();
+
+                    historyMessage.sendHistoryOfSomeRoom(r,connectionAdd);
+
                 }catch (IOException e) {
-                    logger.warn("while sending notify to user about addition to room ",e);
+                    logger.warn("while sending notify to user about addition to room and sending history messages of room",e);
                 }
-               /* try {
-                    connectionAdd.getOut().write("<add>" + r.getRoomName() + "</add> " + "\n");
-                    connectionAdd.getOut().flush();
-                }
-                catch (IOException e) {
-                   // System.out.println(e);
-                   //logger.warn(e);
-                }*/
+
             }
             else {
                 logger.warn("can't add offline user to chat");
@@ -100,7 +98,6 @@ public class RoomActivity {
 
     private List<User> getOnlineUser() {
         List<User> resultList = new ArrayList<>();
-        //resultList.add(userConnection.getUser());
 
         for (UserConnection connection: Router.getInstense().getUserList()) {
             System.out.println(connection.getUser().getName());

@@ -1,9 +1,6 @@
 package messenger.controller;
 
-import messenger.model.Authorizer;
-import messenger.model.Recoder;
-import messenger.model.RoomActivity;
-import messenger.model.SenderMessage;
+import messenger.model.*;
 import messenger.model.exceptions.ServerAuthorizationException;
 import messenger.model.exceptions.ServerRegistrationException;
 import messenger.model.serverEntity.ClientAction;
@@ -36,7 +33,8 @@ public class Handler extends Thread{
     private UserKeeper userKeeper;
     private RoomService roomService;
     private RoomActivity roomActivity;
-
+    private SenderMessage senderMessage;
+    private HistoryMessage historyMessage;
 
     /**
      * The public constructor of class Handler
@@ -94,6 +92,10 @@ public class Handler extends Thread{
         return userConnection;
     }
 
+    public void setHistoryMessage(HistoryMessage historyMessage) {
+        this.historyMessage = historyMessage;
+    }
+
     /**
      * The method creates new Thread for one user
      *  and handles user actions using other classes
@@ -108,14 +110,15 @@ public class Handler extends Thread{
                 String clientMsgAction = userConnection.getIn().readLine();
                 clientAction = messageService.parseClientAction(clientMsgAction);
                 String clientData = userConnection.getIn().readLine();
-                //System.out.println(clientData);
                 switch (clientAction) {
                     case REGISTER:
                         //call methods from class for registration
                         try {
                             Recoder recoder = new Recoder(userConnection, userRegistrationService,userKeeper);
                             user = recoder.register(clientData);
-                            roomActivity = new RoomActivity(userConnection,roomService,userKeeper);
+                            roomActivity = new RoomActivity(userConnection,roomService,userKeeper,historyMessage);
+                            senderMessage = new SenderMessage(messageService,userConnection,historyMessage);
+                            historyMessage.sendStory(userConnection);
                         }
                         catch (ServerRegistrationException e) {
                             logger.warn(e.getMessage(),e);
@@ -126,7 +129,9 @@ public class Handler extends Thread{
                         try {
                             Authorizer authorizer = new Authorizer(userConnection, userRegistrationService,userKeeper);
                             user = authorizer.authorize(clientData);
-                            roomActivity = new RoomActivity(userConnection,roomService,userKeeper);
+                            roomActivity = new RoomActivity(userConnection,roomService,userKeeper,historyMessage);
+                            senderMessage = new SenderMessage(messageService,userConnection,historyMessage);
+                            historyMessage.sendStory(userConnection);
                         }
                         catch (ServerAuthorizationException e) {
                             logger.warn(e.getMessage(),e);
@@ -134,11 +139,10 @@ public class Handler extends Thread{
                         break;
                     case SEND_MSG:
                         //send message
-                        SenderMessage senderMessage = new SenderMessage(messageService,userConnection);
                         senderMessage.sendMessage(clientData);
                        // sendMessage(clientData);
                         break;
-                        //here will be cases for other client actions . . .
+                        //There are cases for other client actions . . .
                     case CREATE_ROOM:
                         //RoomActivity roomCreator = new RoomActivity(userConnection,roomService);
                         roomActivity.createRoom(clientData);
