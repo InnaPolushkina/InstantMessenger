@@ -25,9 +25,14 @@ public class MessageServiceImpl implements MessageService {
     private String historyMessages = "messenger/model/db/messagesHistory.xml";
 
 
-    @Override
-    public void sendMessage(MessageServer msg) {
+  /*  @Override
+    public String sendMessage(MessageServer msg) {
+        return "<message><nick>" + msg.getSender().getName() + "</nick><text>" + msg.getText() + "</text><recipient>" + msg.getRecipient().getRoomName() + "</recipient></message>";
+    }*/
 
+    @Override
+    public String sendMessage(String text, String nameSender, String roomRecipient) {
+        return "<message><nick>" + nameSender + "</nick><text>" + text + "</text><recipient>" + roomRecipient + "</recipient></message>";
     }
 
     @Override
@@ -92,5 +97,15 @@ public class MessageServiceImpl implements MessageService {
             logger.warn("while parsing action from user",e);
         }
         return result;
+    }
+
+    @Override
+    public String sendServerAction(String action) {
+        return "<action>" + action + "</action>\n";
+    }
+
+    @Override
+    public String sendNameNewRoom(String nameRoom) {
+        return "<room>" + nameRoom + "</room>\n";
     }
 }

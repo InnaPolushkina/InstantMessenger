@@ -29,6 +29,11 @@ public interface UserRegistrationService {
      */
     void auth(String username, String password) throws AuthException;
 
+    /**
+     * The method parse list of users from server
+     * @param userList string with list of users
+     * @return List of User
+     */
     List<User> parseUserList(String userList);
 
 }

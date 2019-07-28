@@ -33,7 +33,7 @@ public class SenderMessage {
         for (Room room: Router.getInstense().getRoomList()) {
             if(room.getRoomName().equals(getter.getRoomName())) {
                 for (UserConnection userInRoom: room.getUserList()) {
-                    userInRoom.getOut().write( "<action>SEND_MSG</action>\n" + message + "\n");
+                    userInRoom.getOut().write( messageService.sendServerAction("SEND_MSG") + message + "\n");
                     userInRoom.getOut().flush();
                 }
             }

@@ -191,7 +191,7 @@ public class Router {
      * the method send string message to server
      * @param msgText String message
      */
-    public void sendMessage(/*Message msg*/String msgText) {
+    public void  sendMessage(/*Message msg*/String msgText) {
         try {
             //msg.setUserSender(userConnection.getUser());
             //BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -332,19 +332,18 @@ public class Router {
 
     }
 
-    public void leaveRoom(Room room) {
+
+    public void leaveRoom(String roomName) {
+        sendAction("LEAVE_ROOM");
+        sendMessage(" ");
         for (Room r: roomList) {
-            if(r.equals(room)) {
-                //r.removeUser(user);
-                /* send to server request for leaving room from this user
-                server parse request from user and send response about leaving user from room to users from room
-                all clients delete user from room and show it in the view
-
-                 */
-
+                if(r.getRoomName().equals(roomName)) {
+                    r.removerUser(userConnection);
+                    roomList.remove(r);
+                    break;
+                }
             }
         }
-    }
 
     public void bunUser(User user, Room room, boolean bunStatus) {
 

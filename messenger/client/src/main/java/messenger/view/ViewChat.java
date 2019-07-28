@@ -54,6 +54,8 @@ public class ViewChat {
     private Label serverError;
     @FXML
     private Button muteRoom;
+    @FXML
+    private Button leaveRoom;
 
     private User user;
     private Notificator notificator;
@@ -72,7 +74,11 @@ public class ViewChat {
     //private Set<Room> roomList;
 
 
-
+    /**
+     * Constructor of class ViewChat
+     * loads main form of chat
+     * @param stage have stage for loading new scene with main view
+     */
     public ViewChat(Stage stage) {
         this.router = Router.getInstance();
         FXMLLoader loader = new FXMLLoader();
@@ -94,6 +100,10 @@ public class ViewChat {
         notificator = new Notificator();
     }
 
+    /**
+     * The main method initializes components of form values
+     * and sets handlers for client action on the form
+     */
     @FXML
     public void initialize() {
         serverError.setText("");
@@ -125,28 +135,55 @@ public class ViewChat {
             //list = router.getOnlineUser();
             //System.out.println(list.toString());
             router.sendAction("ONLINE_USERS");
+            router.sendMessage("some text for test");
 
         });
         roomListView.setOnMouseClicked(event -> {
-            if (getNameOfSelectedRoom() != null) {
-                nameRoom.setText(getNameOfSelectedRoom());
-                setMessageList(getNameOfSelectedRoom());
-                if (Router.getInstance().getRoomByName(nameRoom.getText()).isMuted()) {
-                    muteRoom.setText("UnMute");
+            try {
+                if (getNameOfSelectedRoom() != null) {
+                    nameRoom.setText(getNameOfSelectedRoom());
+                    if (nameRoom.getText().equals("Big chat")) {
+                        addUser.setVisible(false);
+                    } else {
+                        addUser.setVisible(true);
+                    }
+                    setMessageList(getNameOfSelectedRoom());
+                    if (Router.getInstance().getRoomByName(nameRoom.getText()).isMuted()) {
+                        muteRoom.setText("UnMute");
+                    }
                 }
+            }catch (NullPointerException e) {
+                logger.info(e);
             }
         });
         muteRoom.setOnAction(event -> {
             muteRoom();
         });
+        leaveRoom.setOnAction(event -> {
+            router.switchRoom(nameRoom.getText());
+            router.leaveRoom(nameRoom.getText());
+            observableListMessages.clear();
+            roomListView.getItems().remove(nameRoom.getText());
+            nameRoom.setText("Big chat");
+        });
+
+
 
 
     }
 
+    /**
+     * The methods create object of class ViewAddUser
+     * @see ViewAddUser
+     */
     public void showAddUserView() {
         ViewAddUser viewAddUser = new ViewAddUser(new Stage(),list);
     }
 
+    /**
+     * the methods set info from message to view and show notification to user, if room where sets new message is not muted
+     * @param message have message from server
+     */
     public void showMessage(Message message) {
         if(message.getNameRoomRecipient().equals(nameRoom.getText())) {
             String mess = message.getUserSender().getName() + " << " + message.getText();
@@ -157,6 +194,10 @@ public class ViewChat {
         }
     }
 
+    /**
+     * The methods for mute some room
+     * if room is muted view will not show notifications to user from this room
+     */
     public void muteRoom() {
         String roomName = nameRoom.getText();
         if (Router.getInstance().getRoomByName(roomName).isMuted()) {
@@ -169,51 +210,92 @@ public class ViewChat {
         }
     }
 
+    /**
+     * The method for setting user list
+     * @param list list of users
+     */
     public void setList(List<User> list) {
         this.list = list;
-        for (User user: list) {
-            roomObservableList.add(user.getName());
-        }
     }
 
+    /**
+     * The method return object of class User
+     * @return user
+     */
     public User getUser() {
         return user;
     }
 
+    /**
+     * The method for setting object of class User
+     * @param user User
+     */
     public void setUser(User user) {
         this.user = user;
     }
 
+    /**
+     * not using anywhere now
+     * @return room
+     */
     private Room getSelectedRoom() {
         String nameSelectedRoom = roomListView.getSelectionModel().getSelectedItem();
         Room room = new Room(nameSelectedRoom);
         return room;
     }
 
+    /**
+     * The method gets selected room name from list
+     * @return String room name
+     */
     private String getNameOfSelectedRoom() {
         return roomListView.getSelectionModel().getSelectedItem();
     }
 
+    /**
+     * The method for setting name of user to form
+     * @param userName have string with name of user
+     */
     public void setUserName(String userName) {
         this.userName.setText(userName);
     }
 
+    /**
+     * The method for setting name of room to form
+     * @param nameRoom string with name
+     */
     public void setNameRoom(String nameRoom) {
         this.nameRoom.setText(nameRoom);
     }
 
+    /**
+     * The method for adding new room to form
+     * @param nameRoom
+     */
     public void addRoom(String nameRoom) {
         roomObservableList.add(nameRoom);
     }
 
+    /**
+     * The method for getting name of room where user is now
+     * @return String with name of room
+     */
     public String getNameRoom() {
         return nameRoom.getText();
     }
 
+    /**
+     * The method for showing message with server error to user form
+     * @param serverError string with message
+     */
     public void setServerError(String serverError) {
         this.serverError.setText(serverError);
     }
 
+    /**
+     * The method for setting list of messages to view
+     * @param roomName have string with name of room
+     */
     public void setMessageList(String roomName) {
         try {
             if (roomName != null) {
@@ -227,7 +309,7 @@ public class ViewChat {
             }
         }
         catch (Exception e) {
-            logger.info("testing . . . .",e);
+            logger.info("While setting message list to view ",e);
         }
     }
 }

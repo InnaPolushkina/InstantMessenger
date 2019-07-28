@@ -33,8 +33,20 @@ public interface RoomService {
      */
     void removeUserFromRoom(User user, Room room);
 
+    /**
+     * The method for parsing name of room for switching room at the server side
+     * @param roomName name of room for switching
+     * @return string with switching room in server format
+     */
     String switchRoom(String roomName);
 
     //List<User> parseOnlineUsers(String listOnline);
+
+    /**
+     * The method parse notification from server about adding user to room
+     * @param msg string with notification
+     * @return object of class Room
+     * @see Room
+     */
     Room parseNotifyAddedToRoom(String msg);
 }

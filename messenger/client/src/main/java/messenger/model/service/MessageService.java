@@ -37,5 +37,11 @@ public interface MessageService {
      */
     Message parseMessage(String message) throws ParserConfigurationException, IOException, SAXException;
 
+    /**
+     * The method parses action from server
+     * @param action string with action from server
+     * @return object of enum ServerAction
+     * @see ServerAction
+     */
     ServerAction parseServerAction(String action);
 }

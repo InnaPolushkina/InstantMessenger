@@ -27,27 +27,12 @@ public class RoomServiceImlp implements RoomService {
         return newRoom;
     }
 
-    /**
-     * the method adds user to room
-     *
-     * @param user contain object of Class User for adding to room
-     * @param //room contain object of Class Room
-     * @see Room
-     * @see User
-     */
     @Override
     public String addUserToRoom(User user) {
         String result = "<add><user>" + user.getName() + "</user></add>";
         return result;
     }
 
-    /**
-     * the method removes user from room
-     *
-     * @param user contain object of Class User for removing from room
-     * @param room contain object of Class Room
-     * @see User
-     */
     @Override
     public void removeUserFromRoom(User user, Room room) {
 
@@ -55,7 +40,8 @@ public class RoomServiceImlp implements RoomService {
 
     @Override
     public String switchRoom(String roomName) {
-        String result = "<switch>" + roomName + "</switch>";
+        //String result = "<switch>" + roomName + "</switch>";
+        String result = "<goToRoom>" + roomName + "</goToRoom>";
         return result;
     }
 

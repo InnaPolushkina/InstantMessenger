@@ -116,7 +116,7 @@ public class Handler extends Thread{
                         try {
                             Recoder recoder = new Recoder(userConnection, userRegistrationService,userKeeper);
                             user = recoder.register(clientData);
-                            roomActivity = new RoomActivity(userConnection,roomService,userKeeper,historyMessage);
+                            roomActivity = new RoomActivity(userConnection,roomService,userKeeper,historyMessage,messageService);
                             senderMessage = new SenderMessage(messageService,userConnection,historyMessage);
                             historyMessage.sendStory(userConnection);
                         }
@@ -129,7 +129,7 @@ public class Handler extends Thread{
                         try {
                             Authorizer authorizer = new Authorizer(userConnection, userRegistrationService,userKeeper);
                             user = authorizer.authorize(clientData);
-                            roomActivity = new RoomActivity(userConnection,roomService,userKeeper,historyMessage);
+                            roomActivity = new RoomActivity(userConnection,roomService,userKeeper,historyMessage,messageService);
                             senderMessage = new SenderMessage(messageService,userConnection,historyMessage);
                             historyMessage.sendStory(userConnection);
                         }
@@ -156,6 +156,12 @@ public class Handler extends Thread{
                     case ONLINE_USERS:
                         //roomActivity.getOnlineUsers(userKeeper);
                         roomActivity.sendOnlineUserList();
+                        break;
+                    case LEAVE_ROOM:
+                        //leave user from room
+                        //roomActivity.setMessageService(messageService);
+                        roomActivity.leaveRoom(clientData);
+                        //senderMessage.sendMessage(messageService.sendMessage(new MessageServer(userConnection.getUser(),"!!! Leaved room !!!")));
                         break;
                 }
            }

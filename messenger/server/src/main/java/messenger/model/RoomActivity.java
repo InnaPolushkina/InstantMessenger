@@ -1,11 +1,14 @@
 package messenger.model;
 
 import messenger.controller.Router;
+import messenger.model.serverEntity.MessageServer;
 import messenger.model.serverEntity.Room;
 import messenger.model.serverEntity.User;
 import messenger.model.serverEntity.UserConnection;
+import messenger.model.serverServices.MessageService;
 import messenger.model.serverServices.RoomService;
 import messenger.model.serverServices.UserKeeper;
+import messenger.model.serverServicesImlp.MessageServiceImpl;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -19,16 +22,18 @@ public class RoomActivity {
     private static final Logger logger = Logger.getLogger(RoomActivity.class);
     private UserKeeper userKeeper;
     private HistoryMessage historyMessage;
+    private MessageService messageService;
     /**
      * The field roomNow contain info about room where user is now
      */
     private Room roomNow;
 
-    public RoomActivity(UserConnection userConnection, RoomService roomService, UserKeeper userKeeper, HistoryMessage historyMessage) {
+    public RoomActivity(UserConnection userConnection, RoomService roomService, UserKeeper userKeeper, HistoryMessage historyMessage, MessageService messageService) {
         this.userConnection = userConnection;
         this.roomService = roomService;
         this.userKeeper = userKeeper;
         this.historyMessage = historyMessage;
+        this.messageService = messageService;
     }
 
     /**
@@ -40,7 +45,7 @@ public class RoomActivity {
         Room switchedRoom = roomService.changeRoom(roomNowData);
         for (Room room: Router.getInstense().getRoomList()) {
             if(room.getRoomName().equals(switchedRoom.getRoomName())) {
-               roomNow = switchedRoom;
+               roomNow = room;
             }
         }
     }
@@ -67,10 +72,12 @@ public class RoomActivity {
                 r.addUser(connectionAdd);
                 System.out.println("user successfully added");
                 try {
-                    connectionAdd.getOut().write("<action>ADDED_TO_ROOM</action>\n<room>" + r.getRoomName() + "</room>\n");
+                    connectionAdd.getOut().write(messageService.sendServerAction("ADDED_TO_ROOM") + messageService.sendNameNewRoom(r.getRoomName()));
                     connectionAdd.getOut().flush();
 
                     historyMessage.sendHistoryOfSomeRoom(r,connectionAdd);
+                    String notification = "Added new user " + connectionAdd.getUser().getName();
+                    notifyRoom(notification, r.getRoomName());
 
                 }catch (IOException e) {
                     logger.warn("while sending notify to user about addition to room and sending history messages of room",e);
@@ -85,9 +92,20 @@ public class RoomActivity {
 
     }
 
+    public void leaveRoom(String data) {
+        for (Room room: Router.getInstense().getRoomList()) {
+            if(room.getRoomName().equals(roomNow.getRoomName())) {
+                room.removeUser(userConnection);
+               // sendNotifyMsg("Leaved room . . . >>",room);
+                notifyRoom("User " + userConnection.getUser().getName() + "leaved room",room.getRoomName());
+            }
+        }
+    }
+
     public void sendOnlineUserList() {
         try {
-            userConnection.getOut().write("<action>ONLINE_LIST</action>\n" + userKeeper.userListToString(getOnlineUser()) + "\n");
+           // userConnection.getOut().write("<action>ONLINE_LIST</action>\n" + userKeeper.userListToString(getOnlineUser()) + "\n");
+            userConnection.getOut().write(messageService.sendServerAction("ONLINE_LIST") + userKeeper.userListToString(getOnlineUser()) + "\n");
             userConnection.getOut().flush();
         }
         catch (IOException e) {
@@ -107,5 +125,24 @@ public class RoomActivity {
         }
 
         return resultList;
+    }
+
+    private void notifyRoom(String msg, String roomName) {
+        //String testNotify = "<message><nick>Room Notify</nick><text>" + msg + "</text><recipient>" + roomName + "</recipient></message>";
+        String testNotify = messageService.sendMessage(msg,"Room notify",roomName);
+        for (Room r: Router.getInstense().getRoomList()) {
+            if(r.getRoomName().equals(roomName)) {
+                for (UserConnection uc: r.getUserList()) {
+                    try {
+                        uc.getOut().write(messageService.sendServerAction("SEND_MSG") + testNotify + "\n");
+                        uc.getOut().flush();
+                    }
+                    catch (IOException e) {
+                        logger.info("while sending notify to room",e);
+                    }
+
+                }
+            }
+        }
     }
 }

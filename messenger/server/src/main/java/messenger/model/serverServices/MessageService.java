@@ -8,7 +8,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 
 public interface MessageService {
-    void sendMessage(MessageServer msg);
+    String sendMessage(String text, String nameSender, String roomRecipient);
 
     /**
      * the method parses got string message from server
@@ -28,4 +28,8 @@ public interface MessageService {
      * @see ClientAction
      */
     ClientAction parseClientAction(String clientAction);
+
+    String sendServerAction(String action);
+
+    String sendNameNewRoom(String nameRoom);
 }

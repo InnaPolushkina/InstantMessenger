@@ -79,6 +79,14 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
                     Element element = (Element) node;
                     String nick = element.getElementsByTagName("nick").item(0).getTextContent();
                     User user = new User(nick);
+                    try {
+                        String isBanned = element.getElementsByTagName("ban").item(0).getTextContent();
+                        boolean ban = Boolean.parseBoolean(isBanned);
+                        user.setBanned(ban);
+                    }catch (NullPointerException e) {
+                        logger.info("simple list");
+                    }
+
                     list.add(user);
                 }
             }
