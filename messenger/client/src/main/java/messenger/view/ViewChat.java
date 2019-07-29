@@ -13,6 +13,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import messenger.controller.Router;
+import messenger.model.HistorySaver;
 import messenger.model.entity.Message;
 import messenger.model.entity.Room;
 import messenger.model.entity.User;
@@ -20,6 +21,7 @@ import org.apache.log4j.Logger;
 
 import java.awt.*;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -66,7 +68,7 @@ public class ViewChat {
     private ListView<String> messagesList = new ListView<>();
 
     ObservableList<String> observableListMessages = FXCollections.observableArrayList();
-    ObservableList<String> roomObservableList = FXCollections.observableArrayList("Big chat");
+    ObservableList<String> roomObservableList = FXCollections.observableArrayList();
     private Router router;
     private static final Logger logger = Logger.getLogger(ViewChat.class);
 
@@ -110,6 +112,8 @@ public class ViewChat {
         roomListView.setItems(roomObservableList);
         messagesList.setItems(observableListMessages);
 
+
+
         sendButton.setOnAction(event -> {
             if (messageText.getText() != null && !messageText.getText().trim().equals("")) {
                 router.sendAction("SEND_MSG");
@@ -122,6 +126,8 @@ public class ViewChat {
         });
         logoutButton.setOnAction(event -> {
             //router.saveHistory();
+            HistorySaver historySaver = new HistorySaver();
+            historySaver.saveHistory(Router.getInstance().getRoomList(), LocalDateTime.now());
             System.exit(0);
         });
         createNewRoom.setOnAction(event -> {

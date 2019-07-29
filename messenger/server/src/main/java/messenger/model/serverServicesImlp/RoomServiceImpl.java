@@ -124,7 +124,7 @@ public class RoomServiceImpl implements RoomService {
             DocumentBuilder builder = builderFactory.newDocumentBuilder();
             Document document = builder.parse(new InputSource(new StringReader(data)));
 
-            NodeList nodeList = document.getElementsByTagName("rooms");
+            NodeList nodeList = document.getElementsByTagName("room");
             for (int i = 0; i < nodeList.getLength(); i++) {
                 Node node = nodeList.item(i);
                 if(node.getNodeType() == Node.ELEMENT_NODE) {

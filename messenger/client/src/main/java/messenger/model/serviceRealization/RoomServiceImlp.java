@@ -15,6 +15,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.StringReader;
+import java.time.LocalDateTime;
+import java.util.Set;
 
 
 public class RoomServiceImlp implements RoomService {
@@ -67,6 +69,25 @@ public class RoomServiceImlp implements RoomService {
             logger.warn("while parsing notification about addition to room ",e);
         }
 
+        return result;
+    }
+
+    @Override
+    public String parseRoomList(Set<Room> rooms, LocalDateTime lastConnection) {
+        String result;
+        StringBuilder stringBuilder = new StringBuilder();
+        String s = "<rooms after = \"" + lastConnection + "\">";
+        stringBuilder.append(s);
+        for (Room room: rooms) {
+            stringBuilder.append("<room>");
+            stringBuilder.append(room.getRoomName());
+            stringBuilder.append("</room>");
+           // s.concat("<room>" + room.getRoomName() + "</room>");
+        }
+       // s.concat("</rooms>");
+        stringBuilder.append("</rooms>");
+        result = stringBuilder.toString();
+        System.out.println(result);
         return result;
     }
 }

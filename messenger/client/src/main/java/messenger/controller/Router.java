@@ -1,6 +1,7 @@
 package messenger.controller;
 
 import javafx.stage.Stage;
+import messenger.model.HistorySaver;
 import messenger.model.entity.Room;
 import messenger.model.entity.UserServerConnection;
 import messenger.model.exceptions.AuthException;
@@ -86,6 +87,7 @@ public class Router {
             viewLogin.getRegisterButton().setVisible(false);
         }
 
+
     }
 
    /* public void loadHistory() {
@@ -130,7 +132,7 @@ public class Router {
             sendAction("AUTH");
             userRegistrationService.auth(name,pass);
             showMainChat(name);
-            //viewChat.setList(userRegistrationService.parseUserList(listener.messageFromServer()));
+            getHistory();
             listener.start();
             listener.setDaemon(true);
 
@@ -154,9 +156,8 @@ public class Router {
                 sendAction("REGISTER");
                 userRegistrationService.registration(name,password);
 
-               // List<User> list = userRegistrationService.parseUserList(listener.messageFromServer());
                 showMainChat(name);
-                //viewChat.setList(userRegistrationService.parseUserList(listener.messageFromServer()));
+
                 listener.start();
                 listener.setDaemon(true);
 
@@ -182,9 +183,24 @@ public class Router {
         listener.setViewChat(viewChat);
         viewChat.setUser(getUser());
         viewChat.setUserName(name);
-        roomList = new HashSet<>();
-        roomList.add(new Room("Big chat"));
-        //loadHistory();
+       // getHistory();
+    }
+
+    private void getHistory() {
+        HistorySaver historySaver = new HistorySaver();
+        roomList = historySaver.loadHistory();
+        for (Room room: roomList) {
+            viewChat.addRoom(room.getRoomName());
+        }
+        if(roomList != null) {
+            try {
+                sendAction("HISTORY");
+                String roomList = roomService.parseRoomList(getRoomList(), historySaver.getLastOnlineDate());
+                sendMessageToServer(roomList);
+            }catch (IOException e) {
+                logger.warn("while getting history from server",e);
+            }
+        }
     }
 
     /**

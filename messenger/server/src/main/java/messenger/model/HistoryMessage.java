@@ -100,12 +100,17 @@ public class HistoryMessage {
                             catch (IOException e) {
                                 logger.warn("sending messages of room to user",e);
                             }
+                            break;
                         }
                         else {
                             /*if server has not any data about room, server creates room with such name
-                            * it can be if server was off and info about some clients was lost
-                            * */
-                            Router.getInstense().getRoomList().add(new Room(roomName));
+                             * it can be if server was off and info about some clients was lost
+                             * //don't work now
+                             * */
+                            Room newRoom = new Room(roomName);
+                            newRoom.addUser(userConnection);
+                            Router.getInstense().getRoomList().add(newRoom);
+                            System.out.println("new room created ");
                         }
                     }
                 }

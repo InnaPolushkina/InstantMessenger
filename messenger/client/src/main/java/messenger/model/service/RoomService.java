@@ -3,7 +3,9 @@ package messenger.model.service;
 import messenger.model.entity.Room;
 import messenger.model.entity.User;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Interface RoomService contains methods for service rooms in messenger
@@ -49,4 +51,6 @@ public interface RoomService {
      * @see Room
      */
     Room parseNotifyAddedToRoom(String msg);
+
+    String parseRoomList(Set<Room> rooms, LocalDateTime lastConnection);
 }

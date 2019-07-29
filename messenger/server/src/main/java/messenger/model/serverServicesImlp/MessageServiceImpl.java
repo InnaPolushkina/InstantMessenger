@@ -54,7 +54,6 @@ public class MessageServiceImpl implements MessageService {
                 User userSender = new User();
                 userSender.setName(nick);
                 Room roomRecipient = new Room(recipient);
-                //roomRecipient.setRoomName();
                 msg = new MessageServer(userSender, text);
                 msg.setRecipient(roomRecipient);
             }
