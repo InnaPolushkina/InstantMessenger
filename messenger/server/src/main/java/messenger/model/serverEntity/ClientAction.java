@@ -15,5 +15,6 @@ public enum ClientAction {
     ADD_TO_ROOM,
     SWITCH_ROOM,
     LEAVE_ROOM,
-    ONLINE_USERS
+    ONLINE_USERS,
+    HISTORY
 }

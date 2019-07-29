@@ -6,10 +6,7 @@ import messenger.model.exceptions.ServerRegistrationException;
 import messenger.model.serverEntity.ClientAction;
 import messenger.model.serverEntity.User;
 import messenger.model.serverEntity.UserConnection;
-import messenger.model.serverServices.MessageService;
-import messenger.model.serverServices.RoomService;
-import messenger.model.serverServices.UserKeeper;
-import messenger.model.serverServices.UserRegistrationService;
+import messenger.model.serverServices.*;
 import messenger.view.ViewLogs;
 import org.apache.log4j.Logger;
 
@@ -35,6 +32,7 @@ public class Handler extends Thread{
     private RoomActivity roomActivity;
     private SenderMessage senderMessage;
     private HistoryMessage historyMessage;
+    private UserService userService;
 
     /**
      * The public constructor of class Handler
@@ -94,6 +92,10 @@ public class Handler extends Thread{
 
     public void setHistoryMessage(HistoryMessage historyMessage) {
         this.historyMessage = historyMessage;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
     /**
@@ -163,13 +165,22 @@ public class Handler extends Thread{
                         roomActivity.leaveRoom(clientData);
                         //senderMessage.sendMessage(messageService.sendMessage(new MessageServer(userConnection.getUser(),"!!! Leaved room !!!")));
                         break;
+                    case HISTORY:
+                        roomActivity.setUserService(userService);
+                        roomActivity.sendHistoryOfRooms(clientData);
+                        break;
                 }
            }
        }
        catch (IOException e) {
            logger.warn("client " + user.getName() + " disconnected ",e);
            view.print("client " + user.getName() + " disconnected or connection was lost");
-       } finally {
+       }
+       catch (NullPointerException e) {
+           logger.warn("connection was lost", e);
+           view.print("client " + user.getName() + " disconnected or connection was lost");
+       }
+       finally {
            try {
                userConnection.getUserSocket().close();
            } catch (IOException e) {
@@ -179,12 +190,6 @@ public class Handler extends Thread{
        }
    }
 
-   /* public void sendMessage(String input) throws IOException {
-        for (UserConnection writer : Router.getInstense().getUserList()) {
-            writer.getOut().write(input + "\n");
-            writer.getOut().flush();
-        }
-    }*/
 
 
 }

@@ -8,10 +8,13 @@ import messenger.model.serverEntity.UserConnection;
 import messenger.model.serverServices.MessageService;
 import messenger.model.serverServices.RoomService;
 import messenger.model.serverServices.UserKeeper;
+import messenger.model.serverServices.UserService;
 import messenger.model.serverServicesImlp.MessageServiceImpl;
+import messenger.model.serverServicesImlp.UserServiceImpl;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +26,7 @@ public class RoomActivity {
     private UserKeeper userKeeper;
     private HistoryMessage historyMessage;
     private MessageService messageService;
+    private UserService userService;
     /**
      * The field roomNow contain info about room where user is now
      */
@@ -34,6 +38,10 @@ public class RoomActivity {
         this.userKeeper = userKeeper;
         this.historyMessage = historyMessage;
         this.messageService = messageService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
     /**
@@ -144,5 +152,14 @@ public class RoomActivity {
                 }
             }
         }
+    }
+
+    public void sendHistoryOfRooms(String clientData) {
+        List<String> roomNameList = roomService.parseListOfRooms(clientData);
+        LocalDateTime lastOnline = userService.parseLastOnline(clientData);
+        for (String room: roomNameList) {
+            historyMessage.sendHistoryRoomAfterDate(room,userConnection,lastOnline);
+        }
+
     }
 }

@@ -4,14 +4,8 @@ import messenger.model.HistoryMessage;
 import messenger.model.serverEntity.Room;
 import messenger.model.serverEntity.User;
 import messenger.model.serverEntity.UserConnection;
-import messenger.model.serverServices.MessageService;
-import messenger.model.serverServices.RoomService;
-import messenger.model.serverServices.UserKeeper;
-import messenger.model.serverServices.UserRegistrationService;
-import messenger.model.serverServicesImlp.MessageServiceImpl;
-import messenger.model.serverServicesImlp.RoomServiceImpl;
-import messenger.model.serverServicesImlp.UserKeeperXml;
-import messenger.model.serverServicesImlp.UserRegistrationServiceImpl;
+import messenger.model.serverServices.*;
+import messenger.model.serverServicesImlp.*;
 import messenger.view.ViewLogs;
 
 import java.net.ServerSocket;
@@ -32,6 +26,7 @@ public class Router {
     private static UserKeeper userKeeper;
     private static MessageService messageService;
     private static RoomService roomService;
+    private static UserService userService;
 
     private static HistoryMessage historyMessage;
 
@@ -45,6 +40,7 @@ public class Router {
         messageService = new MessageServiceImpl();
         historyMessage = new HistoryMessage(messageService);
         roomService = new RoomServiceImpl();
+        userService = new UserServiceImpl();
         try {
             while (true) {
                 Handler handler = new Handler();
@@ -55,7 +51,7 @@ public class Router {
                 handler.setUserKeeper(userKeeper);
                 handler.setRoomService(roomService);
                 handler.setHistoryMessage(historyMessage);
-
+                handler.setUserService(userService);
 
                 handler.start();
             }

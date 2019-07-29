@@ -4,6 +4,8 @@ import messenger.model.serverEntity.Room;
 import messenger.model.serverEntity.User;
 import messenger.model.serverEntity.UserConnection;
 
+import java.util.List;
+
 
 public interface RoomService {
     /**
@@ -36,4 +38,6 @@ public interface RoomService {
      * @return Room where user is now
      */
     Room changeRoom(String roomName);
+
+    List<String> parseListOfRooms(String data);
 }

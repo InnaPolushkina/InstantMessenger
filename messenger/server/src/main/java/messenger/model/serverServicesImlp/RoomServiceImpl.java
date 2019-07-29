@@ -18,6 +18,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RoomServiceImpl implements RoomService {
 
@@ -112,5 +114,35 @@ public class RoomServiceImpl implements RoomService {
         }
 
         return result;
+    }
+
+    @Override
+    public List<String> parseListOfRooms(String data) {
+        List<String> roomNameList = new ArrayList<>();
+        try {
+            DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = builderFactory.newDocumentBuilder();
+            Document document = builder.parse(new InputSource(new StringReader(data)));
+
+            NodeList nodeList = document.getElementsByTagName("rooms");
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                Node node = nodeList.item(i);
+                if(node.getNodeType() == Node.ELEMENT_NODE) {
+                    Element element = (Element) node;
+                    String roomName = element.getTextContent();
+                    roomNameList.add(roomName);
+                }
+            }
+        }
+        catch (ParserConfigurationException e) {
+            logger.warn("exception while parsing string with list of rooms from client",e);
+        }
+        catch (SAXException e) {
+            logger.warn("exception while parsing string with list of rooms from client",e);
+        }
+        catch (IOException e) {
+            logger.warn("exception while parsing string with list of rooms from client",e);
+        }
+        return roomNameList;
     }
 }
