@@ -33,6 +33,22 @@ public class Room {
         muteList.remove(userConnection);
     }
 
+    /**
+     * The method finds UserConnection by user name
+     * @param userName string with user name
+     * @return if user is found return connection with him, else return null
+     * @throws NullPointerException if user not found
+     */
+    public UserConnection getUserConnectionByName(String userName) throws NullPointerException{
+        UserConnection result = null;
+        for (UserConnection uc: userList) {
+            if(uc.getUser().getName().equals(userName)) {
+                result = uc;
+            }
+        }
+        return result;
+    }
+
     public String getRoomName() {
         return roomName;
     }

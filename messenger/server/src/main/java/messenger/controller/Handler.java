@@ -110,65 +110,65 @@ public class Handler extends Thread{
        try {
            while (true) {
                 String clientMsgAction = userConnection.getIn().readLine();
-                clientAction = messageService.parseClientAction(clientMsgAction);
                 String clientData = userConnection.getIn().readLine();
-                switch (clientAction) {
-                    case REGISTER:
-                        //call methods from class for registration
-                        try {
-                            Recoder recoder = new Recoder(userConnection, userRegistrationService,userKeeper);
-                            user = recoder.register(clientData);
-                            roomActivity = new RoomActivity(userConnection,roomService,userKeeper,historyMessage,messageService);
-                            senderMessage = new SenderMessage(messageService,userConnection,historyMessage);
-                            historyMessage.sendStory(userConnection);
-                        }
-                        catch (ServerRegistrationException e) {
-                            logger.warn(e.getMessage(),e);
-                        }
-                        break;
-                    case AUTH:
-                        //call methods from class for authorization
-                        try {
-                            Authorizer authorizer = new Authorizer(userConnection, userRegistrationService,userKeeper);
-                            user = authorizer.authorize(clientData);
-                            roomActivity = new RoomActivity(userConnection,roomService,userKeeper,historyMessage,messageService);
-                            senderMessage = new SenderMessage(messageService,userConnection,historyMessage);
-                            historyMessage.sendStory(userConnection);
-                        }
-                        catch (ServerAuthorizationException e) {
-                            logger.warn(e.getMessage(),e);
-                        }
-                        break;
-                    case SEND_MSG:
-                        //send message
-                        senderMessage.sendMessage(clientData);
-                       // sendMessage(clientData);
-                        break;
+                if(clientMsgAction != null && clientData != null) {
+                    clientAction = messageService.parseClientAction(clientMsgAction);
+                    switch (clientAction) {
+                        case REGISTER:
+                            //call methods from class for registration
+                            try {
+                                Recoder recoder = new Recoder(userConnection, userRegistrationService, userKeeper);
+                                user = recoder.register(clientData);
+                                roomActivity = new RoomActivity(userConnection, roomService, userKeeper, historyMessage, messageService);
+                                senderMessage = new SenderMessage(messageService, userConnection, historyMessage);
+                                historyMessage.sendStory(userConnection);
+                            } catch (ServerRegistrationException e) {
+                                logger.warn(e.getMessage(), e);
+                            }
+                            break;
+                        case AUTH:
+                            //call methods from class for authorization
+                            try {
+                                Authorizer authorizer = new Authorizer(userConnection, userRegistrationService, userKeeper);
+                                user = authorizer.authorize(clientData);
+                                roomActivity = new RoomActivity(userConnection, roomService, userKeeper, historyMessage, messageService);
+                                senderMessage = new SenderMessage(messageService, userConnection, historyMessage);
+                                //historyMessage.sendStory(userConnection);
+                            } catch (ServerAuthorizationException e) {
+                                logger.warn(e.getMessage(), e);
+                            }
+                            break;
+                        case SEND_MSG:
+                            //send message
+                            senderMessage.sendMessage(clientData);
+                            // sendMessage(clientData);
+                            break;
                         //There are cases for other client actions . . .
-                    case CREATE_ROOM:
-                        //RoomActivity roomCreator = new RoomActivity(userConnection,roomService);
-                        roomActivity.createRoom(clientData);
-                        break;
-                    case SWITCH_ROOM:
-                        roomActivity.setRoomNow(clientData);
-                        break;
-                    case ADD_TO_ROOM:
-                        roomActivity.addUserToRoom(clientData);
-                        break;
-                    case ONLINE_USERS:
-                        //roomActivity.getOnlineUsers(userKeeper);
-                        roomActivity.sendOnlineUserList();
-                        break;
-                    case LEAVE_ROOM:
-                        //leave user from room
-                        //roomActivity.setMessageService(messageService);
-                        roomActivity.leaveRoom(clientData);
-                        //senderMessage.sendMessage(messageService.sendMessage(new MessageServer(userConnection.getUser(),"!!! Leaved room !!!")));
-                        break;
-                    case HISTORY:
-                        roomActivity.setUserService(userService);
-                        roomActivity.sendHistoryOfRooms(clientData);
-                        break;
+                        case CREATE_ROOM:
+                            //RoomActivity roomCreator = new RoomActivity(userConnection,roomService);
+                            roomActivity.createRoom(clientData);
+                            break;
+                        case SWITCH_ROOM:
+                            roomActivity.setRoomNow(clientData);
+                            break;
+                        case ADD_TO_ROOM:
+                            roomActivity.addUserToRoom(clientData);
+                            break;
+                        case ONLINE_USERS:
+                            //roomActivity.getOnlineUsers(userKeeper);
+                            roomActivity.sendOnlineUserList();
+                            break;
+                        case LEAVE_ROOM:
+                            //leave user from room
+                            //roomActivity.setMessageService(messageService);
+                            roomActivity.leaveRoom(clientData);
+                            //senderMessage.sendMessage(messageService.sendMessage(new MessageServer(userConnection.getUser(),"!!! Leaved room !!!")));
+                            break;
+                        case HISTORY:
+                            roomActivity.setUserService(userService);
+                            roomActivity.sendHistoryOfRooms(clientData);
+                            break;
+                    }
                 }
            }
        }

@@ -2,6 +2,7 @@ package messenger.controller;
 
 import javafx.application.Platform;
 
+import messenger.model.HistorySaver;
 import messenger.model.entity.*;
 import messenger.model.service.MessageService;
 import messenger.model.service.RoomService;
@@ -13,6 +14,7 @@ import org.apache.log4j.Logger;
 import java.awt.*;
 import java.io.*;
 import java.net.Socket;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -24,7 +26,6 @@ public class Listener extends Thread {
     private User user;
     private UserServerConnection userServerConnection;
     private static final Logger logger = Logger.getLogger(Listener.class);
-    //private ViewLogin viewLogin;
     private ViewChat viewChat;
     private MessageService messageService;
     private RoomService roomService;
@@ -42,7 +43,7 @@ public class Listener extends Thread {
     }
 
     /**
-     * the method listens server streams and shows messages from server
+     * The method listens server streams and handles server messages
      */
     @Override
     public void run() {
@@ -83,8 +84,8 @@ public class Listener extends Thread {
                         () -> {
                             viewChat.setServerError("Connection was lost, please reload application");
                         });
-                //Router.getInstance().saveHistory();
-                //System.out.println(Router.getInstance().getRoomList().toString());
+                HistorySaver historySaver = new HistorySaver();
+                historySaver.saveHistory(Router.getInstance().getRoomList(), LocalDateTime.now());
                 try {
                     userServerConnection.getOut().close();
                     userServerConnection.getIn().close();

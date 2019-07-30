@@ -32,14 +32,19 @@ public class HistoryMessage {
     }
 
     /**
-     * The method for adding message to list
-     * @param message 
+     * The method for adding message to list and adding date of message getting to date list
+     * @param message client no parsed messages
      */
     public void addMessageToStory(String message) {
         stringList.add(message);
         dateList.add(LocalDateTime.now());
     }
 
+    /**
+     * The method sends story of all rooms where is client
+     * @param userConnectionRecipient client connection
+     * @throws IOException if client socket is closed
+     */
     public void sendStory(UserConnection userConnectionRecipient) throws IOException {
         for (String s: stringList) {
             MessageServer messageServer = messageService.parseMessage(s);
@@ -64,6 +69,13 @@ public class HistoryMessage {
 
     }
 
+    /**
+     * The method sends history of some room to client
+     * using after client added to new room
+     * @param roomRecipient room recipient
+     * @param userConnectionRecipient client connection
+     * @throws IOException if client socket are closed
+     */
     public void sendHistoryOfSomeRoom(Room roomRecipient,UserConnection userConnectionRecipient) throws IOException{
         for (String s: stringList) {
             MessageServer messageServer = messageService.parseMessage(s);
@@ -84,7 +96,36 @@ public class HistoryMessage {
         }
     }
 
+    /**
+     * The method sends history of some room after date of client disconnection
+     * if Router have not any info about interested room, method create room with such roomName at the Router and add user connection to this room
+     * if needed room have not userConnection with such name, userConnection add to room
+     * @param roomName name of room where are messages from
+     * @param userConnection client connection
+     * @param disconnectedDate date of client disconnection
+     */
     public void sendHistoryRoomAfterDate(String roomName,UserConnection userConnection,LocalDateTime disconnectedDate) {
+
+        Room r = Router.getInstense().getRoomByName(roomName);
+        if(r == null) {
+            Room newRoom = new Room(roomName);
+            newRoom.addUser(userConnection);
+            Router.getInstense().getRoomList().add(newRoom);
+            logger.info("room " + roomName + "created and user added to it");
+        }
+        try {
+            UserConnection uc = r.getUserConnectionByName(userConnection.getUser().getName());
+            if(uc == null) {
+                Router.getInstense().getRoomByName(roomName).addUser(userConnection);
+                logger.info("user added to room " + roomName);
+            }
+
+        }catch (NullPointerException e) {
+            Router.getInstense().getRoomByName(roomName).addUser(userConnection);
+            logger.info("user added to room " + roomName);
+        }
+
+
         for (int i = 0; i < dateList.size(); i++) {
             if(dateList.get(i).isAfter(disconnectedDate)) {
                 for (int j = i; j < stringList.size(); j++) {
@@ -102,17 +143,8 @@ public class HistoryMessage {
                             }
                             break;
                         }
-                        else {
-                            /*if server has not any data about room, server creates room with such name
-                             * it can be if server was off and info about some clients was lost
-                             * //don't work now
-                             * */
-                            Room newRoom = new Room(roomName);
-                            newRoom.addUser(userConnection);
-                            Router.getInstense().getRoomList().add(newRoom);
-                            System.out.println("new room created ");
-                        }
                     }
+
                 }
             }
         }

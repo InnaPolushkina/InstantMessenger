@@ -80,6 +80,16 @@ public class Router {
        }
    }
 
+   public Room getRoomByName(String roomName) {
+       Room result = null;
+       for (Room room: roomList) {
+           if(room.getRoomName().equals(roomName)) {
+               result = room;
+           }
+       }
+       return result;
+   }
+
 
 
     public static Router getInstense() {

@@ -155,7 +155,8 @@ public class Router {
             try {
                 sendAction("REGISTER");
                 userRegistrationService.registration(name,password);
-
+                roomList = new HashSet<>();
+                roomList.add(new Room("Big chat"));
                 showMainChat(name);
 
                 listener.start();
