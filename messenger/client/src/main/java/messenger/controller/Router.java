@@ -90,17 +90,6 @@ public class Router {
 
     }
 
-   /* public void loadHistory() {
-        MessagesKeeper messagesKeeper = new MessagesKeeper(roomList);
-        roomList = messagesKeeper.loadHistory();
-        System.out.println("room list " + roomList.toString());
-    }
-
-    public void saveHistory() {
-        MessagesKeeper messagesKeeper = new MessagesKeeper(roomList);
-        messagesKeeper.saveHistory();
-    }*/
-
     /**
      * the method gets Listener of messages from server
      * @return Listener
@@ -158,6 +147,7 @@ public class Router {
                 roomList = new HashSet<>();
                 roomList.add(new Room("Big chat"));
                 showMainChat(name);
+                viewChat.addRoom("Big chat");
 
                 listener.start();
                 listener.setDaemon(true);
@@ -210,17 +200,9 @@ public class Router {
      */
     public void  sendMessage(/*Message msg*/String msgText) {
         try {
-            //msg.setUserSender(userConnection.getUser());
-            //BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            //Room room = new Room(viewChat.getNameRoom());
             String roomName = viewChat.getNameRoom();
             Message msg = new Message(msgText,userConnection.getUser(),roomName);
             sendMessageToServer(messageService.sendMessage(msg));
-           /* BufferedWriter out = userConnection.getOut();
-            out.write(messageService.sendMessage(msg) + "\n");
-            //out.write(msg + "\n");
-            out.flush();
-            //out.close();*/
         } catch (IOException e) {
             logger.info(e);
         }
@@ -228,11 +210,6 @@ public class Router {
 
     public void sendAction(String msg) {
         try {
-           /* BufferedWriter out = userConnection.getOut();
-            out.write(messageService.sendAction(msg) + "\n");
-            out.flush();*/
-            //out.close();
-
             sendMessageToServer(messageService.sendAction(msg));
         }
         catch (IOException e) {
@@ -242,10 +219,6 @@ public class Router {
 
     public void sendSimpleMsg(String msg) {
         try {
-            /*BufferedWriter out = userConnection.getOut();
-            out.write(msg + "\n");
-            out.flush();*/
-            //out.close();
             sendMessageToServer(msg);
         }
         catch (IOException e) {
@@ -259,25 +232,6 @@ public class Router {
         out.flush();
 
     }
-
-   /* public List<User> getOnlineUser() {
-        sendAction("ONLINE_USERS");
-
-        List<User> userList = null;
-        try {
-            sendMessageToServer("simple string for testing ");
-            try {
-                listener.sleep(3000);
-            }
-            catch (InterruptedException e) {
-                logger.warn(e);
-            }
-            userList = roomService.parseOnlineUsers(listener.messageFromServer());
-        }catch (IOException e) {
-            logger.warn(e);
-        }
-        return userList;
-    }*/
 
     public Set<Room> getRoomList() {
         return roomList;
@@ -302,8 +256,6 @@ public class Router {
         }
         return res;
     }
-
-
 
     public void createRoom(String roomName) {
         try {

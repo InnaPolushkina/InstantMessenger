@@ -35,6 +35,7 @@ public class Recoder {
                 Router.getInstense().getUserList().add(userConnection);
                 Router.getInstense().getViewLogs().print("User registered and authorized");
                 user = userRegistrationService.getAuthorizedUser();
+                user.setOnline(true);
                 //userConnection.getOut().write(userRegistrationService.);
                // userConnection.getOut().write(userKeeper.userListToString(userKeeper.loadFromFile()) + "\n");
                 //userConnection.getOut().flush();

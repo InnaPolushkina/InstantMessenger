@@ -127,7 +127,7 @@ public class RoomActivity {
 
         for (UserConnection connection: Router.getInstense().getUserList()) {
             System.out.println(connection.getUser().getName());
-            if( connection.getUser() != null  && !connection.getUser().getName().equals(userConnection.getUser().getName())) {
+            if( connection.getUser() != null  && !connection.getUser().getName().equals(userConnection.getUser().getName()) && connection.getUser().isOnline()) {
                 resultList.add(connection.getUser());
             }
         }

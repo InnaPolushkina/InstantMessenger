@@ -42,7 +42,6 @@ public class RoomServiceImlp implements RoomService {
 
     @Override
     public String switchRoom(String roomName) {
-        //String result = "<switch>" + roomName + "</switch>";
         String result = "<goToRoom>" + roomName + "</goToRoom>";
         return result;
     }
@@ -82,12 +81,9 @@ public class RoomServiceImlp implements RoomService {
             stringBuilder.append("<room>");
             stringBuilder.append(room.getRoomName());
             stringBuilder.append("</room>");
-           // s.concat("<room>" + room.getRoomName() + "</room>");
         }
-       // s.concat("</rooms>");
         stringBuilder.append("</rooms>");
         result = stringBuilder.toString();
-        System.out.println(result);
         return result;
     }
 }

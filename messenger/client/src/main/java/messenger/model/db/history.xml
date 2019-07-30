@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<history disconnect="2019-07-30T17:21:26.670">
+<history disconnect="2019-07-30T22:25:24.380">
 <room name="Big chat">
-<message sender="Kate">wfffff</message>
-<message sender="Kate2">dwdwwwww</message>
-<message sender="Inna">wwwwwwwwwww</message>
-<message sender="Inna">wwwwwww</message>
-<message sender="Inna">eeeeeeeee</message>
-</room>
-<room name="room Test">
-<message sender="Inna">lalalalalalalalalal</message>
-<message sender="Inna">aqqqqccccccccccc</message>
-<message sender="Inna">svvvvvvvvvvvvvv</message>
-<message sender="Inna">sssvvsvsv</message>
-<message sender="Inna">sv</message>
-<message sender="Inna">eeeeeee</message>
+<message sender="testing">45454545</message>
+<message sender="Kate">eeeweeeeeeeeeeeeeeeeeeeeee</message>
+<message sender="Kate">weeeeeeeeeeeeeeee</message>
+<message sender="Kate">fffffffffffffffff</message>
+<message sender="Kate">eeeeeeeeeeeee</message>
+<message sender="Kate">fffffffffffffffeeewwwwwefwe</message>
+<message sender="Inna">hellllloooooo!!!!! . . . . . .</message>
+<message sender="Inna">lalalala</message>
+<message sender="Kit">qwertg</message>
 </room>
 </history>

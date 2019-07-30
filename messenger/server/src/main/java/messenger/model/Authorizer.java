@@ -37,6 +37,7 @@ public class Authorizer {
                 Router.getInstense().getUserList().add(userConnection);
                 Router.getInstense().getViewLogs().print("User  authorized");
                 user = userRegistrationService.getAuthorizedUser();
+                user.setOnline(true);
                 userConnection.setUser(user);
                 //userConnection.getOut().write(userKeeper.userListToString(userKeeper.loadFromFile()) + "\n");
                 //userConnection.getOut().write(userKeeper.userListToString(getOnlineUser()) + "\n");

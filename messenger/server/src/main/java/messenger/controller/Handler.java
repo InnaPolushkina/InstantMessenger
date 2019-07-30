@@ -175,10 +175,12 @@ public class Handler extends Thread{
        catch (IOException e) {
            logger.warn("client " + user.getName() + " disconnected ",e);
            view.print("client " + user.getName() + " disconnected or connection was lost");
+           userConnection.getUser().setOnline(false);
        }
        catch (NullPointerException e) {
            logger.warn("connection was lost", e);
            view.print("client " + user.getName() + " disconnected or connection was lost");
+           userConnection.getUser().setOnline(false);
        }
        finally {
            try {
