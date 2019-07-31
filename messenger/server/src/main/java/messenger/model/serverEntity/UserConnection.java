@@ -59,4 +59,16 @@ public class UserConnection {
     public void setUserMes(BufferedReader userMes) {
         this.userMes = userMes;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this)
+            return true;
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+        UserConnection guest = (UserConnection) obj;
+        return this.getUser().getName().equals(guest.getUser().getName());
+    }
+
 }

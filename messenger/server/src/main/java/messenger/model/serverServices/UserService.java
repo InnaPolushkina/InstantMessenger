@@ -1,5 +1,6 @@
 package messenger.model.serverServices;
 
+import messenger.model.serverEntity.Room;
 import messenger.model.serverEntity.User;
 
 import java.time.LocalDateTime;
@@ -7,15 +8,15 @@ import java.time.LocalDateTime;
 public interface UserService {
     /**
      * the method bans user in room
-     * @param user contains object of class User
+     * @param msg contains String with user data for parseBanUser
      */
-    void ban(User user);
+    User parseBanUser(String msg);
 
     /**
      * the method unbans user in room
-     * @param user contains object of class User
+     * @param msg contains String with user data for unbanning
      */
-    void unban(User user);
+    User parseUnbanUser(String msg);
 
     /**
      * The method for parsing date of last user online
@@ -23,4 +24,7 @@ public interface UserService {
      * @return date of last user online
      */
     LocalDateTime parseLastOnline(String data);
+
+    String sendBanNotify(Room room);
+    String sendUnBanNotify(Room room);
 }

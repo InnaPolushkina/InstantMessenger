@@ -95,6 +95,9 @@ public class MessageServiceImpl implements MessageService {
         catch (SAXException e) {
             logger.warn("while parsing action from user",e);
         }
+        catch (IllegalArgumentException e) {
+            logger.warn("user send unknown action",e);
+        }
         return result;
     }
 

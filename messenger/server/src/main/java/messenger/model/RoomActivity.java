@@ -1,7 +1,6 @@
 package messenger.model;
 
 import messenger.controller.Router;
-import messenger.model.serverEntity.MessageServer;
 import messenger.model.serverEntity.Room;
 import messenger.model.serverEntity.User;
 import messenger.model.serverEntity.UserConnection;
@@ -9,8 +8,6 @@ import messenger.model.serverServices.MessageService;
 import messenger.model.serverServices.RoomService;
 import messenger.model.serverServices.UserKeeper;
 import messenger.model.serverServices.UserService;
-import messenger.model.serverServicesImlp.MessageServiceImpl;
-import messenger.model.serverServicesImlp.UserServiceImpl;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -61,6 +58,7 @@ public class RoomActivity {
     public void createRoom(String roomData) {
         Room room = roomService.createRoom(roomData);
         room.addUser(userConnection);
+        room.setAdmin(userConnection);
         Router.getInstense().getRoomList().add(room);
         System.out.println("new room created");
 
@@ -90,10 +88,6 @@ public class RoomActivity {
                 }catch (IOException e) {
                     logger.warn("while sending notify to user about addition to room and sending history messages of room",e);
                 }
-
-            }
-            else {
-                logger.warn("can't add offline user to chat");
             }
         }
 
@@ -161,5 +155,81 @@ public class RoomActivity {
             historyMessage.sendHistoryRoomAfterDate(room,userConnection,lastOnline);
         }
 
+    }
+
+    public void sendListUserForBan() {
+        Room room = Router.getInstense().getRoomByName(roomNow.getRoomName());
+        if(userConnection.equals(room.getAdmin())) {
+            List<User> usersForBan = new ArrayList<>();
+            for (UserConnection uc: room.getUserList()) {
+                usersForBan.add(uc.getUser());
+            }
+
+            try {
+                userConnection.getOut().write(messageService.sendServerAction("BAN_LIST") + roomService.parseListUserForBan(usersForBan) + "\n");
+                userConnection.getOut().flush();
+            }
+            catch (IOException e) {
+                logger.info("while sending list user for parseBanUser",e);
+            }
+
+        }
+    }
+
+    public void sendListUserForUnBan() {
+        Room room = Router.getInstense().getRoomByName(roomNow.getRoomName());
+        if(userConnection.equals(room.getAdmin())) {
+            List<User> usersForUnBan = new ArrayList<>();
+            for (UserConnection uc: room.getBanList()) {
+                usersForUnBan.add(uc.getUser());
+            }
+
+            try {
+                userConnection.getOut().write(messageService.sendServerAction("UNBAN_LIST") + roomService.parseListUserForBan(usersForUnBan) + "\n");
+                userConnection.getOut().flush();
+            }
+            catch (IOException e) {
+                logger.info("while sending list user who can be unbanned",e);
+            }
+
+        }
+    }
+
+    public void banUser(String userData) {
+        User banUser = userService.parseBanUser(userData);
+        Room room = Router.getInstense().getRoomByName(roomNow.getRoomName());
+        for (UserConnection uc: room.getUserList()) {
+            if(uc.getUser().getName().equals(banUser.getName())) {
+                Router.getInstense().getRoomByName(roomNow.getRoomName()).getBanList().add(uc);
+                notifyRoom("User " + banUser.getName() + " was banned by admin " + userConnection.getUser().getName(),room.getRoomName());
+                try {
+                    uc.getOut().write(messageService.sendServerAction("BAN") + userService.sendBanNotify(room));
+                    uc.getOut().flush();
+                }
+                catch (IOException e) {
+                    logger.warn("while banning user ",e);
+                }
+                break;
+            }
+        }
+    }
+
+    public void unBanUser(String userData) {
+        User unBanUser = userService.parseUnbanUser(userData);
+        Room room = Router.getInstense().getRoomByName(roomNow.getRoomName());
+        for (UserConnection uc: room.getUserList()) {
+            if(uc.getUser().getName().equals(unBanUser.getName())) {
+                Router.getInstense().getRoomByName(roomNow.getRoomName()).unBanUser(uc);
+                notifyRoom("User " + unBanUser.getName() + " was unbanned by admin " + userConnection.getUser().getName(),room.getRoomName());
+                try {
+                    uc.getOut().write(messageService.sendServerAction("UNBAN") + userService.sendUnBanNotify(room));
+                    uc.getOut().flush();
+                }
+                catch (IOException e) {
+                    logger.warn("while banning user ",e);
+                }
+                break;
+            }
+        }
     }
 }

@@ -58,6 +58,7 @@ public class Router {
         }
         finally {
             listener.close();
+            System.out.println("Router closed socket");
         }
     }
 

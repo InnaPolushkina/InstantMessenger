@@ -8,7 +8,6 @@ import java.io.Serializable;
  */
 public class User implements Serializable {
     private String name;
-    private int id;
     private boolean isOnline;
     private boolean isMuted;
     private boolean isBanned;
@@ -31,14 +30,6 @@ public class User implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public boolean isOnline() {
@@ -65,7 +56,6 @@ public class User implements Serializable {
     public String toString() {
         return "User{" +
                 "name='" + name + '\'' +
-                ", id=" + id +
                 ", isOnline=" + isOnline +
                 ", isMuted=" + isMuted +
                 ", isBanned=" + isBanned +

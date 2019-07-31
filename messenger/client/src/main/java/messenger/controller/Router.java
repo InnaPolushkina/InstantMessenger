@@ -9,12 +9,14 @@ import messenger.model.exceptions.UserRegistrationException;
 import messenger.model.serverEntity.UserConnection;
 import messenger.model.service.RoomService;
 import messenger.model.service.UserRegistrationService;
+import messenger.model.service.UserService;
 import messenger.model.serviceRealization.RoomServiceImlp;
 import messenger.model.serviceRealization.UserRegistrationServiceImpl;
 import messenger.model.entity.Message;
 import messenger.model.service.MessageService;
 import messenger.model.serviceRealization.MessageServiceImpl;
 import messenger.model.entity.User;
+import messenger.model.serviceRealization.UserServiceImpl;
 import messenger.view.ViewChat;
 import messenger.view.ViewLogin;
 
@@ -44,14 +46,15 @@ public class Router {
     private Socket socket;
     private UserServerConnection userConnection;
     private static final Logger logger = Logger.getLogger(Router.class);
-   private Stage stage ;
-   private ViewLogin viewLogin;
-   private ViewChat viewChat;
-   private ViewRegister viewRegister;
-   private static final Router instance = new Router();
-   private UserRegistrationService userRegistrationService;
-   private MessageService messageService;
-   private RoomService roomService;
+    private Stage stage ;
+    private ViewLogin viewLogin;
+    private ViewChat viewChat;
+    private ViewRegister viewRegister;
+    private static final Router instance = new Router();
+    private UserRegistrationService userRegistrationService;
+    private MessageService messageService;
+    private RoomService roomService;
+    private UserService userService;
 
     /**
      * the public method for getting object of class Router
@@ -70,6 +73,7 @@ public class Router {
         viewLogin = new ViewLogin(stage);
         userRegistrationService = new UserRegistrationServiceImpl(this);
         roomService = new RoomServiceImlp();
+        userService = new UserServiceImpl();
         try {
             socket = new Socket("localhost", 2020);
             userConnection = new UserServerConnection(new User(),socket);
@@ -267,6 +271,7 @@ public class Router {
            // out.close();
             Room room = new Room(roomName);
             room.addNewUser(userConnection);
+            room.setAdmin(userConnection.getUser());
             roomList.add(room);
         }
         catch (IOException e) {
@@ -314,11 +319,26 @@ public class Router {
             }
         }
 
-    public void bunUser(User user, Room room, boolean bunStatus) {
+    public void banUser(User user, Room room, boolean banStatus) {
+        if (banStatus) {
+            sendAction("BAN");
+            try {
+                sendMessageToServer(userService.ban(user));
+            }
+            catch (IOException e) {
+                logger.warn("while banning user in room",e);
+            }
+        }
+        else {
+            sendAction("UNBAN_USER");
+            try {
+                sendMessageToServer(userService.unban(user));
+            }
+            catch (IOException e) {
+                logger.warn("while unbanning user in room",e);
+            }
+        }
 
     }
 
-    public void muteUser(User user, Room room, int time, boolean muteStatus) {
-
-    }
 }

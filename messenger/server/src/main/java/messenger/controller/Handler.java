@@ -100,10 +100,13 @@ public class Handler extends Thread{
 
     /**
      * The method creates new Thread for one user
-     *  and handles user actions using other classes
+     *  and handles user actions using other classes :
      * @see Authorizer
      * @see Recoder
      * @see ClientAction
+     * @see RoomActivity
+     * @see SenderMessage
+     * @see HistoryMessage
      */
    @Override
    public void run() {
@@ -113,6 +116,7 @@ public class Handler extends Thread{
                 String clientData = userConnection.getIn().readLine();
                 if(clientMsgAction != null && clientData != null) {
                     clientAction = messageService.parseClientAction(clientMsgAction);
+                    System.out.println(clientAction);
                     switch (clientAction) {
                         case REGISTER:
                             //call methods from class for registration
@@ -167,6 +171,18 @@ public class Handler extends Thread{
                         case HISTORY:
                             roomActivity.setUserService(userService);
                             roomActivity.sendHistoryOfRooms(clientData);
+                            break;
+                        case BAN_LIST:
+                            roomActivity.sendListUserForBan();
+                            break;
+                        case UNBAN_LIST:
+                            roomActivity.sendListUserForUnBan();
+                            break;
+                        case BAN:
+                            roomActivity.banUser(clientData);
+                            break;
+                        case UNBAN:
+                            roomActivity.unBanUser(clientData);
                             break;
                     }
                 }

@@ -1,6 +1,5 @@
 package messenger.view;
 
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,40 +11,43 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import messenger.controller.Router;
+import messenger.model.entity.Room;
 import messenger.model.entity.User;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.List;
 
-public class ViewAddUser {
+public class ViewBanUser {
 
-    private static final Logger logger = Logger.getLogger(ViewAddUser.class);
     private Stage stage;
+    private static final Logger logger = Logger.getLogger(ViewAddUser.class);
     private List<User> list;
-    private Router router;
     private ObservableList<String> observableListUser = FXCollections.observableArrayList();
-    @FXML
-    private Button addUser;
-    @FXML
-    private Button cancelAddUser;
-    @FXML
-    private Label errorMsg;
+    private Router router;
+    private Room room;
     @FXML
     private ListView<String> listViewUsers;
+    @FXML
+    private Button banUser;
+    @FXML
+    private Button cancel;
+    @FXML
+    private Label errorMsg;
 
-    public ViewAddUser(List<User> list) {
+    public ViewBanUser(List<User> list, Room room) {
         this.stage = new Stage();
         this.list = list;
+        this.room = room;
         router = Router.getInstance();
         FXMLLoader loader = new FXMLLoader();
         loader.setController(this);
 
         try {
-            loader.setLocation(Router.class.getResource("/addUserToRoom.fxml"));
+            loader.setLocation(Router.class.getResource("/banUserInRoom.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
-            stage.setTitle("Add user to this room");
+            stage.setTitle("Ban user in this room");
             stage.setScene(scene);
             stage.show();
 
@@ -54,7 +56,6 @@ public class ViewAddUser {
         } catch (IOException e) {
             logger.warn("while showing adding user to room scene ", e);
         }
-
     }
 
     @FXML
@@ -65,21 +66,15 @@ public class ViewAddUser {
             errorMsg.setText("");
         }
         else {
-            errorMsg.setText("You can't add now any user, nobody is online");
+            errorMsg.setText("You can't parseBanUser now any user, nobody is online");
         }
-
-
-        addUser.setOnAction(event -> {
-            User user = getSelectedUser();
-            if(user != null) {
-                router.addUserToRoom(user);
-                stage.close();
-            }
-        });
-        cancelAddUser.setOnAction(event -> {
+        cancel.setOnAction(event -> {
             stage.close();
         });
-
+        banUser.setOnAction(event -> {
+            User user = getSelectedUser();
+            router.banUser(user,room,true);
+        });
     }
 
     private void setUserToObserver(List<User> list) {
@@ -98,4 +93,5 @@ public class ViewAddUser {
         }
         return userSelected;
     }
+
 }

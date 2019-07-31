@@ -53,4 +53,7 @@ public interface RoomService {
     Room parseNotifyAddedToRoom(String msg);
 
     String parseRoomList(Set<Room> rooms, LocalDateTime lastConnection);
+
+    List<User> parseListForBanUnBan(String msg);
+
 }

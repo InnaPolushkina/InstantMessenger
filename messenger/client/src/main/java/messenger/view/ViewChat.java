@@ -58,6 +58,11 @@ public class ViewChat {
     private Button muteRoom;
     @FXML
     private Button leaveRoom;
+    @FXML
+    private Button banUserButton;
+    @FXML
+    private Button unbanUserButton;
+
 
     private User user;
     private Notificator notificator;
@@ -138,29 +143,18 @@ public class ViewChat {
             });*/
         });
         addUser.setOnAction(event -> {
-            //list = router.getOnlineUser();
-            //System.out.println(list.toString());
+            router.switchRoom(nameRoom.getText());
             router.sendAction("ONLINE_USERS");
             router.sendMessage("some text for test");
 
         });
+        banUserButton.setOnAction(event -> {
+            router.switchRoom(nameRoom.getText());
+            router.sendAction("BAN_LIST");
+            router.sendMessage("some text for test");
+        });
         roomListView.setOnMouseClicked(event -> {
-            try {
-                if (getNameOfSelectedRoom() != null) {
-                    nameRoom.setText(getNameOfSelectedRoom());
-                    if (nameRoom.getText().equals("Big chat")) {
-                        addUser.setVisible(false);
-                    } else {
-                        addUser.setVisible(true);
-                    }
-                    setMessageList(getNameOfSelectedRoom());
-                    if (Router.getInstance().getRoomByName(nameRoom.getText()).isMuted()) {
-                        muteRoom.setText("UnMute");
-                    }
-                }
-            }catch (NullPointerException e) {
-                logger.info(e);
-            }
+            switchRoom();
         });
         muteRoom.setOnAction(event -> {
             muteRoom();
@@ -172,10 +166,6 @@ public class ViewChat {
             roomListView.getItems().remove(nameRoom.getText());
             nameRoom.setText("Big chat");
         });
-
-
-
-
     }
 
     /**
@@ -183,7 +173,11 @@ public class ViewChat {
      * @see ViewAddUser
      */
     public void showAddUserView() {
-        ViewAddUser viewAddUser = new ViewAddUser(new Stage(),list);
+        ViewAddUser viewAddUser = new ViewAddUser(list);
+    }
+
+    public void showBanUserView() {
+        ViewBanUser viewBanUser = new ViewBanUser(list,Router.getInstance().getRoomByName(nameRoom.getText()));
     }
 
     /**
@@ -213,6 +207,53 @@ public class ViewChat {
         else {
             Router.getInstance().getRoomByName(roomName).setMuted(true);
             muteRoom.setText("UnMute");
+        }
+    }
+
+    private void switchRoom() {
+        try {
+            String nameSelectedRoom =  getNameOfSelectedRoom();
+            if (nameSelectedRoom != null) {
+                nameRoom.setText(nameSelectedRoom);
+                if (nameRoom.getText().equals("Big chat")) {
+                    addUser.setVisible(false);
+                    banUserButton.setVisible(false);
+                    unbanUserButton.setVisible(false);
+                }
+                else {
+                    addUser.setVisible(true);
+                }
+
+                setMessageList(nameSelectedRoom);
+                if (Router.getInstance().getRoomByName(nameRoom.getText()).isMuted()) {
+                    muteRoom.setText("UnMute");
+                }
+                else {
+                    muteRoom.setText("Mute");
+                }
+
+                if(Router.getInstance().getRoomByName(nameRoom.getText()).isBanned()) {
+                    messageText.setVisible(false);
+                    sendButton.setVisible(false);
+                }
+                else {
+                    messageText.setVisible(true);
+                    sendButton.setVisible(true);
+                }
+
+                String roomAdmin = Router.getInstance().getRoomByName(nameRoom.getText()).getAdmin().getName();
+                if(roomAdmin.equals(userName.getText())) {
+                    banUserButton.setVisible(true);
+                    unbanUserButton.setVisible(true);
+                }
+                else {
+                    banUserButton.setVisible(false);
+                    unbanUserButton.setVisible(false);
+                }
+            }
+        }catch (NullPointerException e) {
+            logger.warn(e);
+            e.printStackTrace();
         }
     }
 

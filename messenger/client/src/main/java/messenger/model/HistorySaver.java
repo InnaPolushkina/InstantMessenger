@@ -3,6 +3,7 @@ package messenger.model;
 import messenger.model.entity.Message;
 import messenger.model.entity.Room;
 import messenger.model.entity.User;
+import messenger.model.entity.UserServerConnection;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -85,6 +86,9 @@ public class HistorySaver {
             for (int i = 0; i < nodeList.getLength(); i++) {
                 Node roomNode = nodeList.item(i);
                 Room room = new Room(roomNode.getAttributes().getNamedItem("name").getNodeValue());
+                //if(room.getRoomName().equals("Big chat")) {
+                    room.setAdmin(new User("Server"));
+                //}
                 if(roomNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element roomElement = (Element) roomNode;
                     NodeList messageNodeList = roomElement.getElementsByTagName("message");

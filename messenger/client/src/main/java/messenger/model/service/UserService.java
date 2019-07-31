@@ -1,5 +1,6 @@
 package messenger.model.service;
 
+import messenger.model.entity.Room;
 import messenger.model.entity.User;
 
 /**
@@ -11,12 +12,16 @@ public interface UserService {
      * the method bans user in room
      * @param user contains object of class User
      */
-    void ban(User user);
+    String ban(User user);
 
     /**
      * the method unbans user in room
      * @param user contains object of class User
      */
-    void unban(User user);
+    String unban(User user);
+
+    Room parseBanNotification(String msg);
+
+    Room parseUnBanNotification(String msg);
 
 }

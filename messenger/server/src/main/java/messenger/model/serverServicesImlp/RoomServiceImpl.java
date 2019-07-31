@@ -27,8 +27,6 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Room createRoom(String roomData) {
-        /*Room room = new Room(roomName);
-        Router.getInstense().getRoomList().add(room);*/
         Room room = null;
         try {
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
@@ -144,5 +142,35 @@ public class RoomServiceImpl implements RoomService {
             logger.warn("exception while parsing string with list of rooms from client",e);
         }
         return roomNameList;
+    }
+
+    @Override
+    public String parseListUserForBan(List<User> list) {
+        String s = "<listForBan>";
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(s);
+        stringBuilder.append(parseList(list));
+        stringBuilder.append("</listForBan>");
+        return stringBuilder.toString();
+    }
+
+    @Override
+    public String parseListUserForUnBan(List<User> list) {
+        String s = "<listForUnBan>";
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(s);
+        stringBuilder.append(parseList(list));
+        stringBuilder.append("</listForUnBan>");
+        return stringBuilder.toString();
+    }
+
+    private String parseList(List<User> list) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (User user: list) {
+            stringBuilder.append("<user>");
+            stringBuilder.append(user.getName());
+            stringBuilder.append("</user>");
+        }
+        return stringBuilder.toString();
     }
 }

@@ -1,6 +1,5 @@
 package messenger.model.entity;
 
-
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -10,6 +9,8 @@ import java.util.Set;
 public class Room implements Serializable {
     private String roomName;
     private boolean isMuted;
+    private boolean isBanned;
+    private User admin;
     private Set<UserServerConnection> users = new HashSet<>();
     private Set<UserServerConnection> banList = new HashSet<>();
    // private Set<UserServerConnection> muteList = new HashSet<>();
@@ -93,5 +94,21 @@ public class Room implements Serializable {
 
     public void setMuted(boolean muted) {
         isMuted = muted;
+    }
+
+    public User getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(User admin) {
+        this.admin = admin;
+    }
+
+    public boolean isBanned() {
+        return isBanned;
+    }
+
+    public void setBanned(boolean banned) {
+        isBanned = banned;
     }
 }

@@ -146,8 +146,4 @@ public class UserKeeperXml implements UserKeeper {
         return result;
     }
 
-    /*@Override
-    public void saveMsgToHistory(String message) {
-
-    }*/
 }

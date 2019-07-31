@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<history disconnect="2019-07-30T22:25:24.380">
+<history disconnect="2019-08-01T00:18:16.248">
+<room name="11">
+<message sender="Room notify">Added new user Kit</message>
+<message sender="Inna">wfwwwwwwwwwwwwww</message>
+<message sender="Kit">wfffffffffffff</message>
+<message sender="Kit">wffffffffff</message>
+<message sender="Inna">wffffffffff</message>
+<message sender="Room notify">User Kit was banned by admin Inna</message>
+</room>
+<room name="33">
+<message sender="Room notify">Added new user Kit</message>
+<message sender="Room notify">User Kit was banned by admin Inna</message>
+</room>
 <room name="Big chat">
 <message sender="testing">45454545</message>
-<message sender="Kate">eeeweeeeeeeeeeeeeeeeeeeeee</message>
-<message sender="Kate">weeeeeeeeeeeeeeee</message>
-<message sender="Kate">fffffffffffffffff</message>
-<message sender="Kate">eeeeeeeeeeeee</message>
-<message sender="Kate">fffffffffffffffeeewwwwwefwe</message>
-<message sender="Inna">hellllloooooo!!!!! . . . . . .</message>
-<message sender="Inna">lalalala</message>
-<message sender="Kit">qwertg</message>
+</room>
+<room name="44">
+<message sender="Room notify">Added new user Kit</message>
+<message sender="Room notify">User Kit was banned by admin Inna</message>
+</room>
+<room name="222">
+<message sender="Room notify">Added new user Kit</message>
+<message sender="Room notify">User Kit was banned by admin Inna</message>
 </room>
 </history>

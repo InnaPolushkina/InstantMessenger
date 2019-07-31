@@ -7,7 +7,9 @@ import messenger.model.entity.*;
 import messenger.model.service.MessageService;
 import messenger.model.service.RoomService;
 import messenger.model.service.UserRegistrationService;
+import messenger.model.service.UserService;
 import messenger.model.serviceRealization.MessageServiceImpl;
+import messenger.model.serviceRealization.UserServiceImpl;
 import messenger.view.*;
 import org.apache.log4j.Logger;
 
@@ -30,6 +32,7 @@ public class Listener extends Thread {
     private MessageService messageService;
     private RoomService roomService;
     private UserRegistrationService userRegistrationService;
+    private UserService userService = new UserServiceImpl();
 
     /**
      * The public constructor for class Listener
@@ -49,7 +52,6 @@ public class Listener extends Thread {
     public void run() {
         while (true) {
             try {
-                //userServerConnection.setIn();
                 //String action = messageFromServer();
                 ServerAction serverAction = messageService.parseServerAction(messageFromServer());
                 switch (serverAction) {
@@ -69,6 +71,7 @@ public class Listener extends Thread {
                         //set new room to room list, observable list from view, notify user by Notificator
                         String s = messageFromServer();
                         Room room = roomService.parseNotifyAddedToRoom(s);
+                        room.setAdmin(new User("Anybody"));
                         Router.getInstance().getRoomList().add(room);
                         Platform.runLater( ()->{
                             Notificator notificator = new Notificator();
@@ -77,7 +80,39 @@ public class Listener extends Thread {
                         });
 
                         break;
+                    case BAN_LIST:
+                        //if user is admin in room server send him list with users, whose can will be banned
+                        String banList = messageFromServer();
+                        List<User> listForBan = roomService.parseListForBanUnBan(banList);
+                        System.out.println(listForBan.toString());
+                        Platform.runLater(() -> {
+                            viewChat.setList(listForBan);
+                            viewChat.showBanUserView();
+                        });
+                        break;
+                    case UNBAN_LIST:
+                        //if user is admin in room server send him list with users, whose can will be unbanned
+                        String unBanList = messageFromServer();
+                        List<User> listForUnBan = roomService.parseListForBanUnBan(unBanList);
+                        Platform.runLater(() -> {
+                            viewChat.setList(listForUnBan);
+                           // viewChat.showUnBanUserView();
+                        });
+                        break;
+                    case BAN:
+                        //if admin of room banned user, user get notification from server about it
+                        String banNotification = messageFromServer();
+                        Room banRoom = userService.parseBanNotification(banNotification);
+                        Router.getInstance().getRoomByName(banRoom.getRoomName()).banUser(userServerConnection,true);
+                        Router.getInstance().getRoomByName(banRoom.getRoomName()).setBanned(true);
+                        // parse room where user banned
+                        // for rooms where user is banned set visible false for send button and textField
+                        break;
+                    case UNBAN:
+
+                        break;
                 }
+
             } catch (Exception e) {
                 logger.error("catch NullPointerException, server don't work ",e);
                 Platform.runLater(
@@ -86,13 +121,13 @@ public class Listener extends Thread {
                         });
                 HistorySaver historySaver = new HistorySaver();
                 historySaver.saveHistory(Router.getInstance().getRoomList(), LocalDateTime.now());
-                try {
+                /*try {
                     userServerConnection.getOut().close();
                     userServerConnection.getIn().close();
                 }
                 catch (IOException ex) {
                     logger.info(ex);
-                }
+                }*/
                 break;
            }
         }
