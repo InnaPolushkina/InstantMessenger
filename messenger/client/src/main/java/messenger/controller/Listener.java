@@ -9,7 +9,6 @@ import messenger.model.service.RoomService;
 import messenger.model.service.UserRegistrationService;
 import messenger.model.service.UserService;
 import messenger.model.serviceRealization.MessageServiceImpl;
-import messenger.model.serviceRealization.UserServiceImpl;
 import messenger.view.*;
 import org.apache.log4j.Logger;
 
@@ -71,7 +70,6 @@ public class Listener extends Thread {
                         //set new room to room list, observable list from view, notify user by Notificator
                         String s = messageFromServer();
                         Room room = roomService.parseNotifyAddedToRoom(s);
-                        room.setAdmin(new User("Anybody"));
                         Router.getInstance().getRoomList().add(room);
                         Platform.runLater( ()->{
                             Notificator notificator = new Notificator();
@@ -109,7 +107,7 @@ public class Listener extends Thread {
                         Platform.runLater( ()->{
                             Notificator notificator = new Notificator();
                             notificator.notifyUser(banRoom.getRoomName(),"You was banned ", TrayIcon.MessageType.WARNING);
-
+                            viewChat.setFocusToRoom(banRoom.getRoomName());
                         });
                         break;
                     case UNBAN:
@@ -121,6 +119,7 @@ public class Listener extends Thread {
                         Platform.runLater( ()->{
                             Notificator notificator = new Notificator();
                             notificator.notifyUser(unBanRoom.getRoomName(),"You was unbanned ", TrayIcon.MessageType.INFO);
+                            viewChat.setFocusToRoom(unBanRoom.getRoomName());
                         });
                         break;
                 }
@@ -133,13 +132,6 @@ public class Listener extends Thread {
                         });
                 HistorySaver historySaver = new HistorySaver();
                 historySaver.saveHistory(Router.getInstance().getRoomList(), LocalDateTime.now());
-                /*try {
-                    userServerConnection.getOut().close();
-                    userServerConnection.getIn().close();
-                }
-                catch (IOException ex) {
-                    logger.info(ex);
-                }*/
                 break;
            }
         }

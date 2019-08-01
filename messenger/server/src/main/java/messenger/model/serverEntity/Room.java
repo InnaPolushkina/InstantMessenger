@@ -12,7 +12,7 @@ public class Room {
     private String roomName;
 
     private Set<UserConnection> userList = new HashSet<>();
-    private UserConnection admin;
+    private String admin;
     private Set<UserConnection> banList = new HashSet<>();
     private Set<UserConnection> muteList = new HashSet<>();
 
@@ -61,11 +61,11 @@ public class Room {
         return userList;
     }
 
-    public UserConnection getAdmin() {
+    public String getAdmin() {
         return admin;
     }
 
-    public void setAdmin(UserConnection admin) {
+    public void setAdmin(String admin) {
         this.admin = admin;
     }
 

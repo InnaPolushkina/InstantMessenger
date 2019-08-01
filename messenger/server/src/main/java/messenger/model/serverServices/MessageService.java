@@ -2,6 +2,7 @@ package messenger.model.serverServices;
 
 import messenger.model.serverEntity.ClientAction;
 import messenger.model.serverEntity.MessageServer;
+import messenger.model.serverEntity.Room;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -31,5 +32,5 @@ public interface MessageService {
 
     String sendServerAction(String action);
 
-    String sendNameNewRoom(String nameRoom);
+    String sendAddToRoom(Room room);
 }

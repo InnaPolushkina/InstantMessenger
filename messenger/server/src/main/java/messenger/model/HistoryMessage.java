@@ -100,29 +100,30 @@ public class HistoryMessage {
      * The method sends history of some room after date of client disconnection
      * if Router have not any info about interested room, method create room with such roomName at the Router and add user connection to this room
      * if needed room have not userConnection with such name, userConnection add to room
-     * @param roomName name of room where are messages from
+     * @param roomForUser name of room where are messages from
      * @param userConnection client connection
      * @param disconnectedDate date of client disconnection
      */
-    public void sendHistoryRoomAfterDate(String roomName,UserConnection userConnection,LocalDateTime disconnectedDate) {
+    public void sendHistoryRoomAfterDate(Room roomForUser,UserConnection userConnection,LocalDateTime disconnectedDate) {
 
-        Room r = Router.getInstense().getRoomByName(roomName);
+        Room r = Router.getInstense().getRoomByName(roomForUser.getRoomName());
         if(r == null) {
-            Room newRoom = new Room(roomName);
+            Room newRoom = new Room(roomForUser.getRoomName());
+            newRoom.setAdmin(roomForUser.getAdmin());
             newRoom.addUser(userConnection);
             Router.getInstense().getRoomList().add(newRoom);
-            logger.info("room " + roomName + "created and user added to it");
+            logger.info("room " + roomForUser + "created and user added to it");
         }
         try {
             UserConnection uc = r.getUserConnectionByName(userConnection.getUser().getName());
             if(uc == null) {
-                Router.getInstense().getRoomByName(roomName).addUser(userConnection);
-                logger.info("user added to room " + roomName);
+                Router.getInstense().getRoomByName(roomForUser.getRoomName()).addUser(userConnection);
+                logger.info("user added to room " + roomForUser);
             }
 
         }catch (NullPointerException e) {
-            Router.getInstense().getRoomByName(roomName).addUser(userConnection);
-            logger.info("user added to room " + roomName);
+            Router.getInstense().getRoomByName(roomForUser.getRoomName()).addUser(userConnection);
+            logger.info("user added to room " + roomForUser);
         }
 
 
@@ -133,7 +134,7 @@ public class HistoryMessage {
                     MessageServer messageServer = messageService.parseMessage(s);
                     String roomGetter = messageServer.getRecipient().getRoomName();
                     for (Room room: Router.getInstense().getRoomList()) {
-                        if(room.getRoomName().equals(roomGetter) && room.getRoomName().equals(roomName)) {
+                        if(room.getRoomName().equals(roomGetter) && room.getRoomName().equals(roomForUser)) {
                             try {
                                 userConnection.getOut().write(messageService.sendServerAction("SEND_MSG") + s + "\n");
                                 userConnection.getOut().flush();

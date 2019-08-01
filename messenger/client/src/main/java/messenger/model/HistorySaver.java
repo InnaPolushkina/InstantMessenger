@@ -46,6 +46,7 @@ public class HistorySaver {
             for (Room room: roomSet) {
                 Element elementRoom = document.createElement("room");
                 elementRoom.setAttribute("name",room.getRoomName());
+                elementRoom.setAttribute("admin",room.getAdmin().getName());
                 for (Message message:room.getMessageSet()) {
                     Element messageElement = document.createElement("message");
                     messageElement.setAttribute("sender",message.getUserSender().getName());
@@ -86,9 +87,7 @@ public class HistorySaver {
             for (int i = 0; i < nodeList.getLength(); i++) {
                 Node roomNode = nodeList.item(i);
                 Room room = new Room(roomNode.getAttributes().getNamedItem("name").getNodeValue());
-                //if(room.getRoomName().equals("Big chat")) {
-                    room.setAdmin(new User("Server"));
-                //}
+                room.setAdmin(new User(roomNode.getAttributes().getNamedItem("admin").getNodeValue()));
                 if(roomNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element roomElement = (Element) roomNode;
                     NodeList messageNodeList = roomElement.getElementsByTagName("message");

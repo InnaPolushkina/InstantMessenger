@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<history disconnect="2019-08-01T00:18:16.248">
-<room name="11">
+<history disconnect="2019-08-01T16:33:18.622">
+<room admin="Inna" name="test my ban room">
 <message sender="Room notify">Added new user Kit</message>
-<message sender="Inna">wfwwwwwwwwwwwwww</message>
-<message sender="Kit">wfffffffffffff</message>
-<message sender="Kit">wffffffffff</message>
-<message sender="Inna">wffffffffff</message>
+<message sender="Kit">egege</message>
+<message sender="Kit">egggg</message>
 <message sender="Room notify">User Kit was banned by admin Inna</message>
+<message sender="Room notify">User Kit was unbanned by admin Inna</message>
 </room>
-<room name="33">
+<room admin="Anybody" name="3434">
 <message sender="Room notify">Added new user Kit</message>
-<message sender="Room notify">User Kit was banned by admin Inna</message>
 </room>
-<room name="Big chat">
+<room admin="Server" name="Big chat">
 <message sender="testing">45454545</message>
 </room>
-<room name="44">
-<message sender="Room notify">Added new user Kit</message>
-<message sender="Room notify">User Kit was banned by admin Inna</message>
-</room>
-<room name="222">
-<message sender="Room notify">Added new user Kit</message>
-<message sender="Room notify">User Kit was banned by admin Inna</message>
+<room admin="Inna" name="myRoom">
+<message sender="Inna">my room</message>
 </room>
 </history>

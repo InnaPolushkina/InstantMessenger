@@ -62,7 +62,10 @@ public class ViewChat {
     private Button banUserButton;
     @FXML
     private Button unbanUserButton;
-
+    @FXML
+    private Label adminInfo;
+    @FXML
+    private Button deleteRoom;
 
     private User user;
     private Notificator notificator;
@@ -116,15 +119,13 @@ public class ViewChat {
         serverError.setText("");
         roomListView.setItems(roomObservableList);
         messagesList.setItems(observableListMessages);
-
-
+        setFocusToRoom("Big chat");
+        adminInfo.setText("");
 
         sendButton.setOnAction(event -> {
             if (messageText.getText() != null && !messageText.getText().trim().equals("")) {
                 router.sendAction("SEND_MSG");
                 router.sendMessage(messageText.getText().replace("\n", ""));
-               // Router.getInstance().sendAction("SEND_MSG");
-               // Router.getInstance().sendMessage(messageText.getText().replace("\n",""));
                 messageText.setText("");
                 messageText.requestFocus();
             }
@@ -266,10 +267,12 @@ public class ViewChat {
                 if(roomAdmin.equals(userName.getText())) {
                     banUserButton.setVisible(true);
                     unbanUserButton.setVisible(true);
+                    adminInfo.setText("You is admin");
                 }
                 else {
                     banUserButton.setVisible(false);
                     unbanUserButton.setVisible(false);
+                    adminInfo.setText("You isn't admin");
                 }
             }
         }catch (NullPointerException e) {
@@ -299,16 +302,6 @@ public class ViewChat {
      */
     public void setUser(User user) {
         this.user = user;
-    }
-
-    /**
-     * not using anywhere now
-     * @return room
-     */
-    private Room getSelectedRoom() {
-        String nameSelectedRoom = roomListView.getSelectionModel().getSelectedItem();
-        Room room = new Room(nameSelectedRoom);
-        return room;
     }
 
     /**
@@ -377,6 +370,14 @@ public class ViewChat {
         }
         catch (Exception e) {
             logger.info("While setting message list to view ",e);
+        }
+    }
+
+    public void setFocusToRoom(String roomName) {
+        for (String room : roomObservableList) {
+            if(room.equals(roomName)) {
+                roomListView.getSelectionModel().select(room);
+            }
         }
     }
 }

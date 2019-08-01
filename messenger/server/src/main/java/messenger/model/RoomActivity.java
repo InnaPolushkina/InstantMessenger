@@ -58,7 +58,7 @@ public class RoomActivity {
     public void createRoom(String roomData) {
         Room room = roomService.createRoom(roomData);
         room.addUser(userConnection);
-        room.setAdmin(userConnection);
+        room.setAdmin(userConnection.getUser().getName());
         Router.getInstense().getRoomList().add(room);
         System.out.println("new room created");
 
@@ -78,7 +78,7 @@ public class RoomActivity {
                 r.addUser(connectionAdd);
                 System.out.println("user successfully added");
                 try {
-                    connectionAdd.getOut().write(messageService.sendServerAction("ADDED_TO_ROOM") + messageService.sendNameNewRoom(r.getRoomName()));
+                    connectionAdd.getOut().write(messageService.sendServerAction("ADDED_TO_ROOM") + messageService.sendAddToRoom(r));
                     connectionAdd.getOut().flush();
 
                     historyMessage.sendHistoryOfSomeRoom(r,connectionAdd);
@@ -149,9 +149,9 @@ public class RoomActivity {
     }
 
     public void sendHistoryOfRooms(String clientData) {
-        List<String> roomNameList = roomService.parseListOfRooms(clientData);
+        List<Room> roomNameList = roomService.parseListOfRooms(clientData);
         LocalDateTime lastOnline = userService.parseLastOnline(clientData);
-        for (String room: roomNameList) {
+        for (Room room: roomNameList) {
             historyMessage.sendHistoryRoomAfterDate(room,userConnection,lastOnline);
         }
 
@@ -159,7 +159,7 @@ public class RoomActivity {
 
     public void sendListUserForBan() {
         Room room = Router.getInstense().getRoomByName(roomNow.getRoomName());
-        if(userConnection.equals(room.getAdmin())) {
+        if(userConnection.getUser().getName().equals(room.getAdmin())) {
             List<User> usersForBan = new ArrayList<>();
             for (UserConnection uc: room.getUserList()) {
                 usersForBan.add(uc.getUser());
@@ -178,7 +178,7 @@ public class RoomActivity {
 
     public void sendListUserForUnBan() {
         Room room = Router.getInstense().getRoomByName(roomNow.getRoomName());
-        if(userConnection.equals(room.getAdmin())) {
+        if(userConnection.getUser().getName().equals(room.getAdmin())) {
             List<User> usersForUnBan = new ArrayList<>();
             for (UserConnection uc: room.getBanList()) {
                 usersForUnBan.add(uc.getUser());

@@ -59,8 +59,11 @@ public class RoomServiceImlp implements RoomService {
             NodeList nodeList = document.getElementsByTagName("room");
             Element element = (Element) nodeList.item(0);
             String roomName = element.getTextContent();
-            result = new Room(roomName);
-            return result;
+            String admin = element.getAttribute("admin");
+            Room room = new Room(roomName);
+            room.setAdmin(new User(admin));
+            result = room;
+
         }catch (IOException e) {
             logger.warn("while parsing notification about addition to room ",e);
         }
@@ -81,7 +84,9 @@ public class RoomServiceImlp implements RoomService {
         String s = "<rooms after = \"" + lastConnection + "\">";
         stringBuilder.append(s);
         for (Room room: rooms) {
-            stringBuilder.append("<room>");
+            stringBuilder.append("<room admin = \"");
+            stringBuilder.append(room.getAdmin().getName());
+            stringBuilder.append("\">");
             stringBuilder.append(room.getRoomName());
             stringBuilder.append("</room>");
         }

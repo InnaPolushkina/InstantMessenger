@@ -115,8 +115,8 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public List<String> parseListOfRooms(String data) {
-        List<String> roomNameList = new ArrayList<>();
+    public List<Room> parseListOfRooms(String data) {
+        List<Room> roomList = new ArrayList<>();
         try {
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = builderFactory.newDocumentBuilder();
@@ -128,7 +128,11 @@ public class RoomServiceImpl implements RoomService {
                 if(node.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) node;
                     String roomName = element.getTextContent();
-                    roomNameList.add(roomName);
+                    String roomAdmin = element.getAttribute("admin");
+                    Room room = new Room(roomName);
+                    room.setAdmin(roomAdmin);
+                    roomList.add(room);
+                   // roomNameList.add(roomName);
                 }
             }
         }
@@ -141,7 +145,7 @@ public class RoomServiceImpl implements RoomService {
         catch (IOException e) {
             logger.warn("exception while parsing string with list of rooms from client",e);
         }
-        return roomNameList;
+        return roomList;
     }
 
     @Override

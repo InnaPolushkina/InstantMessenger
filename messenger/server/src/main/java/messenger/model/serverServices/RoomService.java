@@ -39,7 +39,7 @@ public interface RoomService {
      */
     Room changeRoom(String roomName);
 
-    List<String> parseListOfRooms(String data);
+    List<Room> parseListOfRooms(String data);
 
     String parseListUserForBan(List<User> list);
 

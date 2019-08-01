@@ -106,8 +106,9 @@ public class MessageServiceImpl implements MessageService {
         return "<action>" + action + "</action>\n";
     }
 
+
     @Override
-    public String sendNameNewRoom(String nameRoom) {
-        return "<room>" + nameRoom + "</room>\n";
+    public String sendAddToRoom(Room room) {
+        return "<room admin = \"" + room.getAdmin() + "\">" + room.getRoomName() + "</room>\n";
     }
 }
