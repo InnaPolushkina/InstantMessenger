@@ -15,7 +15,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * The class contains methods for handling activities in room
+ */
 public class RoomActivity {
     private UserConnection userConnection;
     private RoomService roomService;
@@ -55,6 +57,11 @@ public class RoomActivity {
         }
     }
 
+    /**
+     * The method creates new room on the server
+     * if user created room he is admin of this room
+     * @param roomData data for creating room
+     */
     public void createRoom(String roomData) {
         Room room = roomService.createRoom(roomData);
         room.addUser(userConnection);
@@ -65,6 +72,11 @@ public class RoomActivity {
         roomNow = room;
     }
 
+    /**
+     * The method adds some user to room
+     * sends notification to added user about it, and to room
+     * @param data data for adding user
+     */
     public void addUserToRoom(String data) {
         User addedUser = roomService.addUserToRoom(data);
         UserConnection connectionAdd = null;
@@ -94,19 +106,25 @@ public class RoomActivity {
 
     }
 
+    /**
+     * The method for leaving user room
+     * if user leaved room, server sends notify to room about it
+     * @param data name of leaving room
+     */
     public void leaveRoom(String data) {
         for (Room room: Router.getInstense().getRoomList()) {
             if(room.getRoomName().equals(roomNow.getRoomName())) {
                 room.removeUser(userConnection);
-               // sendNotifyMsg("Leaved room . . . >>",room);
                 notifyRoom("User " + userConnection.getUser().getName() + "leaved room",room.getRoomName());
             }
         }
     }
 
+    /**
+     * The method sends list of online users
+     */
     public void sendOnlineUserList() {
         try {
-           // userConnection.getOut().write("<action>ONLINE_LIST</action>\n" + userKeeper.userListToString(getOnlineUser()) + "\n");
             userConnection.getOut().write(messageService.sendServerAction("ONLINE_LIST") + userKeeper.userListToString(getOnlineUser()) + "\n");
             userConnection.getOut().flush();
         }
@@ -116,6 +134,10 @@ public class RoomActivity {
 
     }
 
+    /**
+     * The method for searching online user
+     * @return list of online users
+     */
     private List<User> getOnlineUser() {
         List<User> resultList = new ArrayList<>();
 
@@ -129,8 +151,12 @@ public class RoomActivity {
         return resultList;
     }
 
+    /**
+     * The method sends message with notification to room
+     * @param msg notified message
+     * @param roomName name of notified room
+     */
     private void notifyRoom(String msg, String roomName) {
-        //String testNotify = "<message><nick>Room Notify</nick><text>" + msg + "</text><recipient>" + roomName + "</recipient></message>";
         String testNotify = messageService.sendMessage(msg,"Room notify",roomName);
         for (Room r: Router.getInstense().getRoomList()) {
             if(r.getRoomName().equals(roomName)) {
@@ -148,6 +174,10 @@ public class RoomActivity {
         }
     }
 
+    /**
+     * The method sends all history of messages of some room
+     * @param clientData client recipient
+     */
     public void sendHistoryOfRooms(String clientData) {
         List<Room> roomNameList = roomService.parseListOfRooms(clientData);
         LocalDateTime lastOnline = userService.parseLastOnline(clientData);
@@ -157,6 +187,9 @@ public class RoomActivity {
 
     }
 
+    /**
+     * The method sends to admin of room list of users for banning
+     */
     public void sendListUserForBan() {
         Room room = Router.getInstense().getRoomByName(roomNow.getRoomName());
         if(userConnection.getUser().getName().equals(room.getAdmin())) {
@@ -176,6 +209,9 @@ public class RoomActivity {
         }
     }
 
+    /**
+     * The method sends to admin of room list of users for unbanning
+     */
     public void sendListUserForUnBan() {
         Room room = Router.getInstense().getRoomByName(roomNow.getRoomName());
         if(userConnection.getUser().getName().equals(room.getAdmin())) {
@@ -195,6 +231,11 @@ public class RoomActivity {
         }
     }
 
+    /**
+     * The method for banning user in the room
+     * admin of room send request with data user for banning, server banned user and send him and room where he was banned notification about it
+     * @param userData user name for banning
+     */
     public void banUser(String userData) {
         User banUser = userService.parseBanUser(userData);
         Room room = Router.getInstense().getRoomByName(roomNow.getRoomName());
@@ -214,6 +255,11 @@ public class RoomActivity {
         }
     }
 
+    /**
+     * The method for unbanning user in the room
+     * admin of room send request with data user for unbanning, server unbanned user and send him and room where he was unbanned notification about it
+     * @param userData user name for unbanning
+     */
     public void unBanUser(String userData) {
         User unBanUser = userService.parseUnbanUser(userData);
         Room room = Router.getInstense().getRoomByName(roomNow.getRoomName());
@@ -233,6 +279,11 @@ public class RoomActivity {
         }
     }
 
+    /**
+     * The method for deleting room from server
+     * if user is admin of room, server delete send to user notification about deleting room, send to room last message and delete thos room
+     * @param data user message with name of deleting room
+     */
     public void deleteRoomByAdmin(String data) {
         String roomName = roomService.deleteRoom(data);
         Room room = Router.getInstense().getRoomByName(roomName);

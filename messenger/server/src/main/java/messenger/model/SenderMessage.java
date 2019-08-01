@@ -8,11 +8,22 @@ import messenger.model.serverServices.MessageService;
 
 import java.io.IOException;
 
+/**
+ * The class for handling sending messages
+ */
 public class SenderMessage {
     private MessageService messageService;
     private UserConnection userConnection;
     private HistoryMessage historyMessage;
 
+    /**
+     * The constructor of this class
+     * @param messageService object of class that implements interface MessageServise
+     * @see MessageService
+     * @param userConnection connection with user
+     * @param historyMessage object of class HistoryMessage
+     * @see HistoryMessage
+     */
     public SenderMessage(MessageService messageService, UserConnection userConnection, HistoryMessage historyMessage) {
         this.messageService = messageService;
         this.userConnection = userConnection;

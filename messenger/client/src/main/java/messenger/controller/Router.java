@@ -25,11 +25,8 @@ import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-
 
 /**
  * The main controller class of client side
@@ -111,6 +108,11 @@ public class Router {
         return userConnection.getUser();
     }
 
+    /**
+     * The getter for UserConnection
+     * @return object of Class UserServerConnection
+     * @see UserServerConnection
+     */
     public UserServerConnection getUserConnection() {
         return userConnection;
     }
@@ -180,6 +182,11 @@ public class Router {
         viewChat.setUserName(name);
     }
 
+    /**
+     * The method loads history of all room where is user
+     * saved history loads to list of room,
+     * sends to server request for getting history of rooms when user was online
+     */
     private void getHistory() {
         HistorySaver historySaver = new HistorySaver();
         roomList = historySaver.loadHistory();
@@ -211,6 +218,10 @@ public class Router {
         }
     }
 
+    /**
+     * The method sends to server service info about client actions
+     * @param msg message with client action
+     */
     public void sendAction(String msg) {
         try {
             sendMessageToServer(messageService.sendAction(msg));
@@ -220,6 +231,10 @@ public class Router {
         }
     }
 
+    /**
+     * The method send simple message to server
+     * @param msg message to server
+     */
     public void sendSimpleMsg(String msg) {
         try {
             sendMessageToServer(msg);
@@ -229,6 +244,11 @@ public class Router {
         }
     }
 
+    /**
+     * The method sends message to server
+     * @param msg message
+     * @throws IOException if I/O occur
+     */
     private void sendMessageToServer(String msg) throws IOException{
         BufferedWriter out = userConnection.getOut();
         out.write(msg + "\n");
@@ -236,10 +256,19 @@ public class Router {
 
     }
 
+    /**
+     * The getter for list of all rooms
+     * @return set of rooms
+     */
     public Set<Room> getRoomList() {
         return roomList;
     }
 
+    /**
+     * The method searches room in room list by room name
+     * @param roomName name of searched room
+     * @return object of class Room, if room was found, else return null
+     */
     public Room getRoomByName(String roomName) {
         Room result = null;
         for (Room r: roomList) {
@@ -250,6 +279,10 @@ public class Router {
         return result;
     }
 
+    /**
+     * The method sends to server request about creating new room
+     * @param roomName name of creating room
+     */
     public void createRoom(String roomName) {
         try {
             sendAction("CREATE_ROOM");
@@ -257,7 +290,6 @@ public class Router {
             BufferedWriter out = userConnection.getOut();
             out.write(roomService.createRoom(roomName) + "\n");
             out.flush();
-           // out.close();
             Room room = new Room(roomName);
             room.addNewUser(userConnection);
             room.setAdmin(userConnection.getUser());
@@ -268,7 +300,11 @@ public class Router {
         }
     }
 
-    public void addUserToRoom(User user/*, Room room*/) {
+    /**
+     * The method sends to server info for adding new user to room
+     * @param user user for adding
+     */
+    public void addUserToRoom(User user) {
         try {
             sendAction("ADD_TO_ROOM");
 
@@ -282,6 +318,10 @@ public class Router {
 
     }
 
+    /**
+     * The method sends to server info about user switching room
+     * @param roomName name of switched room
+     */
     public void switchRoom(String roomName) {
         sendAction("SWITCH_ROOM");
         try {
@@ -295,7 +335,10 @@ public class Router {
 
     }
 
-
+    /**
+     * The method sends to server info about leaving room
+     * @param roomName name of leaving room
+     */
     public void leaveRoom(String roomName) {
         sendAction("LEAVE_ROOM");
         sendMessage(" ");
@@ -308,6 +351,12 @@ public class Router {
             }
     }
 
+    /**
+     * The method sends to server request for banning/unbanning user
+     * @param user user for banning/unbanning
+     * @param room data about room
+     * @param banStatus ban status
+     */
     public void banUser(User user, Room room, boolean banStatus) {
         if (banStatus) {
             sendAction("BAN");
@@ -330,17 +379,14 @@ public class Router {
 
     }
 
+    /**
+     * The method sends request to server about deleting room
+     * @param roomName name of room for deleting
+     */
     public void deleteRoom(String roomName) {
         sendAction("DELETE_ROOM");
         sendMessage(roomService.deleteRoom(roomName));
         viewChat.setFocusToRoom(roomName);
-       /* for (Room r: roomList) {
-            if(r.getRoomName().equals(roomName) && userConnection.getUser().getName().equals(r.getAdmin().getName())) {
-                r.removerUser(userConnection);
-                roomList.remove(r);
-                break;
-            }
-        }*/
     }
 
 }

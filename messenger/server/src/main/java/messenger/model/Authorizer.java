@@ -12,7 +12,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * The class for authorizing user at the server
+ */
 public class Authorizer {
     private UserConnection userConnection;
     private UserRegistrationService userRegistrationService;
@@ -39,12 +41,6 @@ public class Authorizer {
                 user = userRegistrationService.getAuthorizedUser();
                 user.setOnline(true);
                 userConnection.setUser(user);
-                //userConnection.getOut().write(userKeeper.userListToString(userKeeper.loadFromFile()) + "\n");
-                //userConnection.getOut().write(userKeeper.userListToString(getOnlineUser()) + "\n");
-                //userConnection.getOut().flush();
-                //getOnlineUsers(userKeeper);
-
-
 
                 Router.getInstense().addUserToBigRoom(userConnection);
 
@@ -59,43 +55,18 @@ public class Authorizer {
         }
     }
 
-    private List<User> getOnlineUser() {
-        List<User> resultList = new ArrayList<>();
-        //resultList.add(userConnection.getUser());
-
-        for (UserConnection connection: Router.getInstense().getUserList()) {
-            System.out.println(connection.getUser().getName());
-            if( connection.getUser() != null  && !connection.getUser().getName().equals(userConnection.getUser().getName())) {
-                resultList.add(connection.getUser());
-           }
-        }
-
-        return resultList;
-    }
-
-    public Authorizer() {
-        super();
-    }
-
+    /**
+     * The constructor of this class
+     * @param userConnection user connection for authorizing
+     * @param userRegistrationService object of class that implements interface UserRegistrationService
+     * @see UserRegistrationService
+     * @param userKeeper object of class that implements interface UserKeeper
+     * @see UserKeeper
+     */
     public Authorizer(UserConnection userConnection, UserRegistrationService userRegistrationService, UserKeeper userKeeper) {
         this.userConnection = userConnection;
         this.userRegistrationService = userRegistrationService;
         this.userKeeper = userKeeper;
     }
 
-    public UserConnection getUserConnection() {
-        return userConnection;
-    }
-
-    public void setUserConnection(UserConnection userConnection) {
-        this.userConnection = userConnection;
-    }
-
-    public UserRegistrationService getUserRegistrationService() {
-        return userRegistrationService;
-    }
-
-    public void setUserRegistrationService(UserRegistrationService userRegistrationService) {
-        this.userRegistrationService = userRegistrationService;
-    }
 }

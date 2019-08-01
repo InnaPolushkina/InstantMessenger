@@ -2,6 +2,9 @@ package messenger.model.exceptions;
 
 import java.security.PrivilegedActionException;
 
+/**
+ * The class for exception of authorization
+ */
 public class ServerAuthorizationException extends Exception {
     /**
      * Constructs a new exception with the specified detail message.  The

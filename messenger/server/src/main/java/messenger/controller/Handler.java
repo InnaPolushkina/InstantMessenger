@@ -40,12 +40,14 @@ public class Handler extends Thread{
      */
     public Handler(Socket socket, UserRegistrationService userRegistrationService) throws IOException{
         userConnection = new UserConnection(socket);
-        //userRegistrationService.getUsers();
         this.userRegistrationService = userRegistrationService;
         userConnection.setIn(new BufferedReader(new InputStreamReader((userConnection.getUserSocket().getInputStream()))));
         userConnection.setOut(new BufferedWriter(new OutputStreamWriter(userConnection.getUserSocket().getOutputStream())));
     }
 
+    /**
+     * The simple constructor of this class
+     */
     public Handler() {
         super();
     }
@@ -62,38 +64,72 @@ public class Handler extends Thread{
         userConnection.setOut(new BufferedWriter(new OutputStreamWriter(userConnection.getUserSocket().getOutputStream())));
     }
 
+    /**
+     * The setter for room service
+     * @param roomService object of class that implements interface RoomService
+     * @see RoomService
+     */
     public void setRoomService(RoomService roomService) {
         this.roomService = roomService;
     }
 
+    /**
+     * The setter for user
+     * @param user user
+     */
     public void setUser(User user) {
         this.user = user;
     }
 
+    /**
+     * The setter for userRegistrationService
+     * @param userRegistrationService object of class that implements interface UserRegistrationService
+     * @see UserRegistrationService
+     */
     public void setUserRegistrationService(UserRegistrationService userRegistrationService) {
         this.userRegistrationService = userRegistrationService;
     }
 
+    /**
+     * The setter for message service
+     * @param messageService object of class that implement interface MessageService
+     * @see MessageService
+     */
     public void setMessageService(MessageService messageService) {
         this.messageService = messageService;
     }
 
+    /**
+     * The setter for router
+     * @param router router
+     */
     public void setRouter(Router router) {
         this.router = router;
     }
 
+    /**
+     * The setter for user keeper
+     * @param userKeeper object of class that implements interface UserKeeper
+     * @see UserKeeper
+     */
     public void setUserKeeper(UserKeeper userKeeper) {
         this.userKeeper = userKeeper;
     }
 
-    public UserConnection getUserConnection() {
-        return userConnection;
-    }
-
+    /**
+     * The setter for history messages
+     * @param historyMessage object of class HistoryMessages
+     * @see HistoryMessage
+     */
     public void setHistoryMessage(HistoryMessage historyMessage) {
         this.historyMessage = historyMessage;
     }
 
+    /**
+     * The setter for user service
+     * @param userService object of class that implements interface UserService
+     * @see UserService
+     */
     public void setUserService(UserService userService) {
         this.userService = userService;
     }

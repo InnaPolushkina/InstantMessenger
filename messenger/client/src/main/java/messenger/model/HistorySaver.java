@@ -34,6 +34,11 @@ public class HistorySaver {
     private  LocalDateTime lastOnlineDate;
     private static final Logger logger = Logger.getLogger(HistorySaver.class);
 
+    /**
+     * The method for saving info about all room where is user
+     * @param roomSet rooms with data for saving
+     * @param lastOnline data of last user disconnecting
+     */
     public void saveHistory(Set<Room> roomSet, LocalDateTime lastOnline) {
         try {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -72,7 +77,10 @@ public class HistorySaver {
         }
     }
 
-
+    /**
+     * The method load from file all data from last user disconnect
+     * @return rooms with saving data
+     */
     public Set<Room> loadHistory() {
         Set<Room> roomSet = new HashSet<>();
         try {
@@ -123,6 +131,10 @@ public class HistorySaver {
         return roomSet;
     }
 
+    /**
+     * The getter for date of last user disconnection
+     * @return
+     */
     public LocalDateTime getLastOnlineDate() {
         return lastOnlineDate;
     }

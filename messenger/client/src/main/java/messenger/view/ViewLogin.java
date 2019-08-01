@@ -36,6 +36,10 @@ public class ViewLogin {
     private Stage stage;
     private ViewRegister viewRegister;
 
+    /**
+     * The constructor of this class
+     * @param stage stage for showing login scene
+     */
     public ViewLogin(Stage stage) {
         this.stage = stage;
         FXMLLoader loader = new FXMLLoader();
@@ -55,6 +59,10 @@ public class ViewLogin {
         }
     }
 
+    /**
+     * The method for initializing values to components of form and setting handlers for client actions
+     */
+    @FXML
     public void initialize() {
       errorUserMessage.setText(" ");
       loginButton.setOnAction(event -> {
@@ -68,61 +76,20 @@ public class ViewLogin {
       });
    }
 
-    public Button getLoginButton() {
-        return loginButton;
-    }
-
-    public void setLoginButton(Button loginButton) {
-        this.loginButton = loginButton;
-    }
-
+    /**
+     * The getter for button for user registration
+     * @return registration Button
+     */
     public Button getRegisterButton() {
         return registerButton;
     }
 
-    public void setRegisterButton(Button registerButton) {
-        this.registerButton = registerButton;
-    }
-
-    public TextField getUserName() {
-        return userName;
-    }
-
-    public void setUserName(TextField userName) {
-        this.userName = userName;
-    }
-
-    public TextField getUserPassword() {
-        return userPassword;
-    }
-
-    public void setUserPassword(PasswordField userPassword) {
-        this.userPassword = userPassword;
-    }
-
-    public Label getErrorUserMessage() {
-        return errorUserMessage;
-    }
-
+    /**
+     * The method for setting message to user about some error
+     * @param errorUserMessage message text
+     */
     public void setErrorUserMessage(String errorUserMessage) {
         this.errorUserMessage.setText(errorUserMessage);
     }
 
-
-
-    public void showListOfAllRoom(Set<Room> rooms) {
-
-    }
-
-    public void showListOfAllUsers(Set<User> users) {
-
-    }
-
-    public void showMessage(MessageServer messageServer) {
-
-    }
-
-    public static void showLog(String log) {
-        System.out.println(log);
-    }
 }

@@ -2,7 +2,6 @@ package messenger.model.serverServices;
 
 import messenger.model.serverEntity.Room;
 import messenger.model.serverEntity.User;
-import messenger.model.serverEntity.UserConnection;
 
 import java.util.List;
 
@@ -15,9 +14,7 @@ public interface RoomService {
     Room createRoom(String roomData);
 
     /**
-     * the method adds user to room
-     * @param //user contain object of Class User for adding to room
-     * @param //room contain object of Class Room
+     * the method parse user data for adding to room
      * @see Room
      * @see User
      */
@@ -30,13 +27,31 @@ public interface RoomService {
      */
     Room changeRoom(String roomName);
 
+    /**
+     * The method parses list of rooms
+     * @param data string from user with room data
+     * @return list of rooms
+     */
     List<Room> parseListOfRooms(String data);
 
+    /**
+     * The method parses for sending to user list of user, who can be banned or unbanned
+     * @param list
+     * @return
+     */
     String parseListUserForBan(List<User> list);
 
-    String parseListUserForUnBan(List<User> list);
-
+    /**
+     * The method parses data from user about deleting room
+     * @param data data about deleting room
+     * @return name of room for deleting
+     */
     String deleteRoom(String data);
 
+    /**
+     * The method parses for sending notification about deletion room
+     * @param roomName name of deleted room
+     * @return string with notification about deleted room
+     */
     String deletedRoomNotification(String roomName);
 }

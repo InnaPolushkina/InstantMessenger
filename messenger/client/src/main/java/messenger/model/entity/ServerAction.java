@@ -1,5 +1,8 @@
 package messenger.model.entity;
 
+/**
+ * The enum with all actions from server side
+ */
 public enum ServerAction {
     SEND_MSG,
     ONLINE_LIST,

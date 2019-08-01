@@ -14,6 +14,12 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
+/**
+ * The class contain methods and FXML components for handling actions of user with form for registering user
+ * @see @FXML
+ * @see javafx.scene.control
+ * @author Inna
+ */
 public class ViewRegister {
     @FXML
     private Button registrationButton;
@@ -27,6 +33,10 @@ public class ViewRegister {
     private Router router;
     private static final Logger logger = Logger.getLogger(ViewRegister.class);
 
+    /**
+     * The constructor of this class
+     * @param stage stage for showing register scene
+     */
     public ViewRegister(Stage stage) {
         FXMLLoader loader = new FXMLLoader();
         loader.setController(this);
@@ -47,6 +57,9 @@ public class ViewRegister {
         this.router = Router.getInstance();
     }
 
+    /**
+     * The method for initializing values to components of form and setting handlers for client actions
+     */
     public void initialize() {
         setErrorMsg("");
         registrationButton.setOnAction(event -> {
@@ -62,37 +75,12 @@ public class ViewRegister {
         });
     }
 
+    /**
+     * The setter for message to user about some error
+     * @param errorMsg text message
+     */
     public void setErrorMsg(String errorMsg) {
         this.errorMsg.setText(errorMsg);
     }
-
-    public Button getRegistrationButton() {
-        return registrationButton;
-    }
-
-    public void setRegistrationButton(Button registrationButton) {
-        this.registrationButton = registrationButton;
-    }
-
-    public TextField getUserName() {
-        return userName;
-    }
-
-    public void setUserName(TextField userName) {
-        this.userName = userName;
-    }
-
-    public TextField getUserPassword() {
-        return userPassword;
-    }
-
-    public void setUserPassword(PasswordField userPassword) {
-        this.userPassword = userPassword;
-    }
-
-    public Label getErrorMsg() {
-        return errorMsg;
-    }
-
 
 }

@@ -2,6 +2,9 @@ package messenger.model.exceptions;
 
 import java.security.PrivilegedActionException;
 
+/**
+ * The class for exception of registering
+ */
 public class ServerRegistrationException extends Exception {
 
     /**

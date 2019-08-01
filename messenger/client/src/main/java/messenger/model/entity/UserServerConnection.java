@@ -1,7 +1,5 @@
 package messenger.model.entity;
 
-import messenger.model.entity.User;
-
 import java.io.*;
 import java.net.Socket;
 
@@ -16,8 +14,13 @@ public class UserServerConnection implements Serializable{
     private Socket userSocket;
     private BufferedReader in;
     private BufferedWriter out;
-    private BufferedReader userMes;
 
+    /**
+     * The constructor of this class
+     * @param user user
+     * @param userSocket user socket
+     * @throws IOException if I/O exception occurs
+     */
     public UserServerConnection(User user, Socket userSocket) throws IOException{
         this.user = user;
         this.userSocket = userSocket;
@@ -25,54 +28,66 @@ public class UserServerConnection implements Serializable{
         setOut();
     }
 
+    /**
+     * The getter for user
+     * @return object of class User
+     * @see User
+     */
     public User getUser() {
         return user;
     }
 
+    /**
+     * The setter for user
+     * @param user object of class User
+     * @see User
+     */
     public void setUser(User user) {
         this.user = user;
     }
 
-    public Socket getUserSocket() {
-        return userSocket;
-    }
-
-    public void setUserSocket(Socket userSocket) {
-        this.userSocket = userSocket;
-    }
-
+    /**
+     * The getter for input stream
+     * @return stream
+     */
     public BufferedReader getIn() {
         return in;
     }
 
+    /**
+     * The setter for input stream
+     * @throws IOException if I/O exception occurs
+     */
     public void setIn() throws IOException{
        this.in = new BufferedReader(new InputStreamReader(userSocket.getInputStream()));
     }
 
+    /**
+     * The getter for output stream
+     * @return stream
+     */
     public BufferedWriter getOut() {
         return out;
     }
 
+    /**
+     * The setter for output stream
+     * @throws IOException if I/O exception occurs
+     */
     public void setOut() throws IOException{
         this.out = new BufferedWriter(new OutputStreamWriter(userSocket.getOutputStream()));
     }
 
-    public BufferedReader getUserMes() {
-        return userMes;
-    }
-
+    /**
+     * The method for converting object of this class to string
+     * @return string object data
+     */
     @Override
     public String toString() {
         return "UserServerConnection{" +
                 "user=" + user +
                 ", userSocket=" + userSocket +
-                ", in=" + in +
-                ", out=" + out +
-                ", userMes=" + userMes +
                 '}';
     }
 
-    public void setUserMes(BufferedReader userMes) {
-        this.userMes = userMes;
-    }
 }

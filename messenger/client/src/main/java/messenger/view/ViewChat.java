@@ -234,6 +234,7 @@ public class ViewChat {
      * if user is banned in the room, hides text area and button for sending messages, else shows its,
      * if user is admin of room, shows buttons for ban/unBan users in this room, else hides its,
      * if user muted room, sets to muteButton text "UnMute", else sets "Mute"
+     * if room was deleted, hide all components for working with this room
      */
     private void switchRoom() {
         try {
@@ -274,6 +275,9 @@ public class ViewChat {
                     banUserButton.setVisible(false);
                     unbanUserButton.setVisible(false);
                 } else {
+                    muteRoom.setVisible(true);
+                    addUser.setVisible(true);
+                    leaveRoom.setVisible(true);
                     String roomAdmin = Router.getInstance().getRoomByName(nameRoom.getText()).getAdmin().getName();
                     if (roomAdmin.equals(userName.getText())) {
                         banUserButton.setVisible(true);
@@ -387,6 +391,10 @@ public class ViewChat {
         }
     }
 
+    /**
+     * The method sets focus to room
+     * @param roomName name of room
+     */
     public void setFocusToRoom(String roomName) {
         for (String room : roomObservableList) {
             if(room.equals(roomName)) {

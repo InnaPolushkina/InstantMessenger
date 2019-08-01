@@ -150,7 +150,7 @@ public class RoomServiceImpl implements RoomService {
         return stringBuilder.toString();
     }
 
-    @Override
+   /* @Override
     public String parseListUserForUnBan(List<User> list) {
         String s = "<listForUnBan>";
         StringBuilder stringBuilder = new StringBuilder();
@@ -158,7 +158,7 @@ public class RoomServiceImpl implements RoomService {
         stringBuilder.append(parseList(list));
         stringBuilder.append("</listForUnBan>");
         return stringBuilder.toString();
-    }
+    }*/
 
     private String parseList(List<User> list) {
         StringBuilder stringBuilder = new StringBuilder();

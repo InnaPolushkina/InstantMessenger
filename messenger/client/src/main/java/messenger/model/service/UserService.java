@@ -20,8 +20,18 @@ public interface UserService {
      */
     String unban(User user);
 
+    /**
+     * The method parses notification from server about banning user
+     * @param msg message from server
+     * @return room where user was banned
+     */
     Room parseBanNotification(String msg);
 
+    /**
+     * The method parses notification from server about unbanning user
+     * @param msg message from server
+     * @return room where user was unbanned
+     */
     Room parseUnBanNotification(String msg);
 
 }

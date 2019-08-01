@@ -2,6 +2,9 @@ package messenger.model.serverServices;
 
 import messenger.model.serverEntity.User;
 
+/**
+ * The interface for servicing user registration / authorization
+ */
 public interface UserRegistrationService {
     /**
      * the method register new user

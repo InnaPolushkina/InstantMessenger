@@ -51,7 +51,6 @@ public class Listener extends Thread {
     public void run() {
         while (true) {
             try {
-                //String action = messageFromServer();
                 ServerAction serverAction = messageService.parseServerAction(messageFromServer());
                 switch (serverAction) {
                     case SEND_MSG:
@@ -167,27 +166,51 @@ public class Listener extends Thread {
      * @throws IOException If an I/O error occurs
      */
     public String messageFromServer() throws IOException{
-        //userServerConnection.setIn();
         String s = userServerConnection.getIn().readLine();
         return s;
     }
 
+    /**
+     * The setter for view of chat
+     * @param viewChat object of class ViewChat
+     * @see ViewChat
+     */
     public void setViewChat(ViewChat viewChat) {
         this.viewChat = viewChat;
     }
 
+    /**
+     * The setter for object of class that implements interface MessageService
+     * @param messageService object of class for service messages
+     * @see MessageService
+     */
     public void setMessageService(MessageService messageService) {
         this.messageService = messageService;
     }
 
+    /**
+     * The setter for room service
+     * @param roomService object of class that implements interface RoomService
+     * @see RoomService
+     */
     public void setRoomService(RoomService roomService) {
         this.roomService = roomService;
     }
 
+    /**
+     * The setter for user service for registration
+     * @param userRegistrationService object of class that implements interface UserRegistrationService
+     * @see UserRegistrationService
+     */
     public void setUserRegistrationService(UserRegistrationService userRegistrationService) {
         this.userRegistrationService = userRegistrationService;
     }
 
+    /**
+     * The setter for userService
+     * @param userService object of class that implements interface UserService
+     * @see UserService
+     */
     public void setUserService(UserService userService) {
         this.userService = userService;
     }

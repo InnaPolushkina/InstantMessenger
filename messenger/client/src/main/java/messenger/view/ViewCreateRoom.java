@@ -13,6 +13,9 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
+/**
+ * The class has methods for working with view when some client is creating new room
+ */
 public class ViewCreateRoom {
     private static final Logger logger = Logger.getLogger(ViewCreateRoom.class);
     private Stage stage;
@@ -27,6 +30,11 @@ public class ViewCreateRoom {
     @FXML
     private TextField nameNewRoom;
 
+    /**
+     * The constructor of this class
+     * @param stage stage for creating new room form
+     * @param viewChat object of class ViewChat
+     */
     public ViewCreateRoom(Stage stage, ViewChat viewChat) {
         this.viewChat = viewChat;
         this.stage = stage;
@@ -49,6 +57,9 @@ public class ViewCreateRoom {
         }
     }
 
+    /**
+     * The method for initializing values to components of form and setting handlers for client actions
+     */
     @FXML
     public void initialize() {
         errorRoomCreatorMsg.setText("");
@@ -73,15 +84,4 @@ public class ViewCreateRoom {
 
     }
 
-    public Button getCreateNewRoomButton() {
-        return createNewRoomButton;
-    }
-
-    public Button getCancelCreateNewRoomButton() {
-        return cancelCreateNewRoomButton;
-    }
-
-    public TextField getNameNewRoom() {
-        return nameNewRoom;
-    }
 }
