@@ -10,9 +10,9 @@ public class Room implements Serializable {
     private String roomName;
     private boolean isMuted;
     private boolean isBanned;
+    private boolean isDeleted;
     private User admin;
     private Set<UserServerConnection> users = new HashSet<>();
-    private Set<UserServerConnection> banList = new HashSet<>();
    // private Set<UserServerConnection> muteList = new HashSet<>();
     private List<Message> messageSet = new LinkedList<>();
 
@@ -53,7 +53,14 @@ public class Room implements Serializable {
 
     public void banUser(UserServerConnection user, boolean banStatus) {
         user.getUser().setBanned(banStatus);
-        banList.add(user);
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
     public void muteUser(UserServerConnection userConnection, boolean muteStatus) {
@@ -72,10 +79,6 @@ public class Room implements Serializable {
         return users;
     }
 
-    public Set<UserServerConnection> getBanList() {
-        return banList;
-    }
-
     public void setRoomName(String roomName) {
         this.roomName = roomName;
     }
@@ -84,9 +87,6 @@ public class Room implements Serializable {
         this.users = users;
     }
 
-    public void setBanList(Set<UserServerConnection> banList) {
-        this.banList = banList;
-    }
 
     public boolean isMuted() {
         return isMuted;

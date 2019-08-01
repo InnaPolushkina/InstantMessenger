@@ -168,6 +168,9 @@ public class ViewChat {
             roomListView.getItems().remove(nameRoom.getText());
             nameRoom.setText("Big chat");
         });
+        deleteRoom.setOnAction(event -> {
+            router.deleteRoom(nameRoom.getText());
+        });
     }
 
     /**
@@ -254,7 +257,7 @@ public class ViewChat {
                     muteRoom.setText("Mute");
                 }
 
-                if(Router.getInstance().getRoomByName(nameRoom.getText()).isBanned()) {
+                if(Router.getInstance().getRoomByName(nameRoom.getText()).isBanned() || Router.getInstance().getRoomByName(nameSelectedRoom).isDeleted()) {
                     messageText.setVisible(false);
                     sendButton.setVisible(false);
                 }
@@ -263,17 +266,28 @@ public class ViewChat {
                     sendButton.setVisible(true);
                 }
 
-                String roomAdmin = Router.getInstance().getRoomByName(nameRoom.getText()).getAdmin().getName();
-                if(roomAdmin.equals(userName.getText())) {
-                    banUserButton.setVisible(true);
-                    unbanUserButton.setVisible(true);
-                    adminInfo.setText("You is admin");
-                }
-                else {
+                if(Router.getInstance().getRoomByName(nameSelectedRoom).isDeleted()) {
+                    muteRoom.setVisible(false);
+                    addUser.setVisible(false);
+                    leaveRoom.setVisible(false);
+                    deleteRoom.setVisible(false);
                     banUserButton.setVisible(false);
                     unbanUserButton.setVisible(false);
-                    adminInfo.setText("You isn't admin");
+                } else {
+                    String roomAdmin = Router.getInstance().getRoomByName(nameRoom.getText()).getAdmin().getName();
+                    if (roomAdmin.equals(userName.getText())) {
+                        banUserButton.setVisible(true);
+                        unbanUserButton.setVisible(true);
+                        adminInfo.setText("You is admin");
+                        deleteRoom.setVisible(true);
+                    } else {
+                        banUserButton.setVisible(false);
+                        unbanUserButton.setVisible(false);
+                        adminInfo.setText("You isn't admin");
+                        deleteRoom.setVisible(false);
+                    }
                 }
+
             }
         }catch (NullPointerException e) {
             logger.warn(e);

@@ -184,6 +184,10 @@ public class Handler extends Thread{
                         case UNBAN:
                             roomActivity.unBanUser(clientData);
                             break;
+                        case DELETE_ROOM:
+                            roomActivity.deleteRoomByAdmin(clientData);
+                            System.out.println("room deleted");
+                            break;
                     }
                 }
            }

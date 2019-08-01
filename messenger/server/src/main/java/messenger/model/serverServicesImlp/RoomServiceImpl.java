@@ -80,14 +80,6 @@ public class RoomServiceImpl implements RoomService {
         return result;
     }
 
-    @Override
-    public void removeUserFromRoom(UserConnection user, Room room) {
-        for (Room r: Router.getInstense().getRoomList()) {
-            if(r.getRoomName().equals(room.getRoomName())) {
-                r.removeUser(user);
-            }
-        }
-    }
 
     public Room changeRoom(String roomName){
         Room result = null;
@@ -176,5 +168,35 @@ public class RoomServiceImpl implements RoomService {
             stringBuilder.append("</user>");
         }
         return stringBuilder.toString();
+    }
+
+    @Override
+    public String deleteRoom(String data) {
+        String  result = null;
+        try {
+            DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = builderFactory.newDocumentBuilder();
+            Document document = builder.parse(new InputSource(new StringReader(data)));
+
+            NodeList nodeList = document.getElementsByTagName("delete");
+            Element element = (Element)nodeList.item(0);
+            result = element.getTextContent();
+        }
+        catch (ParserConfigurationException e) {
+            logger.warn("exception while parsing string with xml from client when he delete room ",e);
+        }
+        catch (SAXException e) {
+            logger.warn("exception while parsing string with xml from client when he delete room ",e);
+        }
+        catch (IOException e) {
+            logger.warn("exception while parsing string with xml from client when he delete room ",e);
+        }
+
+        return result;
+    }
+
+    @Override
+    public String deletedRoomNotification(String roomName) {
+        return "<deleted>" + roomName + "</deleted>";
     }
 }

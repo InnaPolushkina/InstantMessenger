@@ -39,11 +39,6 @@ public class RoomServiceImlp implements RoomService {
     }
 
     @Override
-    public void removeUserFromRoom(User user, Room room) {
-
-    }
-
-    @Override
     public String switchRoom(String roomName) {
         String result = "<goToRoom>" + roomName + "</goToRoom>";
         return result;
@@ -84,11 +79,13 @@ public class RoomServiceImlp implements RoomService {
         String s = "<rooms after = \"" + lastConnection + "\">";
         stringBuilder.append(s);
         for (Room room: rooms) {
-            stringBuilder.append("<room admin = \"");
-            stringBuilder.append(room.getAdmin().getName());
-            stringBuilder.append("\">");
-            stringBuilder.append(room.getRoomName());
-            stringBuilder.append("</room>");
+            if(!room.isDeleted()) {
+                stringBuilder.append("<room admin = \"");
+                stringBuilder.append(room.getAdmin().getName());
+                stringBuilder.append("\">");
+                stringBuilder.append(room.getRoomName());
+                stringBuilder.append("</room>");
+            }
         }
         stringBuilder.append("</rooms>");
         result = stringBuilder.toString();
@@ -125,4 +122,34 @@ public class RoomServiceImlp implements RoomService {
         return result;
     }
 
+    @Override
+    public Room parseDeletedRoom(String data) {
+        Room result = null;
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(new InputSource(new StringReader(data)));
+            NodeList nodeList = document.getElementsByTagName("deleted");
+            Element element = (Element) nodeList.item(0);
+            String roomName = element.getTextContent();
+            Room room = new Room(roomName);
+            result = room;
+
+        }catch (IOException e) {
+            logger.warn("while parsing notification about addition to room ",e);
+        }
+        catch (ParserConfigurationException e) {
+            logger.warn("while parsing notification about addition to room ",e);
+        }
+        catch (SAXException e) {
+            logger.warn("while parsing notification about addition to room ",e);
+        }
+
+        return result;
+    }
+
+    @Override
+    public String deleteRoom(String roomName) {
+        return "<delete>" + roomName + "</delete>";
+    }
 }

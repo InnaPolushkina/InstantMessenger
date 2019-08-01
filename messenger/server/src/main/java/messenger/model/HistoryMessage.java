@@ -112,18 +112,18 @@ public class HistoryMessage {
             newRoom.setAdmin(roomForUser.getAdmin());
             newRoom.addUser(userConnection);
             Router.getInstense().getRoomList().add(newRoom);
-            logger.info("room " + roomForUser + "created and user added to it");
+            logger.info("room " + roomForUser.getRoomName() + "created and user added to it");
         }
         try {
             UserConnection uc = r.getUserConnectionByName(userConnection.getUser().getName());
             if(uc == null) {
                 Router.getInstense().getRoomByName(roomForUser.getRoomName()).addUser(userConnection);
-                logger.info("user added to room " + roomForUser);
+                logger.info("user added to room " + roomForUser.getRoomName());
             }
 
         }catch (NullPointerException e) {
             Router.getInstense().getRoomByName(roomForUser.getRoomName()).addUser(userConnection);
-            logger.info("user added to room " + roomForUser);
+            logger.info("user added to room " + roomForUser.getRoomName());
         }
 
 

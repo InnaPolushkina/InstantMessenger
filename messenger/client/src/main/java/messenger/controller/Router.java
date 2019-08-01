@@ -306,7 +306,7 @@ public class Router {
                     break;
                 }
             }
-        }
+    }
 
     public void banUser(User user, Room room, boolean banStatus) {
         if (banStatus) {
@@ -328,6 +328,19 @@ public class Router {
             }
         }
 
+    }
+
+    public void deleteRoom(String roomName) {
+        sendAction("DELETE_ROOM");
+        sendMessage(roomService.deleteRoom(roomName));
+        viewChat.setFocusToRoom(roomName);
+       /* for (Room r: roomList) {
+            if(r.getRoomName().equals(roomName) && userConnection.getUser().getName().equals(r.getAdmin().getName())) {
+                r.removerUser(userConnection);
+                roomList.remove(r);
+                break;
+            }
+        }*/
     }
 
 }

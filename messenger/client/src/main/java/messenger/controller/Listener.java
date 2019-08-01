@@ -122,6 +122,15 @@ public class Listener extends Thread {
                             viewChat.setFocusToRoom(unBanRoom.getRoomName());
                         });
                         break;
+                    case DELETED_ROOM:
+                        Room deletedRoom = roomService.parseDeletedRoom(messageFromServer());
+                        Router.getInstance().getRoomByName(deletedRoom.getRoomName()).setDeleted(true);
+                        Router.getInstance().getRoomByName(deletedRoom.getRoomName()).setMuted(false);
+                        Platform.runLater(() -> {
+                            Notificator notificator = new Notificator();
+                            notificator.notifyUser(deletedRoom.getRoomName(),"Room was deleted",TrayIcon.MessageType.WARNING);
+                        });
+                        break;
                 }
 
             } catch (Exception e) {

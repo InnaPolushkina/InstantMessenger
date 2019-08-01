@@ -28,14 +28,6 @@ public interface RoomService {
     String addUserToRoom(User user);
 
     /**
-     * the method removes user from room
-     * @param user contain object of Class User for removing from room
-     * @param room contain object of Class Room
-     * @see User
-     */
-    void removeUserFromRoom(User user, Room room);
-
-    /**
      * The method for parsing name of room for switching room at the server side
      * @param roomName name of room for switching
      * @return string with switching room in server format
@@ -55,5 +47,9 @@ public interface RoomService {
     String parseRoomList(Set<Room> rooms, LocalDateTime lastConnection);
 
     List<User> parseListForBanUnBan(String msg);
+
+    Room parseDeletedRoom(String data);
+
+    String deleteRoom(String roomName);
 
 }

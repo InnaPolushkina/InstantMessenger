@@ -232,4 +232,21 @@ public class RoomActivity {
             }
         }
     }
+
+    public void deleteRoomByAdmin(String data) {
+        String roomName = roomService.deleteRoom(data);
+        Room room = Router.getInstense().getRoomByName(roomName);
+        for (UserConnection uc: room.getUserList()) {
+            try {
+                uc.getOut().write(messageService.sendServerAction("DELETED_ROOM"));
+                uc.getOut().write(roomService.deletedRoomNotification(roomName) + "\n");
+                uc.getOut().flush();
+            }
+            catch (IOException e) {
+                logger.warn("send notify to room about deleting",e);
+            }
+            notifyRoom("This room was deleted by admin, but you can read history messages",roomName);
+        }
+        Router.getInstense().getRoomList().remove(room);
+    }
 }

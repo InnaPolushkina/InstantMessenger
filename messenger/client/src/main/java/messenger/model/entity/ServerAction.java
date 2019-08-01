@@ -8,4 +8,5 @@ public enum ServerAction {
     UNBAN_LIST,
     BAN,
     UNBAN,
+    DELETED_ROOM
 }
