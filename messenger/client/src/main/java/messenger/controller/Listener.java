@@ -32,7 +32,7 @@ public class Listener extends Thread {
     private MessageService messageService;
     private RoomService roomService;
     private UserRegistrationService userRegistrationService;
-    private UserService userService = new UserServiceImpl();
+    private UserService userService;
 
     /**
      * The public constructor for class Listener
@@ -96,7 +96,7 @@ public class Listener extends Thread {
                         List<User> listForUnBan = roomService.parseListForBanUnBan(unBanList);
                         Platform.runLater(() -> {
                             viewChat.setList(listForUnBan);
-                           // viewChat.showUnBanUserView();
+                            viewChat.showUnBanUserView();
                         });
                         break;
                     case BAN:
@@ -105,11 +105,23 @@ public class Listener extends Thread {
                         Room banRoom = userService.parseBanNotification(banNotification);
                         Router.getInstance().getRoomByName(banRoom.getRoomName()).banUser(userServerConnection,true);
                         Router.getInstance().getRoomByName(banRoom.getRoomName()).setBanned(true);
-                        // parse room where user banned
-                        // for rooms where user is banned set visible false for send button and textField
+                        Router.getInstance().getRoomByName(banRoom.getRoomName()).setMuted(true);
+                        Platform.runLater( ()->{
+                            Notificator notificator = new Notificator();
+                            notificator.notifyUser(banRoom.getRoomName(),"You was banned ", TrayIcon.MessageType.WARNING);
+
+                        });
                         break;
                     case UNBAN:
-
+                        String unBanNotification = messageFromServer();
+                        Room unBanRoom = userService.parseUnBanNotification(unBanNotification);
+                        Router.getInstance().getRoomByName(unBanRoom.getRoomName()).banUser(userServerConnection,false);
+                        Router.getInstance().getRoomByName(unBanRoom.getRoomName()).setBanned(false);
+                        Router.getInstance().getRoomByName(unBanRoom.getRoomName()).setMuted(false);
+                        Platform.runLater( ()->{
+                            Notificator notificator = new Notificator();
+                            notificator.notifyUser(unBanRoom.getRoomName(),"You was unbanned ", TrayIcon.MessageType.INFO);
+                        });
                         break;
                 }
 
@@ -173,5 +185,9 @@ public class Listener extends Thread {
 
     public void setUserRegistrationService(UserRegistrationService userRegistrationService) {
         this.userRegistrationService = userRegistrationService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 }

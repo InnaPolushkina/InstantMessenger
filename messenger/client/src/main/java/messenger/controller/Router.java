@@ -83,6 +83,7 @@ public class Router {
             listener.setMessageService(messageService);
             listener.setRoomService(roomService);
             listener.setUserRegistrationService(userRegistrationService);
+            listener.setUserService(userService);
             logger.info("start client ");
         }
         catch (IOException ex) {
@@ -107,7 +108,6 @@ public class Router {
      * @return User
      */
     public User getUser() {
-       // return user;
         return userConnection.getUser();
     }
 
@@ -178,7 +178,6 @@ public class Router {
         listener.setViewChat(viewChat);
         viewChat.setUser(getUser());
         viewChat.setUserName(name);
-       // getHistory();
     }
 
     private void getHistory() {
@@ -251,16 +250,6 @@ public class Router {
         return result;
     }
 
-    public Set<User> getUserList(Room room) {
-        Set<User> res = null;
-        for (Room r: roomList) {
-            if(r.equals(room)) {
-                //res = r.getUsersList();
-            }
-        }
-        return res;
-    }
-
     public void createRoom(String roomName) {
         try {
             sendAction("CREATE_ROOM");
@@ -330,7 +319,7 @@ public class Router {
             }
         }
         else {
-            sendAction("UNBAN_USER");
+            sendAction("UNBAN");
             try {
                 sendMessageToServer(userService.unban(user));
             }

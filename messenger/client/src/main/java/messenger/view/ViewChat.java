@@ -137,10 +137,6 @@ public class ViewChat {
         });
         createNewRoom.setOnAction(event -> {
             ViewCreateRoom viewCreateRoom = new ViewCreateRoom(new Stage(),this);
-            /*viewCreateRoom.getCreateNewRoomButton().setOnAction(event1 -> {
-                router.sendAction("CREATE_ROOM");
-                router.createRoom(viewCreateRoom.getNameNewRoom().getText());
-            });*/
         });
         addUser.setOnAction(event -> {
             router.switchRoom(nameRoom.getText());
@@ -151,6 +147,11 @@ public class ViewChat {
         banUserButton.setOnAction(event -> {
             router.switchRoom(nameRoom.getText());
             router.sendAction("BAN_LIST");
+            router.sendMessage("some text for test");
+        });
+        unbanUserButton.setOnAction(event -> {
+            router.switchRoom(nameRoom.getText());
+            router.sendAction("UNBAN_LIST");
             router.sendMessage("some text for test");
         });
         roomListView.setOnMouseClicked(event -> {
@@ -176,8 +177,20 @@ public class ViewChat {
         ViewAddUser viewAddUser = new ViewAddUser(list);
     }
 
+    /**
+     * The method creates object of class ViewBanUser
+     * @see ViewBanUser
+     */
     public void showBanUserView() {
-        ViewBanUser viewBanUser = new ViewBanUser(list,Router.getInstance().getRoomByName(nameRoom.getText()));
+        ViewBanUser viewBanUser = new ViewBanUser(list,Router.getInstance().getRoomByName(nameRoom.getText()),userName.getText());
+    }
+
+    /**
+     * The method creates object of class ViewUnBanUser
+     * @see ViewUnBanUser
+     */
+    public void showUnBanUserView() {
+        ViewUnBanUser viewUnBanUser = new ViewUnBanUser(list,Router.getInstance().getRoomByName(nameRoom.getText()),userName.getText());
     }
 
     /**
@@ -210,6 +223,14 @@ public class ViewChat {
         }
     }
 
+    /**
+     * The method switches rooms at the form, sets messages list from room
+     * method hide or show some components of form depending on user status in this room:
+     * if room is not "Big chat", shows button for adding new online user, else hides this button,
+     * if user is banned in the room, hides text area and button for sending messages, else shows its,
+     * if user is admin of room, shows buttons for ban/unBan users in this room, else hides its,
+     * if user muted room, sets to muteButton text "UnMute", else sets "Mute"
+     */
     private void switchRoom() {
         try {
             String nameSelectedRoom =  getNameOfSelectedRoom();
@@ -253,7 +274,6 @@ public class ViewChat {
             }
         }catch (NullPointerException e) {
             logger.warn(e);
-            e.printStackTrace();
         }
     }
 

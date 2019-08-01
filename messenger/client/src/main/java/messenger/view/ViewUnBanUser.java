@@ -18,25 +18,25 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.util.List;
 
-public class ViewBanUser {
+public class ViewUnBanUser {
 
     private String adminName;
-    private Stage stage;
-    private static final Logger logger = Logger.getLogger(ViewBanUser.class);
+    private ObservableList<String> observableList = FXCollections.observableArrayList();
+    private static final Logger logger = Logger.getLogger(ViewUnBanUser.class);
     private List<User> list;
-    private ObservableList<String> observableListUser = FXCollections.observableArrayList();
-    private Router router;
-    private Room room;
+    Room room;
+    Router router;
+    private Stage stage;
     @FXML
     private ListView<String> listViewUsers;
     @FXML
-    private Button banUser;
+    private Button unBanUser;
     @FXML
     private Button cancel;
     @FXML
     private Label errorMsg;
 
-    public ViewBanUser(List<User> list, Room room, String adminName) {
+    public ViewUnBanUser(List<User> list, Room room, String adminName) {
         this.stage = new Stage();
         this.list = list;
         this.room = room;
@@ -46,43 +46,43 @@ public class ViewBanUser {
         loader.setController(this);
 
         try {
-            loader.setLocation(Router.class.getResource("/banUserInRoom.fxml"));
+            loader.setLocation(Router.class.getResource("/unBanUserInRoom.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
-            stage.setTitle("Ban user in this room");
+            stage.setTitle("UnBan user in this room");
             stage.setScene(scene);
             stage.show();
 
             logger.info("show scene for adding user to room");
 
         } catch (IOException e) {
-            logger.warn("while showing banning user to room scene ", e);
+            logger.warn("while showing unbanning user to room scene ", e);
         }
     }
 
     @FXML
     public void initialize() {
         setUserToObserver(list);
-        listViewUsers.setItems(observableListUser);
+        listViewUsers.setItems(observableList);
         if (list.size() != 0) {
             errorMsg.setText("");
         }
         else {
-            errorMsg.setText("You can't ban now any user, nobody is online");
+            errorMsg.setText("You can't unBan now any user, nobody is online");
         }
         cancel.setOnAction(event -> {
             stage.close();
         });
-        banUser.setOnAction(event -> {
+        unBanUser.setOnAction(event -> {
             User user = getSelectedUser();
-            router.banUser(user,room,true);
+            router.banUser(user,room,false);
         });
     }
 
     private void setUserToObserver(List<User> list) {
         for (User user: list) {
             if(!user.getName().equals(adminName)) {
-                observableListUser.add(user.getName());
+                observableList.add(user.getName());
             }
         }
     }
