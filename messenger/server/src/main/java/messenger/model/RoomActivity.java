@@ -296,8 +296,8 @@ public class RoomActivity {
             catch (IOException e) {
                 logger.warn("send notify to room about deleting",e);
             }
-            notifyRoom("This room was deleted by admin, but you can read history messages",roomName);
         }
+        notifyRoom("This room was deleted by admin, but you can read history messages",roomName);
         Router.getInstense().getRoomList().remove(room);
     }
 }
