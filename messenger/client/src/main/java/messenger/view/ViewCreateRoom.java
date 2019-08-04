@@ -68,7 +68,7 @@ public class ViewCreateRoom {
             String nameRoom = nameNewRoom.getText().trim();
             if (nameRoom != null && !nameRoom.equals("")) {
                 router.createRoom(nameRoom);
-                viewChat.setNameRoom(nameRoom);
+                //viewChat.setNameRoom(nameRoom);
                 viewChat.addRoom(nameRoom);
                 stage.close();
             }

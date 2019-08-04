@@ -119,8 +119,9 @@ public class ViewChat {
         serverError.setText("");
         roomListView.setItems(roomObservableList);
         messagesList.setItems(observableListMessages);
-        setFocusToRoom("Big chat");
+        nameRoom.setText("Select room ...");
         adminInfo.setText("");
+        hideComponents();
 
         sendButton.setOnAction(event -> {
             if (messageText.getText() != null && !messageText.getText().trim().equals("")) {
@@ -166,11 +167,26 @@ public class ViewChat {
             router.leaveRoom(nameRoom.getText());
             observableListMessages.clear();
             roomListView.getItems().remove(nameRoom.getText());
-            nameRoom.setText("Big chat");
+            nameRoom.setText("Select room ...");
+            hideComponents();
         });
         deleteRoom.setOnAction(event -> {
             router.deleteRoom(nameRoom.getText());
         });
+    }
+
+    /**
+     * The method hides some fxml components
+     */
+    private void hideComponents() {
+        muteRoom.setVisible(false);
+        addUser.setVisible(false);
+        leaveRoom.setVisible(false);
+        deleteRoom.setVisible(false);
+        banUserButton.setVisible(false);
+        unbanUserButton.setVisible(false);
+        messageText.setVisible(false);
+        sendButton.setVisible(false);
     }
 
     /**
