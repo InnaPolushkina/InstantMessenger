@@ -1,4 +1,4 @@
-messenger/.idea
+messenger/.idea/
 messenger/client/target
 messenger/server/target
 *.log
