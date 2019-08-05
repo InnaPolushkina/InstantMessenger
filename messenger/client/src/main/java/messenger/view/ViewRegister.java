@@ -29,6 +29,10 @@ public class ViewRegister {
     private PasswordField userPassword;
     @FXML
     private Label errorMsg;
+    @FXML
+    private Button returnToLoginView;
+    private Stage stage;
+
 
     private Router router;
     private static final Logger logger = Logger.getLogger(ViewRegister.class);
@@ -38,6 +42,7 @@ public class ViewRegister {
      * @param stage stage for showing register scene
      */
     public ViewRegister(Stage stage) {
+        this.stage = stage;
         FXMLLoader loader = new FXMLLoader();
         loader.setController(this);
 
@@ -73,6 +78,7 @@ public class ViewRegister {
                 setErrorMsg("Fields can't be empty !");
             }
         });
+        returnToLoginView.setOnAction(event -> returnToLoginView());
     }
 
     /**
@@ -83,4 +89,7 @@ public class ViewRegister {
         this.errorMsg.setText(errorMsg);
     }
 
+    public void returnToLoginView() {
+        ViewLogin viewLogin = new ViewLogin(stage);
+    }
 }
