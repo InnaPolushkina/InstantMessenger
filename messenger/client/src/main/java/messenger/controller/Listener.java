@@ -33,6 +33,8 @@ public class Listener extends Thread {
     private UserRegistrationService userRegistrationService;
     private UserService userService;
 
+    private boolean running = true;
+
     /**
      * The public constructor for class Listener
      * @param socket for connect to server
@@ -49,7 +51,7 @@ public class Listener extends Thread {
      */
     @Override
     public void run() {
-        while (true) {
+        while (running) {
             try {
                 ServerAction serverAction = messageService.parseServerAction(messageFromServer());
                 switch (serverAction) {
@@ -132,7 +134,8 @@ public class Listener extends Thread {
                         break;
                 }
 
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 logger.error("catch NullPointerException, server don't work ",e);
                 Platform.runLater(
                         () -> {
@@ -213,5 +216,9 @@ public class Listener extends Thread {
      */
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    public void stopThread() {
+        running = false;
     }
 }

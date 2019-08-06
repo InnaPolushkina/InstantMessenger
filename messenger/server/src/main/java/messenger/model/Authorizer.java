@@ -8,7 +8,7 @@ import messenger.model.serverServices.UserKeeper;
 import messenger.model.serverServices.UserRegistrationService;
 import org.apache.log4j.Logger;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,13 +36,27 @@ public class Authorizer {
             userConnection.getOut().flush();
 
             if (result) {
-                Router.getInstense().getUserList().add(userConnection);
+                //Router.getInstense().getUserList().add(userConnection);
+
                 Router.getInstense().getViewLogs().print("User  authorized");
                 user = userRegistrationService.getAuthorizedUser();
                 user.setOnline(true);
                 userConnection.setUser(user);
+                if(Router.getInstense().getUserByName(userConnection.getUser().getName()) == null) {
+                    Router.getInstense().getUserList().add(userConnection);
+                    Router.getInstense().addUserToBigRoom(userConnection);
+                }
+                else {
+                    Router.getInstense().getUserByName(user.getName()).setOut(new BufferedWriter(new OutputStreamWriter(userConnection.getUserSocket().getOutputStream())));
+                    Router.getInstense().getUserByName(user.getName()).setIn(new BufferedReader(new InputStreamReader(userConnection.getUserSocket().getInputStream())));
+                    Router.getInstense().getUserByName(userConnection.getUser().getName()).getUser().setOnline(true);
+                    /*UserConnection remove = Router.getInstense().getUserByName(user.getName());
+                    Router.getInstense().getUserList().remove(remove);
+                    Router.getInstense().getUserList().add(userConnection);
+                    Router.getInstense().addUserToBigRoom(userConnection);*/
+                }
+                System.out.println("Count of users " + Router.getInstense().getUserList().size());
 
-                Router.getInstense().addUserToBigRoom(userConnection);
 
                 return user;
             }

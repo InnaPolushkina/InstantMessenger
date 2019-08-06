@@ -6,6 +6,7 @@ package messenger.model.serverEntity;
 public enum ClientAction {
     REGISTER,
     AUTH,
+    LOGOUT,
     SEND_MSG,
     CREATE_ROOM,
     ADD_TO_ROOM,

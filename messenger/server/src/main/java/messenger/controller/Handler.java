@@ -34,6 +34,8 @@ public class Handler extends Thread{
     private HistoryMessage historyMessage;
     private UserService userService;
 
+    private boolean running = true;
+
     /**
      * The public constructor of class Handler
      * @param socket for connection user to server
@@ -60,8 +62,8 @@ public class Handler extends Thread{
      */
     public void setUserConnection(UserConnection userConnection) throws IOException{
         this.userConnection = userConnection;
-        userConnection.setIn(new BufferedReader(new InputStreamReader((userConnection.getUserSocket().getInputStream()))));
-        userConnection.setOut(new BufferedWriter(new OutputStreamWriter(userConnection.getUserSocket().getOutputStream())));
+        this.userConnection.setIn(new BufferedReader(new InputStreamReader((userConnection.getUserSocket().getInputStream()))));
+        this.userConnection.setOut(new BufferedWriter(new OutputStreamWriter(userConnection.getUserSocket().getOutputStream())));
     }
 
     /**
@@ -147,7 +149,7 @@ public class Handler extends Thread{
    @Override
    public void run() {
        try {
-           while (true) {
+           while (running) {
                 String clientMsgAction = userConnection.getIn().readLine();
                 String clientData = userConnection.getIn().readLine();
                 if(clientMsgAction != null && clientData != null) {
@@ -224,28 +226,49 @@ public class Handler extends Thread{
                             roomActivity.deleteRoomByAdmin(clientData);
                             System.out.println("room deleted");
                             break;
+                        case LOGOUT:
+                            //userConnection.getUser().setOnline(false);
+                            disconnect();
+                            break;
                     }
                 }
            }
        }
        catch (IOException e) {
-           logger.warn("client " + user.getName() + " disconnected ",e);
-           view.print("client " + user.getName() + " disconnected or connection was lost");
-           userConnection.getUser().setOnline(false);
+           try {
+               logger.warn("client " + user.getName() + " disconnected ", e);
+               view.print("client " + user.getName() + " disconnected or connection was lost");
+               userConnection.getUser().setOnline(false);
+           }
+           catch (NullPointerException ex) {
+               logger.info("some client disconnected before authorizing/registering ",ex);
+           }
        }
        catch (NullPointerException e) {
            logger.warn("connection was lost", e);
            view.print("client " + user.getName() + " disconnected or connection was lost");
            userConnection.getUser().setOnline(false);
        }
-       finally {
+      finally {
            try {
                userConnection.getUserSocket().close();
+               //running = false;
+               System.out.println("Closed user socket in finally block . . .");
            } catch (IOException e) {
                logger.warn("close client socket in sever", e);
                view.print("close client socket");
            }
        }
+   }
+
+  public void disconnect() throws IOException{
+
+       //running = false;
+       userConnection.getUser().setOnline(false);
+       userConnection.getUserSocket().close();
+       running = false;
+       System.out.println("User disconnected  . . . ");
+      // throw new IOException("client disconnected");
    }
 
 

@@ -66,6 +66,7 @@ public class ViewChat {
     private Label adminInfo;
     @FXML
     private Button deleteRoom;
+    private Stage stage;
 
     private User user;
     private Notificator notificator;
@@ -91,6 +92,7 @@ public class ViewChat {
      */
     public ViewChat(Stage stage) {
         this.router = Router.getInstance();
+        this.stage = stage;
         FXMLLoader loader = new FXMLLoader();
         loader.setController(this);
 
@@ -132,10 +134,7 @@ public class ViewChat {
             }
         });
         logoutButton.setOnAction(event -> {
-            //router.saveHistory();
-            HistorySaver historySaver = new HistorySaver();
-            historySaver.saveHistory(Router.getInstance().getRoomList(), LocalDateTime.now());
-            System.exit(0);
+            showViewExit();
         });
         createNewRoom.setOnAction(event -> {
             ViewCreateRoom viewCreateRoom = new ViewCreateRoom(new Stage(),this);
@@ -173,6 +172,11 @@ public class ViewChat {
         deleteRoom.setOnAction(event -> {
             router.deleteRoom(nameRoom.getText());
         });
+        stage.setOnCloseRequest(event -> {
+            //ViewExit viewExit = new ViewExit(stage);
+            showViewExit();
+            event.consume();
+        });
     }
 
     /**
@@ -195,6 +199,10 @@ public class ViewChat {
      */
     public void showAddUserView() {
         ViewAddUser viewAddUser = new ViewAddUser(list);
+    }
+
+    private void showViewExit() {
+        ViewExit viewExit = new ViewExit(stage);
     }
 
     /**

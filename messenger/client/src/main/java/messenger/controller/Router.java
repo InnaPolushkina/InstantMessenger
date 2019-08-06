@@ -71,12 +71,16 @@ public class Router {
         userRegistrationService = new UserRegistrationServiceImpl(this);
         roomService = new RoomServiceImlp();
         userService = new UserServiceImpl();
+        messageService = new MessageServiceImpl();
+        connectToServer();
+
+    }
+
+    public void connectToServer() {
         try {
             socket = new Socket("localhost", 2020);
             userConnection = new UserServerConnection(new User(),socket);
             listener = new Listener(socket);
-            //create object of interface MessageService
-            messageService = new MessageServiceImpl();
             listener.setMessageService(messageService);
             listener.setRoomService(roomService);
             listener.setUserRegistrationService(userRegistrationService);
@@ -88,8 +92,16 @@ public class Router {
             viewLogin.setErrorUserMessage("Can't connect to server");
             viewLogin.getRegisterButton().setVisible(false);
         }
+    }
 
-
+    public void disconnect() {
+        listener.stopThread();
+        try {
+            socket.close();
+        }
+        catch (IOException e) {
+            logger.info(e);
+        }
     }
 
     /**

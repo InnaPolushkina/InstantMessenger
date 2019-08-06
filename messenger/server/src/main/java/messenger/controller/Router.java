@@ -46,7 +46,7 @@ public class Router {
         historyMessage = new HistoryMessage(messageService);
         roomService = new RoomServiceImpl();
         userService = new UserServiceImpl();
-        try {
+        //try {
             while (true) {
                 Handler handler = new Handler();
 
@@ -60,11 +60,12 @@ public class Router {
 
                 handler.start();
             }
-        }
-        finally {
-            listener.close();
+        //}
+
+        /*finally {
+            //listener.close();
             System.out.println("Router closed socket");
-        }
+        }*/
     }
 
     /**
@@ -131,5 +132,16 @@ public class Router {
      */
     public Set<Room> getRoomList() {
         return roomList;
+    }
+
+    public UserConnection getUserByName(String name) {
+        UserConnection result = null;
+        for (UserConnection uc: userList) {
+            if(uc.getUser().getName().equals(name)) {
+                result = uc;
+            }
+        }
+
+        return result;
     }
 }

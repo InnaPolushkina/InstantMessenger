@@ -95,7 +95,7 @@ public class UserConnection {
             return false;
         }
         UserConnection guest = (UserConnection) obj;
-        return this.getUser().getName().equals(guest.getUser().getName());
+        return this.getUser().getName().equals(guest.getUser().getName()) && userSocket.equals(guest.userSocket);
     }
 
 }

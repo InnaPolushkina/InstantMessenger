@@ -1,24 +1,130 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<history disconnect="2019-08-01T18:06:41.012">
-<room admin="Kit" deleted="true" name="Inna">
-<message sender="Kit">2eeeeeeeee</message>
-<message sender="Inna">qeeeeeeeeee</message>
-<message sender="Inna">qeeeeeeee</message>
-<message sender="Inna">qeeeeeeeee</message>
-<message sender="Inna">qeeeeeeeeee</message>
-<message sender="Kit">wfffffff</message>
-<message sender="Kit">wfffffffffff</message>
-<message sender="Room notify">This room was deleted by admin, but you can read history messages</message>
-<message sender="Room notify">This room was deleted by admin, but you can read history messages</message>
+<history disconnect="2019-08-06T22:07:50.693">
+<room admin="Inna" deleted="false" name="test 6">
+<message sender="Inna">2e2e2e</message>
+<message sender="Inna">2e2e</message>
+<message sender="Inna">2e2e</message>
 </room>
-<room admin="Inna" deleted="true" name="44">
-<message sender="Room notify">This room was deleted by admin, but you can read history messages</message>
-</room>
-<room admin="Inna" deleted="false" name="qdddq"/>
 <room admin="Server" deleted="false" name="Big chat">
-<message sender="testing">45454545</message>
-<message sender="Inna">wdddddddddddd</message>
-<message sender="Kit">wddddddddddd</message>
-<message sender="Inna">wd</message>
+<message sender="Inna">dqqqqqqqqqqq</message>
+<message sender="Inna">test 1</message>
+<message sender="Inna">test 2</message>
+<message sender="Kit">test 3</message>
+<message sender="Kit">121212</message>
+<message sender="Kit">1222222222222222</message>
+<message sender="Kit">1222222222222</message>
+<message sender="Inna">123456</message>
+<message sender="Inna">3333333333333</message>
+<message sender="Kit">fwfwffw</message>
+<message sender="Kit">wffffffffffff</message>
+<message sender="Kit">ee11111</message>
+<message sender="Inna">qddddddd</message>
+<message sender="Inna">qddddddddd</message>
+<message sender="Inna">qddddddddd</message>
+<message sender="Inna">qdddddddd</message>
+<message sender="Kit">qddddddddd</message>
+<message sender="Kit">qddddddd</message>
+<message sender="Inna">1e1e</message>
+<message sender="Pol">1eeeeeeeee</message>
+<message sender="Inna">e11111111</message>
+<message sender="Pol">e111111111111</message>
+<message sender="Kit">e11111111</message>
+<message sender="Kit">111111111</message>
+<message sender="Pol">testing </message>
+<message sender="Pol">1234</message>
+<message sender="Pol">eeeeeeeeee</message>
+<message sender="Pol">2222222</message>
+<message sender="Pol">eeeeeeeee</message>
+<message sender="Pol">2222222222</message>
+<message sender="Pol">eeeeeeee</message>
+<message sender="Pol">111111</message>
+<message sender="Inna">eeeeeee</message>
+<message sender="Inna">eeeeeeeee</message>
+<message sender="Inna">eeeeeeeeeee</message>
+<message sender="Inna">eeeeeeeeeeeee</message>
+<message sender="Kit">eeeeeeeeee</message>
+<message sender="Kit">eeeeeeeeee</message>
+<message sender="Inna">wfffffffff</message>
+<message sender="Kit">wfffffff</message>
+<message sender="Pol">wfffff</message>
+<message sender="Inna">eee</message>
+<message sender="Inna">eeeeeeeeee</message>
+<message sender="Inna">eeeeeeeeeee</message>
+<message sender="Inna">eeeeeeeeeeeeeee</message>
+<message sender="Inna">eeeeeeeeeeeee</message>
+<message sender="Inna">eeeeeeeeeeeeeeee</message>
+<message sender="Inna">eeeeeeeeeeeeeee</message>
+<message sender="Inna">eeeeeeeeeeeeee</message>
+<message sender="Inna">efffffffffffffffff</message>
+<message sender="Inna">effffffffffffffff</message>
+<message sender="Inna">efffffffffffffffff</message>
+<message sender="Inna">efffffffffffffffff</message>
+<message sender="Inna">effffffffff</message>
+<message sender="Inna">efffffffffffff</message>
+<message sender="Inna">wwwwwwwww</message>
+<message sender="Inna">wwwwww</message>
+<message sender="Inna">sccsscsc</message>
+<message sender="Inna">csssssssssss</message>
+<message sender="Inna">scccccccccc</message>
+<message sender="Inna">sccccc</message>
+<message sender="Inna">sccccccccc</message>
+<message sender="Inna">scccccccccc</message>
+<message sender="Inna">sccccccccc</message>
+<message sender="Inna">scccccccccccc</message>
+<message sender="Inna">sccccccccc</message>
+<message sender="Inna">dddddddd</message>
+<message sender="Inna">ddddddddddd</message>
+<message sender="Inna">3r3r3r</message>
+<message sender="Inna">wf</message>
+<message sender="Inna">wffffffff</message>
+<message sender="Inna">fwwwwwww</message>
+</room>
+<room admin="Inna" deleted="false" name="test 5">
+<message sender="Inna">test 5</message>
+</room>
+<room admin="Inna" deleted="false" name="1234">
+<message sender="Inna">2r2r2</message>
+<message sender="Inna">2rrrrrrrrr</message>
+<message sender="Inna">2r2r2r</message>
+<message sender="Inna">2rrr2r2r</message>
+<message sender="Inna">2rrr2r2r</message>
+<message sender="Kit">3rr3r3r</message>
+<message sender="Kit">3rrrrrrrrrrrr</message>
+<message sender="Inna">wwwwwwwwww</message>
+<message sender="Inna">wwwwwwwwww</message>
+<message sender="Inna">wwwwwwwwwwwwww</message>
+<message sender="Inna">scccccccc</message>
+<message sender="Inna">sccccccccccccc</message>
+<message sender="Inna">sccccccccccccccc</message>
+<message sender="Inna">scccccccccccccc</message>
+<message sender="Inna">dddddd</message>
+<message sender="Inna">ddddd</message>
+<message sender="Inna">3r3r3r</message>
+<message sender="Inna">fwwwwwwww</message>
+<message sender="Inna">wfffffff</message>
+</room>
+<room admin="Inna" deleted="false" name="test Streams">
+<message sender="Inna">acccccccccc</message>
+<message sender="Inna">test </message>
+<message sender="Inna">test</message>
+<message sender="Kit">rrrrrrrrrrrrrr</message>
+<message sender="Kit">rrrrrrrrrrrrr</message>
+<message sender="Inna">wwwwwwwwwww</message>
+<message sender="Inna">wwwwwwwwww</message>
+<message sender="Inna">wwwwwwwwww</message>
+<message sender="Inna">wwwwwwwwww</message>
+<message sender="Inna">wwwwwwwwww</message>
+<message sender="Inna">scsccs</message>
+<message sender="Inna">scccccccc</message>
+<message sender="Inna">sccccccccc</message>
+<message sender="Inna">scccccc</message>
+<message sender="Inna">sccccccccccc</message>
+<message sender="Inna">scccccccccc</message>
+<message sender="Inna">scccccccccc</message>
+<message sender="Inna">scccc</message>
+<message sender="Inna">ddddddddd</message>
+<message sender="Inna">3r3r</message>
+<message sender="Inna">wffffff</message>
+<message sender="Inna">wfffffffffff</message>
 </room>
 </history>
