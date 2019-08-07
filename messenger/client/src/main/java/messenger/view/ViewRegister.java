@@ -10,6 +10,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import messenger.controller.Router;
+import messenger.model.exceptions.UserRegistrationException;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -70,9 +71,18 @@ public class ViewRegister {
         registrationButton.setOnAction(event -> {
             String name = userName.getText().trim();
             String password = userPassword.getText().trim();
-            if (name.length() != 0 && password.length() !=0) {
-                Router.getInstance().register(name, password);
-                Router.getInstance().getUser().setName(name);
+            if (name.length() != 0 && password.length() !=0 ) {
+                if(password.length() >= 4) {
+                    try {
+                        Router.getInstance().register(name, password);
+                        Router.getInstance().getUser().setName(name);
+                    } catch (UserRegistrationException e) {
+                        setErrorMsg("You can't register with this name, somebody user has this nick");
+                    }
+                }
+                else {
+                    setErrorMsg("Password length can't be less then 4 symbols !");
+                }
             }
             else {
                 setErrorMsg("Fields can't be empty !");

@@ -157,30 +157,28 @@ public class Router {
      * @param name of user
      * @param password of user
      */
-    public void register(String name, String password) {
-        if(password.length()>=4) {
-            try {
-                sendAction("REGISTER");
-                userRegistrationService.registration(name,password);
-                roomList = new HashSet<>();
-                roomList.add(new Room("Big chat"));
-                showMainChat(name);
-                viewChat.addRoom("Big chat");
+    public void register(String name, String password) throws UserRegistrationException {
+        try {
+            sendAction("REGISTER");
+            userRegistrationService.registration(name,password);
+            roomList = new HashSet<>();
+            Room bigChat = new Room("Big chat");
+            bigChat.setAdmin(new User("Server"));
+            roomList.add(bigChat);
+            showMainChat(name);
+            viewChat.addRoom("Big chat");
 
-                listener.start();
-                listener.setDaemon(true);
+            listener.start();
+            listener.setDaemon(true);
 
-            } catch (UserRegistrationException e) {
-                logger.warn("when registering new user ",e);
-                viewRegister.setErrorMsg(e.getMessage());
-            }
-            catch (Exception e) {
-                logger.info(e);
-            }
+        } catch (UserRegistrationException e) {
+            logger.warn("when registering new user ",e);
+            throw e;
         }
-        else {
-            viewRegister.setErrorMsg("password can't be less 4 symbols ");
+        catch (Exception e) {
+            logger.info(e);
         }
+
     }
 
     /**
