@@ -87,19 +87,22 @@ public class RoomActivity {
         }
         for (Room r: Router.getInstense().getRoomList()) {
             if(r.getRoomName().equals(roomNow.getRoomName()) && !r.getUserList().contains(connectionAdd) && connectionAdd != null) {
-                r.addUser(connectionAdd);
-                System.out.println("user successfully added");
-                try {
-                    connectionAdd.getOut().write(messageService.sendServerAction("ADDED_TO_ROOM") + messageService.sendAddToRoom(r));
-                    connectionAdd.getOut().flush();
+                if(!r.isUserInRoom(connectionAdd)) {
+                    r.addUser(connectionAdd);
+                    System.out.println("user successfully added");
+                    try {
+                        connectionAdd.getOut().write(messageService.sendServerAction("ADDED_TO_ROOM") + messageService.sendAddToRoom(r));
+                        connectionAdd.getOut().flush();
 
-                    historyMessage.sendHistoryOfSomeRoom(r,connectionAdd);
-                    String notification = "Added new user " + connectionAdd.getUser().getName();
-                    notifyRoom(notification, r.getRoomName());
+                        historyMessage.sendHistoryOfSomeRoom(r, connectionAdd);
+                        String notification = "Added new user " + connectionAdd.getUser().getName();
+                        notifyRoom(notification, r.getRoomName());
 
-                }catch (IOException e) {
-                    logger.warn("while sending notify to user about addition to room and sending history messages of room",e);
+                    } catch (IOException e) {
+                        logger.warn("while sending notify to user about addition to room and sending history messages of room", e);
+                    }
                 }
+                break;
             }
         }
 
@@ -160,7 +163,7 @@ public class RoomActivity {
         String testNotify = messageService.sendMessage(msg,"Room notify",roomName);
         for (Room r: Router.getInstense().getRoomList()) {
             if(r.getRoomName().equals(roomName)) {
-                for (UserConnection uc: r.getUserList()) {
+               /* for (UserConnection uc: r.getUserList()) {
                     try {
                         uc.getOut().write(messageService.sendServerAction("SEND_MSG") + testNotify + "\n");
                         uc.getOut().flush();
@@ -169,7 +172,17 @@ public class RoomActivity {
                         logger.info("while sending notify to room",e);
                     }
 
-                }
+                }*/
+               for(String name: r.getUserList()) {
+                   try {
+                       UserConnection uc = Router.getInstense().getUserConnectionByName(name);
+                       uc.getOut().write(messageService.sendServerAction("SEND_MSG") + testNotify + "\n");
+                       uc.getOut().flush();
+                   }
+                   catch (IOException e) {
+                       logger.warn("while sending notify to room");
+                   }
+               }
             }
         }
     }
@@ -194,8 +207,14 @@ public class RoomActivity {
         Room room = Router.getInstense().getRoomByName(roomNow.getRoomName());
         if(userConnection.getUser().getName().equals(room.getAdmin())) {
             List<User> usersForBan = new ArrayList<>();
-            for (UserConnection uc: room.getUserList()) {
+            /*for (UserConnection uc: room.getUserList()) {
                 usersForBan.add(uc.getUser());
+            }*/
+            for(String name: room.getUserList()) {
+                UserConnection uc = Router.getInstense().getUserConnectionByName(name);
+                if(!room.isUserBanned(uc)) {
+                    usersForBan.add(Router.getInstense().getUserConnectionByName(name).getUser());
+                }
             }
 
             try {
@@ -216,8 +235,15 @@ public class RoomActivity {
         Room room = Router.getInstense().getRoomByName(roomNow.getRoomName());
         if(userConnection.getUser().getName().equals(room.getAdmin())) {
             List<User> usersForUnBan = new ArrayList<>();
-            for (UserConnection uc: room.getBanList()) {
+            /*for (UserConnection uc: room.getBanList()) {
                 usersForUnBan.add(uc.getUser());
+            }*/
+            for (String name: room.getBanList()) {
+                UserConnection uc = Router.getInstense().getUserConnectionByName(name);
+                if(room.isUserBanned(uc)) {
+                    usersForUnBan.add(uc.getUser());
+                }
+
             }
 
             try {
@@ -239,9 +265,24 @@ public class RoomActivity {
     public void banUser(String userData) {
         User banUser = userService.parseBanUser(userData);
         Room room = Router.getInstense().getRoomByName(roomNow.getRoomName());
-        for (UserConnection uc: room.getUserList()) {
+       /* for (UserConnection uc: room.getUserList()) {
             if(uc.getUser().getName().equals(banUser.getName())) {
                 Router.getInstense().getRoomByName(roomNow.getRoomName()).getBanList().add(uc);
+                notifyRoom("User " + banUser.getName() + " was banned by admin " + userConnection.getUser().getName(),room.getRoomName());
+                try {
+                    uc.getOut().write(messageService.sendServerAction("BAN") + userService.sendBanNotify(room));
+                    uc.getOut().flush();
+                }
+                catch (IOException e) {
+                    logger.warn("while banning user ",e);
+                }
+                break;
+            }
+        }*/
+        for (String name: room.getUserList()) {
+            if(name.equals(banUser.getName())) {
+                UserConnection uc = Router.getInstense().getUserConnectionByName(name);
+                Router.getInstense().getRoomByName(room.getRoomName()).getBanList().add(name);
                 notifyRoom("User " + banUser.getName() + " was banned by admin " + userConnection.getUser().getName(),room.getRoomName());
                 try {
                     uc.getOut().write(messageService.sendServerAction("BAN") + userService.sendBanNotify(room));
@@ -263,9 +304,25 @@ public class RoomActivity {
     public void unBanUser(String userData) {
         User unBanUser = userService.parseUnbanUser(userData);
         Room room = Router.getInstense().getRoomByName(roomNow.getRoomName());
-        for (UserConnection uc: room.getUserList()) {
+        /*for (UserConnection uc: room.getUserList()) {
             if(uc.getUser().getName().equals(unBanUser.getName())) {
                 Router.getInstense().getRoomByName(roomNow.getRoomName()).unBanUser(uc);
+                notifyRoom("User " + unBanUser.getName() + " was unbanned by admin " + userConnection.getUser().getName(),room.getRoomName());
+                try {
+                    uc.getOut().write(messageService.sendServerAction("UNBAN") + userService.sendUnBanNotify(room));
+                    uc.getOut().flush();
+                }
+                catch (IOException e) {
+                    logger.warn("while banning user ",e);
+                }
+                break;
+            }
+        }*/
+        for (String name: room.getUserList()
+             ) {
+            if(name.equals(unBanUser.getName())) {
+                UserConnection uc = Router.getInstense().getUserConnectionByName(name);
+                Router.getInstense().getRoomByName(room.getRoomName()).unBanUser(uc);
                 notifyRoom("User " + unBanUser.getName() + " was unbanned by admin " + userConnection.getUser().getName(),room.getRoomName());
                 try {
                     uc.getOut().write(messageService.sendServerAction("UNBAN") + userService.sendUnBanNotify(room));
@@ -281,14 +338,25 @@ public class RoomActivity {
 
     /**
      * The method for deleting room from server
-     * if user is admin of room, server delete send to user notification about deleting room, send to room last message and delete thos room
+     * if user is admin of room, server delete send to user notification about deleting room, send to room last message and delete this room
      * @param data user message with name of deleting room
      */
     public void deleteRoomByAdmin(String data) {
         String roomName = roomService.deleteRoom(data);
         Room room = Router.getInstense().getRoomByName(roomName);
-        for (UserConnection uc: room.getUserList()) {
+        /*for (UserConnection uc: room.getUserList()) {
             try {
+                uc.getOut().write(messageService.sendServerAction("DELETED_ROOM"));
+                uc.getOut().write(roomService.deletedRoomNotification(roomName) + "\n");
+                uc.getOut().flush();
+            }
+            catch (IOException e) {
+                logger.warn("send notify to room about deleting",e);
+            }
+        }*/
+        for (String name: room.getUserList()) {
+            try {
+                UserConnection uc = Router.getInstense().getUserConnectionByName(name);
                 uc.getOut().write(messageService.sendServerAction("DELETED_ROOM"));
                 uc.getOut().write(roomService.deletedRoomNotification(roomName) + "\n");
                 uc.getOut().flush();

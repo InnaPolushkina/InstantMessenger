@@ -9,8 +9,6 @@ import messenger.model.serverServices.UserRegistrationService;
 import org.apache.log4j.Logger;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The class for authorizing user at the server
@@ -42,15 +40,15 @@ public class Authorizer {
                 user = userRegistrationService.getAuthorizedUser();
                 user.setOnline(true);
                 userConnection.setUser(user);
-                if(Router.getInstense().getUserByName(userConnection.getUser().getName()) == null) {
+                if(Router.getInstense().getUserConnectionByName(userConnection.getUser().getName()) == null) {
                     Router.getInstense().getUserList().add(userConnection);
                     Router.getInstense().addUserToBigRoom(userConnection);
                 }
                 else {
-                    Router.getInstense().getUserByName(user.getName()).setOut(new BufferedWriter(new OutputStreamWriter(userConnection.getUserSocket().getOutputStream())));
-                    Router.getInstense().getUserByName(user.getName()).setIn(new BufferedReader(new InputStreamReader(userConnection.getUserSocket().getInputStream())));
-                    Router.getInstense().getUserByName(userConnection.getUser().getName()).getUser().setOnline(true);
-                    /*UserConnection remove = Router.getInstense().getUserByName(user.getName());
+                    Router.getInstense().getUserConnectionByName(user.getName()).setOut(new BufferedWriter(new OutputStreamWriter(userConnection.getUserSocket().getOutputStream())));
+                    Router.getInstense().getUserConnectionByName(user.getName()).setIn(new BufferedReader(new InputStreamReader(userConnection.getUserSocket().getInputStream())));
+                    Router.getInstense().getUserConnectionByName(userConnection.getUser().getName()).getUser().setOnline(true);
+                    /*UserConnection remove = Router.getInstense().getUserConnectionByName(user.getName());
                     Router.getInstense().getUserList().remove(remove);
                     Router.getInstense().getUserList().add(userConnection);
                     Router.getInstense().addUserToBigRoom(userConnection);*/

@@ -134,7 +134,7 @@ public class Router {
         return roomList;
     }
 
-    public UserConnection getUserByName(String name) {
+    public UserConnection getUserConnectionByName(String name) {
         UserConnection result = null;
         for (UserConnection uc: userList) {
             if(uc.getUser().getName().equals(name)) {
