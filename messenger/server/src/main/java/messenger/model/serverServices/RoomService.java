@@ -54,4 +54,18 @@ public interface RoomService {
      * @return string with notification about deleted room
      */
     String deletedRoomNotification(String roomName);
+
+    /**
+     * The method prepares users from some room for sending
+     * @param room room where from users will be preparing for sending
+     * @return string with data about users in room
+     */
+    String prepareUsersForSending(Room room);
+
+    /**
+     * The method for parsing message from client with room name
+     * @param data message from client with room name
+     * @return room name
+     */
+    String parseRoomName(String data);
 }

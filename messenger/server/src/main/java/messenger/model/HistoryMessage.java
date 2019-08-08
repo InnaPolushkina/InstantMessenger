@@ -134,16 +134,22 @@ public class HistoryMessage {
         }
         try {
             //UserConnection uc = r.getUserConnectionByName(userConnection.getUser().getName());
-            UserConnection uc = Router.getInstense().getUserConnectionByName(userConnection.getUser().getName());
+           /* UserConnection uc = Router.getInstense().getUserConnectionByName(userConnection.getUser().getName());
             if(uc == null) {
+                Router.getInstense().getRoomByName(roomForUser.getRoomName()).addUser(userConnection);
+                logger.info("user added to room " + roomForUser.getRoomName());
+            }*/
+
+            if(!r.isUserInRoom(userConnection)) {
                 Router.getInstense().getRoomByName(roomForUser.getRoomName()).addUser(userConnection);
                 logger.info("user added to room " + roomForUser.getRoomName());
             }
 
         }catch (NullPointerException e) {
-            Router.getInstense().getRoomByName(roomForUser.getRoomName()).addUser(userConnection);
+            //Router.getInstense().getRoomByName(roomForUser.getRoomName()).addUser(userConnection);
             logger.info("user added to room " + roomForUser.getRoomName());
         }
+
 
 
         for (int i = 0; i < dateList.size(); i++) {

@@ -16,4 +16,16 @@
 <nick>Pol</nick>
 <password>1234</password>
 </user>
+<user>
+<nick>Kira</nick>
+<password>1234</password>
+</user>
+<user>
+<nick>Vika</nick>
+<password>1234</password>
+</user>
+<user>
+<nick>Nika</nick>
+<password>1234</password>
+</user>
 </users>

@@ -74,4 +74,7 @@ public interface RoomService {
      */
     String deleteRoom(String roomName);
 
+    String prepareForSendRoom(String roomName);
+
+    List<User> parseUserListFromRoom(String data);
 }

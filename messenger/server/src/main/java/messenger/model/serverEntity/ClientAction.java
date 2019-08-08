@@ -18,5 +18,6 @@ public enum ClientAction {
     UNBAN_LIST,
     BAN,
     UNBAN,
-    DELETE_ROOM
+    DELETE_ROOM,
+    USERS_IN_ROOM
 }

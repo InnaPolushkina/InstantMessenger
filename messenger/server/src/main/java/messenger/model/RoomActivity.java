@@ -321,15 +321,21 @@ public class RoomActivity {
         for (String name: room.getUserList()
              ) {
             if(name.equals(unBanUser.getName())) {
-                UserConnection uc = Router.getInstense().getUserConnectionByName(name);
-                Router.getInstense().getRoomByName(room.getRoomName()).unBanUser(uc);
-                notifyRoom("User " + unBanUser.getName() + " was unbanned by admin " + userConnection.getUser().getName(),room.getRoomName());
+
                 try {
-                    uc.getOut().write(messageService.sendServerAction("UNBAN") + userService.sendUnBanNotify(room));
-                    uc.getOut().flush();
+                    UserConnection uc = Router.getInstense().getUserConnectionByName(name);
+                    if(uc.getUser().isOnline()) {
+                        Router.getInstense().getRoomByName(room.getRoomName()).unBanUser(uc);
+                        notifyRoom("User " + unBanUser.getName() + " was unbanned by admin " + userConnection.getUser().getName(), room.getRoomName());
+                        uc.getOut().write(messageService.sendServerAction("UNBAN") + userService.sendUnBanNotify(room));
+                        uc.getOut().flush();
+                    }
                 }
                 catch (IOException e) {
                     logger.warn("while banning user ",e);
+                }
+                catch (NullPointerException e) {
+                    logger.info("unbanning user",e);
                 }
                 break;
             }
@@ -367,5 +373,17 @@ public class RoomActivity {
         }
         notifyRoom("This room was deleted by admin, but you can read history messages",roomName);
         Router.getInstense().getRoomList().remove(room);
+    }
+
+    public void sendListUserFromRoom(String data) {
+        Room room = Router.getInstense().getRoomByName(roomService.parseRoomName(data));
+        try {
+            userConnection.getOut().write(messageService.sendServerAction("USERS_IN_ROOM"));
+            userConnection.getOut().write(roomService.prepareUsersForSending(room) + "\n");
+            userConnection.getOut().flush();
+        }
+        catch (IOException e) {
+            logger.warn("send list users from room ",e);
+        }
     }
 }

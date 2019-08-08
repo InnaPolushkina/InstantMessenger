@@ -66,6 +66,9 @@ public class ViewChat {
     private Label adminInfo;
     @FXML
     private Button deleteRoom;
+    @FXML
+    private Button roomInfo;
+
     private Stage stage;
 
     private User user;
@@ -177,6 +180,9 @@ public class ViewChat {
             showViewExit();
             event.consume();
         });
+        roomInfo.setOnAction(event -> {
+            Router.getInstance().getUserFromRoom(nameRoom.getText());
+        });
     }
 
     /**
@@ -184,6 +190,7 @@ public class ViewChat {
      */
     private void hideComponents() {
         muteRoom.setVisible(false);
+        roomInfo.setVisible(false);
         addUser.setVisible(false);
         leaveRoom.setVisible(false);
         deleteRoom.setVisible(false);
@@ -273,6 +280,8 @@ public class ViewChat {
                 else {
                     addUser.setVisible(true);
                 }
+
+                roomInfo.setVisible(true);
 
                 setMessageList(nameSelectedRoom);
                 if (Router.getInstance().getRoomByName(nameRoom.getText()).isMuted()) {

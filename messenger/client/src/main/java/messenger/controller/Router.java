@@ -46,7 +46,6 @@ public class Router {
     private Stage stage ;
     private ViewLogin viewLogin;
     private ViewChat viewChat;
-    private ViewRegister viewRegister;
     private static final Router instance = new Router();
     private UserRegistrationService userRegistrationService;
     private MessageService messageService;
@@ -326,6 +325,18 @@ public class Router {
             logger.warn(e);
         }
 
+    }
+
+    public void getUserFromRoom(String roomName) {
+        sendAction("USERS_IN_ROOM");
+        try {
+            BufferedWriter out = userConnection.getOut();
+            out.write(roomService.prepareForSendRoom(roomName) + "\n");
+            out.flush();
+        }
+        catch (IOException e) {
+            logger.warn(e);
+        }
     }
 
     /**

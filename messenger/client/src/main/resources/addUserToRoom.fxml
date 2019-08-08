@@ -15,7 +15,7 @@
          </children>
       </VBox>
       <Button fx:id="addUser" layoutX="266.0" layoutY="51.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="102.0" text="Add" />
-      <Button fx:id="cancelAddUser" layoutX="294.0" layoutY="363.0" mnemonicParsing="false" text="Cancel" />
+      <Button fx:id="cancelAddUser" layoutX="294.0" layoutY="363.0" mnemonicParsing="false" text="Close" />
       <Label layoutX="121.0" layoutY="14.0" prefHeight="27.0" prefWidth="196.0" text="Add user to this room">
          <font>
             <Font name="System Bold" size="18.0" />

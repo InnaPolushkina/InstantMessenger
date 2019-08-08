@@ -128,6 +128,16 @@ public class Room {
         return false;
     }
 
+    public boolean isUserBanned(String userName) {
+        //String userName = uc.getUser().getName();
+        for (String name: banList) {
+            if(name.equals(userName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * The method for checking user presence in room
      * if user is in room return true, else return false

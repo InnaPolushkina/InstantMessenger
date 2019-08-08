@@ -152,4 +152,52 @@ public class RoomServiceImlp implements RoomService {
     public String deleteRoom(String roomName) {
         return "<delete>" + roomName + "</delete>";
     }
+
+
+    @Override
+    public String prepareForSendRoom(String roomName) {
+        return "<room>" + roomName + "</room>";
+    }
+
+    @Override
+    public List<User> parseUserListFromRoom(String data) {
+        List<User> list = new ArrayList<>();
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(new InputSource(new StringReader(data)));
+
+            Element root = document.getDocumentElement();
+            String adminName = root.getAttribute("admin");
+
+            NodeList nodeList = document.getElementsByTagName("user");
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                Node node = nodeList.item(i);
+                if(node.getNodeType() == Node.ELEMENT_NODE) {
+                    Element element = (Element) node;
+                    String nameUser = element.getTextContent();
+                    boolean banned = Boolean.parseBoolean(element.getAttribute("banned"));
+                    boolean online = Boolean.parseBoolean(element.getAttribute("online"));
+                    User user = new User(nameUser);
+                    user.setBanned(banned);
+                    user.setOnline(online);
+                    if(nameUser.equals(adminName)) {
+                        user.setAdmin(true);
+                    }
+
+                    list.add(user);
+                }
+            }
+        }
+        catch (IOException e) {
+            logger.warn("while parsing user list from room",e);
+        }
+        catch (ParserConfigurationException e) {
+            logger.warn("while parsing user list from room",e);
+        }
+        catch (SAXException e) {
+            logger.warn("while parsing user list from room",e);
+        }
+        return list;
+    }
 }

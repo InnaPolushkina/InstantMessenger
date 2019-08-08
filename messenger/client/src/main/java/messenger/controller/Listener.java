@@ -132,6 +132,12 @@ public class Listener extends Thread {
                             notificator.notifyUser(deletedRoom.getRoomName(),"Room was deleted",TrayIcon.MessageType.WARNING);
                         });
                         break;
+                    case USERS_IN_ROOM:
+                        List<User> users = roomService.parseUserListFromRoom(messageFromServer());
+                        Platform.runLater(() -> {
+                            ViewRoomInfo viewRoomInfo = new ViewRoomInfo(users);
+                        });
+                        break;
                 }
 
             }

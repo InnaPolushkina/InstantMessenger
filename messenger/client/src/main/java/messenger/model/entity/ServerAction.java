@@ -11,5 +11,6 @@ public enum ServerAction {
     UNBAN_LIST,
     BAN,
     UNBAN,
-    DELETED_ROOM
+    DELETED_ROOM,
+    USERS_IN_ROOM
 }

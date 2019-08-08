@@ -13,6 +13,9 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
+/**
+ *
+ */
 public class ViewExit {
     private Stage mainStage;
     private Stage simpleStage;
@@ -50,7 +53,6 @@ public class ViewExit {
             Router.getInstance().sendMessage("test . . .");
             Router.getInstance().disconnect();
             Router.getInstance().connectToServer();
-            //Router.getInstance().getListener().sleep(100);
             ViewLogin viewLogin = new ViewLogin(mainStage);
             simpleStage.close();
         });

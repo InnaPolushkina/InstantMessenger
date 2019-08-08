@@ -230,6 +230,9 @@ public class Handler extends Thread{
                             //userConnection.getUser().setOnline(false);
                             disconnect();
                             break;
+                        case USERS_IN_ROOM:
+                            roomActivity.sendListUserFromRoom(clientData);
+                            break;
                     }
                 }
            }
@@ -264,7 +267,8 @@ public class Handler extends Thread{
   public void disconnect() throws IOException{
 
        //running = false;
-       userConnection.getUser().setOnline(false);
+       Router.getInstense().getUserConnectionByName(userConnection.getUser().getName()).getUser().setOnline(false);
+       //userConnection.getUser().setOnline(false);
        userConnection.getUserSocket().close();
        running = false;
        System.out.println("User disconnected  . . . ");
