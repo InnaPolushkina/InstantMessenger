@@ -77,7 +77,7 @@ public class ViewRegister {
                         Router.getInstance().register(name, password);
                         Router.getInstance().getUser().setName(name);
                     } catch (UserRegistrationException e) {
-                        setErrorMsg("You can't register with this name, somebody user has this nick");
+                        setErrorMsg(e.getMessage());
                     }
                 }
                 else {

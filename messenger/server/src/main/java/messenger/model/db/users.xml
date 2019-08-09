@@ -28,4 +28,8 @@
 <nick>Nika</nick>
 <password>1234</password>
 </user>
+<user>
+<nick>New User</nick>
+<password>1134</password>
+</user>
 </users>

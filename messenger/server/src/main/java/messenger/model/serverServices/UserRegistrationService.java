@@ -17,12 +17,14 @@ public interface UserRegistrationService {
      * @param userData have String with user data for authorizing in xml
      * @return true if user authorized, else return false
      */
-    boolean auth(String userData);
+    boolean checkAuthorizingUserInfo(String userData);
 
     /**
      * The method for getting authorized user
      * @return authorized user
      */
     User getAuthorizedUser();
+
+    String prepareAuthRegResponse(String message, boolean status);
 
 }

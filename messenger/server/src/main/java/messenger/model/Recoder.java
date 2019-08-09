@@ -29,8 +29,6 @@ public class Recoder {
         boolean result = userRegistrationService.registration(userData);
         User user;
         try {
-            userConnection.getOut().write(String.valueOf(result) + "\n");
-            userConnection.getOut().flush();
 
             if (result) {
                 Router.getInstense().getUserList().add(userConnection);
@@ -41,9 +39,14 @@ public class Recoder {
                 userConnection.setUser(user);
                 Router.getInstense().addUserToBigRoom(userConnection);
 
+                userConnection.getOut().write(userRegistrationService.prepareAuthRegResponse("successful",result) + "\n");
+                userConnection.getOut().flush();
+
                 return user;
             }
             else {
+                userConnection.getOut().write(userRegistrationService.prepareAuthRegResponse("Can't register, server have user with such nick",result) + "\n");
+                userConnection.getOut().flush();
                 throw new ServerRegistrationException("Can't register, server have user with such nick");
             }
         }

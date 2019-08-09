@@ -144,7 +144,7 @@ public class Router {
 
         } catch (AuthException e) {
             logger.warn("User can't authorize",e);
-            viewLogin.setErrorUserMessage("Name or password is`t true");
+            viewLogin.setErrorUserMessage(e.getMessage());
         }
         catch (Exception e) {
             logger.info(e);

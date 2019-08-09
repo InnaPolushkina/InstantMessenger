@@ -248,9 +248,17 @@ public class Handler extends Thread{
            }
        }
        catch (NullPointerException e) {
-           logger.warn("connection was lost", e);
+           /*logger.warn("connection was lost", e);
            view.print("client " + user.getName() + " disconnected or connection was lost");
-           userConnection.getUser().setOnline(false);
+           userConnection.getUser().setOnline(false);*/
+           try {
+               logger.warn("client " + user.getName() + " disconnected ", e);
+               view.print("client " + user.getName() + " disconnected or connection was lost");
+               userConnection.getUser().setOnline(false);
+           }
+           catch (NullPointerException ex) {
+               logger.info("some client disconnected before authorizing/registering ",ex);
+           }
        }
       finally {
            try {
@@ -265,16 +273,10 @@ public class Handler extends Thread{
    }
 
   public void disconnect() throws IOException{
-
-       //running = false;
        Router.getInstense().getUserConnectionByName(userConnection.getUser().getName()).getUser().setOnline(false);
-       //userConnection.getUser().setOnline(false);
        userConnection.getUserSocket().close();
        running = false;
        System.out.println("User disconnected  . . . ");
-      // throw new IOException("client disconnected");
    }
-
-
 
 }
