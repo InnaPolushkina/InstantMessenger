@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 
 /**
- *
+ * The class for confirm user exit from app
  */
 public class ViewExit {
     private Stage mainStage;
@@ -25,6 +25,10 @@ public class ViewExit {
     @FXML
     private Button cancelExit;
 
+    /**
+     * The constructor of class
+     * @param mainStage stage from main view
+     */
     public ViewExit(Stage mainStage) {
         this.mainStage = mainStage;
         this.simpleStage = new Stage();
@@ -44,6 +48,9 @@ public class ViewExit {
         }
     }
 
+    /**
+     * The method for initialize confirm view handlers events
+     */
     public void initialize() {
         cancelExit.setOnAction(event -> simpleStage.close());
         exitFromApp.setOnAction(event -> {

@@ -21,44 +21,53 @@ public class Authorizer {
 
     /**
      * The method for authorizing user
-     * if user authorized add to big room
+     * <p>firstly checks user info at the server, if user send correct name and password go to the next step</p>
+     * <p>secondly checks online user status, if user is not online now set true to online user status and send response to user about his successfully authorizing,
+     * else if user is online now from other device send send response to user about his no successfully authorizing</p>
+     * if user authorized checks him presence at "Big chat", and if user is not at "Big chat" (such situation may occur if server was reload) add user to "Big chat"
      * @param userData have string with user data
      * @return authorized user
      * @throws ServerAuthorizationException if user have any problem with registration
      */
     public User authorize(String userData) throws ServerAuthorizationException {
         User user = null;
+        //first check
         boolean result = userRegistrationService.auth(userData);
         try {
-            userConnection.getOut().write(String.valueOf(result) + "\n");
-            userConnection.getOut().flush();
-
             if (result) {
-                //Router.getInstense().getUserList().add(userConnection);
-
-                Router.getInstense().getViewLogs().print("User  authorized");
                 user = userRegistrationService.getAuthorizedUser();
-                user.setOnline(true);
                 userConnection.setUser(user);
-                if(Router.getInstense().getUserConnectionByName(userConnection.getUser().getName()) == null) {
+                UserConnection authConn = Router.getInstense().getUserConnectionByName(user.getName());
+                if(authConn == null) {
+                    userConnection.getUser().setOnline(true);
                     Router.getInstense().getUserList().add(userConnection);
                     Router.getInstense().addUserToBigRoom(userConnection);
+                    userConnection.getOut().write(String.valueOf(true) + "\n");
+                    userConnection.getOut().flush();
+                    Router.getInstense().getViewLogs().print("User  authorized");
+                }
+                //second check
+                else if (authConn.getUser().isOnline()) {
+                        userConnection.getOut().write(String.valueOf(false) + "\n");
+                        userConnection.getOut().flush();
+                        throw new ServerAuthorizationException("it is not possible to authorize one user simultaneously from two devices");
                 }
                 else {
                     Router.getInstense().getUserConnectionByName(user.getName()).setOut(new BufferedWriter(new OutputStreamWriter(userConnection.getUserSocket().getOutputStream())));
                     Router.getInstense().getUserConnectionByName(user.getName()).setIn(new BufferedReader(new InputStreamReader(userConnection.getUserSocket().getInputStream())));
                     Router.getInstense().getUserConnectionByName(userConnection.getUser().getName()).getUser().setOnline(true);
-                    /*UserConnection remove = Router.getInstense().getUserConnectionByName(user.getName());
-                    Router.getInstense().getUserList().remove(remove);
-                    Router.getInstense().getUserList().add(userConnection);
-                    Router.getInstense().addUserToBigRoom(userConnection);*/
+                    userConnection.getOut().write(String.valueOf(true) + "\n");
+                    userConnection.getOut().flush();
+                    Router.getInstense().getViewLogs().print("User  authorized");
                 }
-                System.out.println("Count of users " + Router.getInstense().getUserList().size());
 
+                System.out.println("Count of users " + Router.getInstense().getUserList().size());
 
                 return user;
             }
             else {
+                userConnection.getOut().write(String.valueOf(true) + "\n");
+                userConnection.getOut().flush();
                 throw new ServerAuthorizationException("can't authorized user, no correct name or password");
             }
         }
