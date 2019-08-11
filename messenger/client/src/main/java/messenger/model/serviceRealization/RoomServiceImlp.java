@@ -27,19 +27,19 @@ public class RoomServiceImlp implements RoomService {
     private static final Logger logger = Logger.getLogger(RoomServiceImlp.class);
 
     @Override
-    public String createRoom(String roomName) {
+    public String prepareCreateRoom(String roomName) {
         String newRoom = "<create>" + roomName + "</create>";
         return newRoom;
     }
 
     @Override
-    public String addUserToRoom(User user) {
+    public String prepareAddUserToRoom(User user) {
         String result = "<add><user>" + user.getName() + "</user></add>";
         return result;
     }
 
     @Override
-    public String switchRoom(String roomName) {
+    public String prepareSwitchRoom(String roomName) {
         String result = "<goToRoom>" + roomName + "</goToRoom>";
         return result;
     }
@@ -149,7 +149,7 @@ public class RoomServiceImlp implements RoomService {
     }
 
     @Override
-    public String deleteRoom(String roomName) {
+    public String prepareDeleteRoom(String roomName) {
         return "<delete>" + roomName + "</delete>";
     }
 

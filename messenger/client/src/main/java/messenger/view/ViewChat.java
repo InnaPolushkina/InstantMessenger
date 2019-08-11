@@ -263,7 +263,7 @@ public class ViewChat {
      * method hide or show some components of form depending on user status in this room:
      * if room is not "Big chat", shows button for adding new online user, else hides this button,
      * if user is banned in the room, hides text area and button for sending messages, else shows its,
-     * if user is admin of room, shows buttons for ban/unBan users in this room, else hides its,
+     * if user is admin of room, shows buttons for prepareBanUser/unBan users in this room, else hides its,
      * if user muted room, sets to muteButton text "UnMute", else sets "Mute"
      * if room was deleted, hide all components for working with this room
      */
@@ -272,14 +272,6 @@ public class ViewChat {
             String nameSelectedRoom =  getNameOfSelectedRoom();
             if (nameSelectedRoom != null) {
                 nameRoom.setText(nameSelectedRoom);
-                if (nameRoom.getText().equals("Big chat")) {
-                    addUser.setVisible(false);
-                    banUserButton.setVisible(false);
-                    unbanUserButton.setVisible(false);
-                }
-                else {
-                    addUser.setVisible(true);
-                }
 
                 roomInfo.setVisible(true);
 
@@ -323,6 +315,17 @@ public class ViewChat {
                         adminInfo.setText("You isn't admin");
                         deleteRoom.setVisible(false);
                     }
+                }
+
+                if (nameSelectedRoom.trim().equals("Big chat")) {
+                    addUser.setVisible(false);
+                    banUserButton.setVisible(false);
+                    unbanUserButton.setVisible(false);
+                    leaveRoom.setVisible(false);
+                }
+                else {
+                    addUser.setVisible(true);
+                    leaveRoom.setVisible(true);
                 }
 
             }

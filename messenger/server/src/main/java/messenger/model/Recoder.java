@@ -23,10 +23,10 @@ public class Recoder {
      * checks unique user name, if it's true, register new user and add to big chat
      * @param userData have string with about new user
      * @return authorized user
-     * @throws ServerRegistrationException if user have any problems with registration
+     * @throws ServerRegistrationException if user have any problems with checkRegisteringUserInfo
      */
     public User register(String userData) throws ServerRegistrationException{
-        boolean result = userRegistrationService.registration(userData);
+        boolean result = userRegistrationService.checkRegisteringUserInfo(userData);
         User user;
         try {
 
@@ -51,7 +51,7 @@ public class Recoder {
             }
         }
         catch (IOException e) {
-            throw new ServerRegistrationException("Can't give response on registration query",e);
+            throw new ServerRegistrationException("Can't give response on checkRegisteringUserInfo query",e);
         }
     }
 

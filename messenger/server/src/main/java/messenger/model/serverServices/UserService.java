@@ -10,16 +10,18 @@ import java.time.LocalDateTime;
  */
 public interface UserService {
     /**
-     * the method bans user in room
-     * @param msg contains String with user data for parseBanUser
+     * The method parses from string with data user for banning object of class User
+     * @see User
+     * @param msg contains String with user data for banning
      */
     User parseBanUser(String msg);
 
     /**
-     * the method unbans user in room
+     * The method parses from string with data user for unbanning object of class User
+     * @see User
      * @param msg contains String with user data for unbanning
      */
-    User parseUnbanUser(String msg);
+    User parseUnBanUser(String msg);
 
     /**
      * The method for parsing date of last user online
@@ -29,16 +31,18 @@ public interface UserService {
     LocalDateTime parseLastOnline(String data);
 
     /**
-     * The method parses for sending notify about banning user in some room
+     * The method prepares for sending notify about banning user in some room
+     * parses notify to room in format of client
      * @param room room where user was banned
      * @return string with notify about banning user in some room
      */
-    String sendBanNotify(Room room);
+    String prepareBanNotify(Room room);
 
     /**
-     * The method parses for sending notify about unbanning user in some room
+     * The method prepares for sending notify about unbanning user in some room
+     * parses notify to room in format of client
      * @param room room where user was unbanned
      * @return string with notify about unbanning user in some room
      */
-    String sendUnBanNotify(Room room);
+    String prepareUnBanNotify(Room room);
 }

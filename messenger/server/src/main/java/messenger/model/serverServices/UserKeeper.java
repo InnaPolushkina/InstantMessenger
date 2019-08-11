@@ -11,14 +11,11 @@ import java.util.List;
 public interface UserKeeper {
     /**
      * The method for saving user list to file in server
-     * //@param fileName have String with file name
-     * //@param userList have list for saving
      */
     void saveToFile(/*String fileName,*/ List<User> userList);
 
     /**
      * The method for loading user list from server file
-     * //@param fileName have String with file name in server
      * @return List of users
      */
     List<User> loadFromFile(/*String fileName*/);
@@ -29,5 +26,4 @@ public interface UserKeeper {
      * @return String with users data
      */
     String userListToString(List<User> userList);
-    //void saveMsgToHistory(String message);
 }

@@ -39,16 +39,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
         String regMsg = "<reg><nick>" + username + "</nick><password>" + password + "</password></reg>";
         boolean result = false;
         router.sendSimpleMsg(regMsg);
-       /* try {
-            result = Boolean.parseBoolean(router.getListener().messageFromServer());
-        } catch (IOException e) {
-            throw new UserRegistrationException(e.getMessage(),e);
-        }
-        if(!result) {
-            throw new UserRegistrationException("Name is not correct, one of users have this nick");
-        }*/
         try {
-            //result = Boolean.parseBoolean(router.getListener().messageFromServer());
             result = parseResponse(router.getListener().messageFromServer());
         }
         catch (AuthException e) {
@@ -71,7 +62,6 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
         boolean result = false;
         router.sendSimpleMsg(authMsg);
         try {
-            //result = Boolean.parseBoolean(router.getListener().messageFromServer());
             result = parseResponse(router.getListener().messageFromServer());
         }
         catch (AuthException e) {

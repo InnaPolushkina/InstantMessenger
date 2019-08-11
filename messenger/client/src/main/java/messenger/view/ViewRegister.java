@@ -56,7 +56,7 @@ public class ViewRegister {
             stage.show();
         }
         catch (IOException e) {
-            logger.warn("while opening form for registration",e);
+            logger.warn("while opening form for checkRegisteringUserInfo",e);
         }
 
 

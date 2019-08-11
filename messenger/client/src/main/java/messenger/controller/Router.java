@@ -20,7 +20,6 @@ import messenger.model.serviceRealization.UserServiceImpl;
 import messenger.view.ViewChat;
 import messenger.view.ViewLogin;
 
-import messenger.view.ViewRegister;
 import org.apache.log4j.Logger;
 
 import java.io.*;
@@ -89,6 +88,7 @@ public class Router {
         catch (IOException ex) {
             logger.error(ex);
             viewLogin.setErrorUserMessage("Can't connect to server");
+            viewLogin.getLoginButton().setVisible(false);
             viewLogin.getRegisterButton().setVisible(false);
         }
     }
@@ -152,7 +152,7 @@ public class Router {
     }
 
     /**
-     * the method for registration user
+     * the method for checkRegisteringUserInfo user
      * @param name of user
      * @param password of user
      */
@@ -221,7 +221,7 @@ public class Router {
         try {
             String roomName = viewChat.getNameRoom();
             Message msg = new Message(msgText,userConnection.getUser(),roomName);
-            sendMessageToServer(messageService.sendMessage(msg));
+            sendMessageToServer(messageService.createMessage(msg));
         } catch (IOException e) {
             logger.info(e);
         }
@@ -233,7 +233,7 @@ public class Router {
      */
     public void sendAction(String msg) {
         try {
-            sendMessageToServer(messageService.sendAction(msg));
+            sendMessageToServer(messageService.createServerAction(msg));
         }
         catch (IOException e) {
             logger.info(e);
@@ -297,7 +297,7 @@ public class Router {
             sendAction("CREATE_ROOM");
 
             BufferedWriter out = userConnection.getOut();
-            out.write(roomService.createRoom(roomName) + "\n");
+            out.write(roomService.prepareCreateRoom(roomName) + "\n");
             out.flush();
             Room room = new Room(roomName);
             room.addNewUser(userConnection);
@@ -318,7 +318,7 @@ public class Router {
             sendAction("ADD_TO_ROOM");
 
             BufferedWriter out = userConnection.getOut();
-            out.write(roomService.addUserToRoom(user) + "\n");
+            out.write(roomService.prepareAddUserToRoom(user) + "\n");
             out.flush();
         }
         catch (IOException e) {
@@ -347,7 +347,7 @@ public class Router {
         sendAction("SWITCH_ROOM");
         try {
             BufferedWriter out = userConnection.getOut();
-            out.write(roomService.switchRoom(roomName) + "\n");
+            out.write(roomService.prepareSwitchRoom(roomName) + "\n");
             out.flush();
         }
         catch (IOException e) {
@@ -376,13 +376,13 @@ public class Router {
      * The method sends to server request for banning/unbanning user
      * @param user user for banning/unbanning
      * @param room data about room
-     * @param banStatus ban status
+     * @param banStatus prepareBanUser status
      */
     public void banUser(User user, Room room, boolean banStatus) {
         if (banStatus) {
             sendAction("BAN");
             try {
-                sendMessageToServer(userService.ban(user));
+                sendMessageToServer(userService.prepareBanUser(user));
             }
             catch (IOException e) {
                 logger.warn("while banning user in room",e);
@@ -391,7 +391,7 @@ public class Router {
         else {
             sendAction("UNBAN");
             try {
-                sendMessageToServer(userService.unban(user));
+                sendMessageToServer(userService.prepareUnBanUser(user));
             }
             catch (IOException e) {
                 logger.warn("while unbanning user in room",e);
@@ -406,8 +406,15 @@ public class Router {
      */
     public void deleteRoom(String roomName) {
         sendAction("DELETE_ROOM");
-        sendMessage(roomService.deleteRoom(roomName));
+        sendMessage(roomService.prepareDeleteRoom(roomName));
         viewChat.setFocusToRoom(roomName);
+    }
+
+    public void logout() {
+        sendAction("LOGOUT");
+        sendMessage("test . . .");
+        disconnect();
+        connectToServer();
     }
 
 }

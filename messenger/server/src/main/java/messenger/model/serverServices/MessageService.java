@@ -16,7 +16,7 @@ public interface MessageService {
      * @param roomRecipient name of room recipient
      * @return string with message
      */
-    String sendMessage(String text, String nameSender, String roomRecipient);
+    String createMessage(String text, String nameSender, String roomRecipient);
 
     /**
      * the method parses got string message from server
@@ -38,16 +38,16 @@ public interface MessageService {
     ClientAction parseClientAction(String clientAction);
 
     /**
-     * The method parses server action before sending
+     * The method creates server action before sending
      * @param action server action
      * @return string with server action
      */
-    String sendServerAction(String action);
+    String createServerAction(String action);
 
     /**
-     * The method parses notify about adding user to room
+     * The method creates notify about adding user to room
      * @param room room where user was added
      * @return string with notify about adding to room
      */
-    String sendAddToRoom(Room room);
+    String createAddToRoomNotify(Room room);
 }

@@ -27,13 +27,13 @@ public class MessageServiceImpl implements MessageService {
     private static final Logger logger = Logger.getLogger(MessageServiceImpl.class);
 
     @Override
-    public String sendMessage(Message msg) {
+    public String createMessage(Message msg) {
         String message = "<message><nick>" + msg.getUserSender().getName() + "</nick><recipient>" + msg.getNameRoomRecipient() + "</recipient><text>" + msg.getText() + "</text></message>";
         return message;
     }
 
     @Override
-    public String sendAction(String action) {
+    public String createServerAction(String action) {
         String result = "<action>" + action + "</action>";
         return result;
     }

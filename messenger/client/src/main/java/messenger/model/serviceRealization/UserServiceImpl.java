@@ -22,13 +22,13 @@ public class UserServiceImpl implements UserService {
     private static final Logger logger = Logger.getLogger(UserServiceImpl.class);
 
     @Override
-    public String ban(User user) {
+    public String prepareBanUser(User user) {
         return "<parseBanUser>" + user.getName() + "</parseBanUser>";
     }
 
     @Override
-    public String unban(User user) {
-        return "<parseUnbanUser>" + user.getName() + "</parseUnbanUser>";
+    public String prepareUnBanUser(User user) {
+        return "<parseUnBanUser>" + user.getName() + "</parseUnBanUser>";
     }
 
     @Override
@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
 
           /*  Element element = document.getDocumentElement();
             String roomName = element.getTextContent();*/
-            NodeList nodeList = document.getElementsByTagName("ban");
+            NodeList nodeList = document.getElementsByTagName("prepareBanUser");
             Node node = nodeList.item(0);
             Element element = (Element) node;
             String roomName = element.getTextContent();
@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document document = builder.parse(new InputSource(new StringReader(msg)));
 
-            NodeList nodeList = document.getElementsByTagName("unban");
+            NodeList nodeList = document.getElementsByTagName("prepareUnBanUser");
             Node node = nodeList.item(0);
             String roomName = node.getTextContent();
             room = new Room(roomName);

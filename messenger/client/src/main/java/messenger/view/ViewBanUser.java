@@ -79,7 +79,7 @@ public class ViewBanUser {
             errorMsg.setText("");
         }
         else {
-            errorMsg.setText("You can't ban now any user, nobody is online");
+            errorMsg.setText("You can't prepareBanUser now any user, nobody is online");
         }
         cancel.setOnAction(event -> {
             stage.close();

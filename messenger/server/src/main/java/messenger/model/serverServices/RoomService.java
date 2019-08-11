@@ -5,27 +5,29 @@ import messenger.model.serverEntity.User;
 
 import java.util.List;
 
-
+/**
+ * The interface for servicing messages between client and server regarding activity in room
+ */
 public interface RoomService {
     /**
-     * the method creates new room
-     * @param roomData contain String for name creating room
+     * The method parses string from client with data for creating new room
+     * @param roomData contain String with data for new room
      */
-    Room createRoom(String roomData);
+    Room parseNewRoomData(String roomData);
 
     /**
-     * the method parse user data for adding to room
+     * The method parses user data for adding to room
      * @see Room
      * @see User
      */
-    User addUserToRoom(/*UserConnection user, Room room*/ String data);
+    User parseUserForAddToRoom(String data);
 
     /**
-     * the method switches room for user
-     * @param roomName have name for going to need room
-     * @return Room where user is now
+     * The method parses string from client with data for switching room
+     * @param data have string from client
+     * @return object of class Room with data for switching room
      */
-    Room changeRoom(String roomName);
+    Room parseRoomForSwitch(String data);
 
     /**
      * The method parses list of rooms
@@ -35,25 +37,25 @@ public interface RoomService {
     List<Room> parseListOfRooms(String data);
 
     /**
-     * The method parses for sending to user list of user, who can be banned or unbanned
-     * @param list
-     * @return
+     * The method prepares for sending to admin of room list of users, who can be banned in room
+     * @param list user for banning
+     * @return ready string for sending to client with list of user for banning in room
      */
-    String parseListUserForBan(List<User> list);
+    String prepareListUserForBan(List<User> list);
 
     /**
      * The method parses data from user about deleting room
      * @param data data about deleting room
      * @return name of room for deleting
      */
-    String deleteRoom(String data);
+    String parseRoomNameForDelete(String data);
 
     /**
      * The method parses for sending notification about deletion room
      * @param roomName name of deleted room
      * @return string with notification about deleted room
      */
-    String deletedRoomNotification(String roomName);
+    String prepareDeletedRoomNotification(String roomName);
 
     /**
      * The method prepares users from some room for sending

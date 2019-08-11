@@ -13,21 +13,22 @@ import java.io.IOException;
  */
 public interface MessageService {
     /**
-     * the method parses message from client for sending
+     * The method create from object of class Message string in server format for sending
+     * @see Message
      * @param msg have object of class Message
      * @return string in format for reading server
      */
-    String sendMessage(Message msg);
+    String createMessage(Message msg);
 
     /**
      * the method parses action from client for sending
      * @param action have string with client action
      * @return string in format for reading server
      */
-    String sendAction(String action);
+    String createServerAction(String action);
 
     /**
-     * the method parses got string message from server
+     * The method parses got string message from server
      * @param message string with message from server
      * @return object of class MessageServer
      * @throws ParserConfigurationException if can`t parse message

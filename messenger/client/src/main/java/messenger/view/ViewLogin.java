@@ -66,10 +66,15 @@ public class ViewLogin {
     public void initialize() {
       errorUserMessage.setText(" ");
       loginButton.setOnAction(event -> {
-            String name = userName.getText().trim();
-            String password = userPassword.getText().trim();
-            Router.getInstance().getUserConnection().getUser().setName(name);
-            Router.getInstance().login(name,password);
+          try {
+              String name = userName.getText().trim();
+              String password = userPassword.getText().trim();
+              Router.getInstance().getUserConnection().getUser().setName(name);
+              Router.getInstance().login(name, password);
+          }
+          catch (NullPointerException e) {
+              setErrorUserMessage("All fields must be filled !");
+          }
         });
       registerButton.setOnAction(event -> {
           viewRegister = new ViewRegister(stage);
@@ -81,8 +86,8 @@ public class ViewLogin {
    }
 
     /**
-     * The getter for button for user registration
-     * @return registration Button
+     * The getter for button for user checkRegisteringUserInfo
+     * @return checkRegisteringUserInfo Button
      */
     public Button getRegisterButton() {
         return registerButton;
@@ -96,4 +101,7 @@ public class ViewLogin {
         this.errorUserMessage.setText(errorUserMessage);
     }
 
+    public Button getLoginButton() {
+        return loginButton;
+    }
 }

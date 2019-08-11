@@ -20,7 +20,7 @@ import java.util.List;
 
 public class UserRegistrationServiceImpl implements UserRegistrationService {
 
-    private List<User> userList = new ArrayList<>();
+    private List<User> userList;
     private static final Logger logger = Logger.getLogger(UserRegistrationServiceImpl.class);
     private User user;
     private UserKeeper userKeeper;
@@ -36,7 +36,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     }
 
     @Override
-    public boolean registration(String userData) {
+    public boolean checkRegisteringUserInfo(String userData) {
        userList = userKeeper.loadFromFile();
         try {
 

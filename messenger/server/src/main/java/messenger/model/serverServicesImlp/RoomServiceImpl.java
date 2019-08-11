@@ -32,7 +32,7 @@ public class RoomServiceImpl implements RoomService {
     private static final Logger logger = Logger.getLogger(RoomServiceImpl.class);
 
     @Override
-    public Room createRoom(String roomData) {
+    public Room parseNewRoomData(String roomData) {
         Room room = null;
         try {
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
@@ -59,7 +59,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public User addUserToRoom(/*UserConnection user, Room room*/ String data) {
+    public User parseUserForAddToRoom(/*UserConnection user, Room room*/ String data) {
         User result = null;
         try {
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
@@ -87,12 +87,12 @@ public class RoomServiceImpl implements RoomService {
     }
 
 
-    public Room changeRoom(String roomName){
+    public Room parseRoomForSwitch(String data){
         Room result = null;
         try {
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = builderFactory.newDocumentBuilder();
-            Document document = builder.parse(new InputSource(new StringReader(roomName)));
+            Document document = builder.parse(new InputSource(new StringReader(data)));
 
             NodeList nodeList = document.getElementsByTagName("goToRoom");
             Element element = (Element)nodeList.item(0);
@@ -147,7 +147,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public String parseListUserForBan(List<User> list) {
+    public String prepareListUserForBan(List<User> list) {
         String s = "<listForBan>";
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(s);
@@ -177,7 +177,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public String deleteRoom(String data) {
+    public String parseRoomNameForDelete(String data) {
         String  result = null;
         try {
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
@@ -202,7 +202,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public String deletedRoomNotification(String roomName) {
+    public String prepareDeletedRoomNotification(String roomName) {
         return "<deleted>" + roomName + "</deleted>";
     }
 

@@ -26,12 +26,12 @@ public class MessageServiceImpl implements MessageService {
 
 
   /*  @Override
-    public String sendMessage(MessageServer msg) {
+    public String createMessage(MessageServer msg) {
         return "<message><nick>" + msg.getSender().getName() + "</nick><text>" + msg.getText() + "</text><recipient>" + msg.getRecipient().getRoomName() + "</recipient></message>";
     }*/
 
     @Override
-    public String sendMessage(String text, String nameSender, String roomRecipient) {
+    public String createMessage(String text, String nameSender, String roomRecipient) {
         return "<message><nick>" + nameSender + "</nick><text>" + text + "</text><recipient>" + roomRecipient + "</recipient></message>";
     }
 
@@ -102,13 +102,13 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public String sendServerAction(String action) {
+    public String createServerAction(String action) {
         return "<action>" + action + "</action>\n";
     }
 
 
     @Override
-    public String sendAddToRoom(Room room) {
+    public String createAddToRoomNotify(Room room) {
         return "<room admin = \"" + room.getAdmin() + "\">" + room.getRoomName() + "</room>\n";
     }
 }

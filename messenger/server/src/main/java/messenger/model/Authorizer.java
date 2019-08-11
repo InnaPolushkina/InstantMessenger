@@ -27,7 +27,7 @@ public class Authorizer {
      * if user authorized checks him presence at "Big chat", and if user is not at "Big chat" (such situation may occur if server was reload) add user to "Big chat"
      * @param userData have string with user data
      * @return authorized user
-     * @throws ServerAuthorizationException if user have any problem with registration
+     * @throws ServerAuthorizationException if user have any problem with checkRegisteringUserInfo
      */
     public User authorize(String userData) throws ServerAuthorizationException {
         User user = null;
@@ -76,7 +76,7 @@ public class Authorizer {
             }
         }
         catch (IOException e) {
-            throw new ServerAuthorizationException("Can't give response on registration query",e);
+            throw new ServerAuthorizationException("Can't give response on checkRegisteringUserInfo query",e);
         }
     }
 

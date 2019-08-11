@@ -72,7 +72,7 @@ public class Room {
     /**
      * The method for banning user in room
      * @param user banned user
-     * @param banStatus ban status
+     * @param banStatus prepareBanUser status
      */
     public void banUser(UserServerConnection user, boolean banStatus) {
         user.getUser().setBanned(banStatus);

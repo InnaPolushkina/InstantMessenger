@@ -51,14 +51,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User parseUnbanUser(String msg) {
+    public User parseUnBanUser(String msg) {
         User user = null;
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document document = builder.parse(new InputSource(new StringReader(msg)));
 
-            NodeList nodeList = document.getElementsByTagName("parseUnbanUser");
+            NodeList nodeList = document.getElementsByTagName("parseUnBanUser");
             Node node = nodeList.item(0);
             if(node.getNodeType() == Node.ELEMENT_NODE) {
                 Element element = (Element) node;
@@ -101,12 +101,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String sendBanNotify(Room room) {
+    public String prepareBanNotify(Room room) {
         return "<ban>" + room.getRoomName() + "</ban>\n";
     }
 
     @Override
-    public String sendUnBanNotify(Room room) {
+    public String prepareUnBanNotify(Room room) {
         return "<unban>" + room.getRoomName() + "</unban>\n";
     }
 }

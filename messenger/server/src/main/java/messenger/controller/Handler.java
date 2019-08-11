@@ -157,7 +157,7 @@ public class Handler extends Thread{
                     System.out.println(clientAction);
                     switch (clientAction) {
                         case REGISTER:
-                            //call methods from class for registration
+                            //call methods from class for checkRegisteringUserInfo
                             try {
                                 Recoder recoder = new Recoder(userConnection, userRegistrationService, userKeeper);
                                 user = recoder.register(clientData);
@@ -183,7 +183,7 @@ public class Handler extends Thread{
                         case SEND_MSG:
                             //send message
                             senderMessage.sendMessage(clientData);
-                            // sendMessage(clientData);
+                            // createMessage(clientData);
                             break;
                         //There are cases for other client actions . . .
                         case CREATE_ROOM:
@@ -204,7 +204,7 @@ public class Handler extends Thread{
                             //leave user from room
                             //roomActivity.setMessageService(messageService);
                             roomActivity.leaveRoom(clientData);
-                            //senderMessage.sendMessage(messageService.sendMessage(new MessageServer(userConnection.getUser(),"!!! Leaved room !!!")));
+                            //senderMessage.createMessage(messageService.createMessage(new MessageServer(userConnection.getUser(),"!!! Leaved room !!!")));
                             break;
                         case HISTORY:
                             roomActivity.setUserService(userService);

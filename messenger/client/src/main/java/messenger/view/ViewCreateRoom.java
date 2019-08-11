@@ -64,7 +64,7 @@ public class ViewCreateRoom {
     public void initialize() {
         errorRoomCreatorMsg.setText("");
         createNewRoomButton.setOnAction(event -> {
-            //router.sendAction("CREATE_ROOM");
+            //router.createServerAction("CREATE_ROOM");
             String nameRoom = nameNewRoom.getText().trim();
             if (nameRoom != null && !nameRoom.equals("")) {
                 router.createRoom(nameRoom);

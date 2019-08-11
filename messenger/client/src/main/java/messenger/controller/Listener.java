@@ -207,7 +207,7 @@ public class Listener extends Thread {
     }
 
     /**
-     * The setter for user service for registration
+     * The setter for user service for checkRegisteringUserInfo
      * @param userRegistrationService object of class that implements interface UserRegistrationService
      * @see UserRegistrationService
      */
