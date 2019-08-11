@@ -91,8 +91,9 @@ public class RoomActivity {
                     r.addUser(connectionAdd);
                     System.out.println("user successfully added");
                     try {
-                        connectionAdd.getOut().write(messageService.createServerAction("ADDED_TO_ROOM") + messageService.createAddToRoomNotify(r));
-                        connectionAdd.getOut().flush();
+                        /*connectionAdd.getOut().write(messageService.createServerAction("ADDED_TO_ROOM") + messageService.createAddToRoomNotify(r));
+                        connectionAdd.getOut().flush();*/
+                        connectionAdd.sendMessage(messageService.createServerAction("ADDED_TO_ROOM") + messageService.createAddToRoomNotify(r));
 
                         historyMessage.sendHistoryOfSomeRoom(r, connectionAdd);
                         String notification = "Added new user " + connectionAdd.getUser().getName();
@@ -112,9 +113,8 @@ public class RoomActivity {
     /**
      * The method for leaving user room
      * if user leaved room, server sends notify to room about it
-     * @param data name of leaving room
      */
-    public void leaveRoom(String data) {
+    public void leaveRoom() {
         for (Room room: Router.getInstense().getRoomList()) {
             if(room.getRoomName().equals(roomNow.getRoomName())) {
                 room.removeUser(userConnection);
@@ -128,8 +128,9 @@ public class RoomActivity {
      */
     public void sendOnlineUserList() {
         try {
-            userConnection.getOut().write(messageService.createServerAction("ONLINE_LIST") + userKeeper.userListToString(getOnlineUser()) + "\n");
-            userConnection.getOut().flush();
+           /* userConnection.getOut().write(messageService.createServerAction("ONLINE_LIST") + userKeeper.userListToString(getOnlineUser()) + "\n");
+            userConnection.getOut().flush();*/
+           userConnection.sendMessage(messageService.createServerAction("ONLINE_LIST") + userKeeper.userListToString(getOnlineUser()) + "\n");
         }
         catch (IOException e) {
             logger.info("while sending list of online users to client",e);
@@ -176,8 +177,9 @@ public class RoomActivity {
                for(String name: r.getUserList()) {
                    try {
                        UserConnection uc = Router.getInstense().getUserConnectionByName(name);
-                       uc.getOut().write(messageService.createServerAction("SEND_MSG") + testNotify + "\n");
-                       uc.getOut().flush();
+                      /* uc.getOut().write(messageService.createServerAction("SEND_MSG") + testNotify + "\n");
+                       uc.getOut().flush();*/
+                      uc.sendMessage(messageService.createServerAction("SEND_MSG") + testNotify + "\n");
                    }
                    catch (IOException e) {
                        logger.warn("while sending notify to room");
@@ -207,9 +209,6 @@ public class RoomActivity {
         Room room = Router.getInstense().getRoomByName(roomNow.getRoomName());
         if(userConnection.getUser().getName().equals(room.getAdmin())) {
             List<User> usersForBan = new ArrayList<>();
-            /*for (UserConnection uc: room.getUserList()) {
-                usersForBan.add(uc.getUser());
-            }*/
             for(String name: room.getUserList()) {
                 UserConnection uc = Router.getInstense().getUserConnectionByName(name);
                 if(!room.isUserBanned(uc)) {
@@ -218,8 +217,9 @@ public class RoomActivity {
             }
 
             try {
-                userConnection.getOut().write(messageService.createServerAction("BAN_LIST") + roomService.prepareListUserForBan(usersForBan) + "\n");
-                userConnection.getOut().flush();
+                /*userConnection.getOut().write(messageService.createServerAction("BAN_LIST") + roomService.prepareListUserForBan(usersForBan) + "\n");
+                userConnection.getOut().flush();*/
+                userConnection.sendMessage(messageService.createServerAction("BAN_LIST") + roomService.prepareListUserForBan(usersForBan) + "\n");
             }
             catch (IOException e) {
                 logger.info("while sending list user for parseBanUser",e);
@@ -247,8 +247,9 @@ public class RoomActivity {
             }
 
             try {
-                userConnection.getOut().write(messageService.createServerAction("UNBAN_LIST") + roomService.prepareListUserForBan(usersForUnBan) + "\n");
-                userConnection.getOut().flush();
+               /* userConnection.getOut().write(messageService.createServerAction("UNBAN_LIST") + roomService.prepareListUserForBan(usersForUnBan) + "\n");
+                userConnection.getOut().flush();*/
+               userConnection.sendMessage(messageService.createServerAction("UNBAN_LIST") + roomService.prepareListUserForBan(usersForUnBan) + "\n");
             }
             catch (IOException e) {
                 logger.info("while sending list user who can be unbanned",e);
@@ -285,8 +286,9 @@ public class RoomActivity {
                 Router.getInstense().getRoomByName(room.getRoomName()).getBanList().add(name);
                 notifyRoom("User " + banUser.getName() + " was banned by admin " + userConnection.getUser().getName(),room.getRoomName());
                 try {
-                    uc.getOut().write(messageService.createServerAction("BAN") + userService.prepareBanNotify(room));
-                    uc.getOut().flush();
+                    /*uc.getOut().write(messageService.createServerAction("BAN") + userService.prepareBanNotify(room));
+                    uc.getOut().flush();*/
+                    uc.sendMessage(messageService.createServerAction("BAN") + userService.prepareBanNotify(room));
                 }
                 catch (IOException e) {
                     logger.warn("while banning user ",e);
@@ -327,8 +329,9 @@ public class RoomActivity {
                     if(uc.getUser().isOnline()) {
                         Router.getInstense().getRoomByName(room.getRoomName()).unBanUser(uc);
                         notifyRoom("User " + unBanUser.getName() + " was unbanned by admin " + userConnection.getUser().getName(), room.getRoomName());
-                        uc.getOut().write(messageService.createServerAction("UNBAN") + userService.prepareUnBanNotify(room));
-                        uc.getOut().flush();
+                        /*uc.getOut().write(messageService.createServerAction("UNBAN") + userService.prepareUnBanNotify(room));
+                        uc.getOut().flush();*/
+                        uc.sendMessage(messageService.createServerAction("UNBAN") + userService.prepareUnBanNotify(room));
                     }
                 }
                 catch (IOException e) {
@@ -363,9 +366,10 @@ public class RoomActivity {
         for (String name: room.getUserList()) {
             try {
                 UserConnection uc = Router.getInstense().getUserConnectionByName(name);
-                uc.getOut().write(messageService.createServerAction("DELETED_ROOM"));
+                /*uc.getOut().write(messageService.createServerAction("DELETED_ROOM"));
                 uc.getOut().write(roomService.prepareDeletedRoomNotification(roomName) + "\n");
-                uc.getOut().flush();
+                uc.getOut().flush();*/
+                uc.sendMessage(messageService.createServerAction("DELETED_ROOM") + roomService.prepareDeletedRoomNotification(roomName) + "\n");
             }
             catch (IOException e) {
                 logger.warn("send notify to room about deleting",e);
@@ -378,9 +382,10 @@ public class RoomActivity {
     public void sendListUserFromRoom(String data) {
         Room room = Router.getInstense().getRoomByName(roomService.parseRoomName(data));
         try {
-            userConnection.getOut().write(messageService.createServerAction("USERS_IN_ROOM"));
+           /* userConnection.getOut().write(messageService.createServerAction("USERS_IN_ROOM"));
             userConnection.getOut().write(roomService.prepareUsersForSending(room) + "\n");
-            userConnection.getOut().flush();
+            userConnection.getOut().flush();*/
+           userConnection.sendMessage(messageService.createServerAction("USERS_IN_ROOM") + roomService.prepareUsersForSending(room) + "\n");
         }
         catch (IOException e) {
             logger.warn("send list users from room ",e);

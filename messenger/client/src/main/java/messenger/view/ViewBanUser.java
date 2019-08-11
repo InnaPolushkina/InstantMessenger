@@ -87,6 +87,7 @@ public class ViewBanUser {
         banUser.setOnAction(event -> {
             User user = getSelectedUser();
             router.banUser(user,room,true);
+            stage.close();
         });
     }
 

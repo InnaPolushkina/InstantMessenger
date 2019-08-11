@@ -39,14 +39,16 @@ public class Recoder {
                 userConnection.setUser(user);
                 Router.getInstense().addUserToBigRoom(userConnection);
 
-                userConnection.getOut().write(userRegistrationService.prepareAuthRegResponse("successful",result) + "\n");
-                userConnection.getOut().flush();
+               /* userConnection.getOut().write(userRegistrationService.prepareAuthRegResponse("successful",result) + "\n");
+                userConnection.getOut().flush();*/
+               userConnection.sendMessage(userRegistrationService.prepareAuthRegResponse("successful",result) + "\n");
 
                 return user;
             }
             else {
-                userConnection.getOut().write(userRegistrationService.prepareAuthRegResponse("Can't register, server have user with such nick",result) + "\n");
-                userConnection.getOut().flush();
+                /*userConnection.getOut().write(userRegistrationService.prepareAuthRegResponse("Can't register, server have user with such nick",result) + "\n");
+                userConnection.getOut().flush();*/
+                userConnection.sendMessage(userRegistrationService.prepareAuthRegResponse("Can't register, server have user with such nick",result) + "\n");
                 throw new ServerRegistrationException("Can't register, server have user with such nick");
             }
         }

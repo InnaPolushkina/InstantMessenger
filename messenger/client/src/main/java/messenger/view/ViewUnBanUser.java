@@ -87,6 +87,7 @@ public class ViewUnBanUser {
         unBanUser.setOnAction(event -> {
             User user = getSelectedUser();
             router.banUser(user,room,false);
+            stage.close();
         });
     }
 

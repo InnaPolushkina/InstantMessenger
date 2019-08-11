@@ -43,15 +43,17 @@ public class Authorizer {
                     Router.getInstense().getUserList().add(userConnection);
                     Router.getInstense().addUserToBigRoom(userConnection);
                     //userConnection.getOut().write(String.valueOf(true) + "\n");
-                    userConnection.getOut().write(userRegistrationService.prepareAuthRegResponse("successful",true) + "\n");
-                    userConnection.getOut().flush();
+                   /* userConnection.getOut().write(userRegistrationService.prepareAuthRegResponse("successful",true) + "\n");
+                    userConnection.getOut().flush();*/
+                    userConnection.sendMessage(userRegistrationService.prepareAuthRegResponse("successful",true) + "\n");
                     Router.getInstense().getViewLogs().print("User  authorized");
                 }
                 //second check
                 else if (authConn.getUser().isOnline()) {
                         //userConnection.getOut().write(String.valueOf(false) + "\n");
-                        userConnection.getOut().write(userRegistrationService.prepareAuthRegResponse("you is online now from other device",false) + "\n");
-                        userConnection.getOut().flush();
+                       /* userConnection.getOut().write(userRegistrationService.prepareAuthRegResponse("you is online now from other device",false) + "\n");
+                        userConnection.getOut().flush();*/
+                       userConnection.sendMessage(userRegistrationService.prepareAuthRegResponse("you is online now from other device",false) + "\n");
                         throw new ServerAuthorizationException("it is not possible to authorize one user simultaneously from two devices");
                 }
                 else {
@@ -59,8 +61,9 @@ public class Authorizer {
                     Router.getInstense().getUserConnectionByName(user.getName()).setIn(new BufferedReader(new InputStreamReader(userConnection.getUserSocket().getInputStream())));
                     Router.getInstense().getUserConnectionByName(userConnection.getUser().getName()).getUser().setOnline(true);
                     //userConnection.getOut().write(String.valueOf(true) + "\n");
-                    userConnection.getOut().write(userRegistrationService.prepareAuthRegResponse("successful",true) + "\n");
-                    userConnection.getOut().flush();
+                    /*userConnection.getOut().write(userRegistrationService.prepareAuthRegResponse("successful",true) + "\n");
+                    userConnection.getOut().flush();*/
+                    userConnection.sendMessage(userRegistrationService.prepareAuthRegResponse("successful",true) + "\n");
                     Router.getInstense().getViewLogs().print("User  authorized");
                 }
 
@@ -70,8 +73,9 @@ public class Authorizer {
             }
             else {
                // userConnection.getOut().write(String.valueOf(false) + "\n");
-                userConnection.getOut().write(userRegistrationService.prepareAuthRegResponse("no correct name or password",false) + "\n");
-                userConnection.getOut().flush();
+                /*userConnection.getOut().write(userRegistrationService.prepareAuthRegResponse("no correct name or password",false) + "\n");
+                userConnection.getOut().flush();*/
+                userConnection.sendMessage(userRegistrationService.prepareAuthRegResponse("no correct name or password",false) + "\n");
                 throw new ServerAuthorizationException("can't authorized user, no correct name or password");
             }
         }

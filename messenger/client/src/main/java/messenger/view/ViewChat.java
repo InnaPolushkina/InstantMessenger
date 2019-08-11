@@ -267,7 +267,7 @@ public class ViewChat {
      * if user muted room, sets to muteButton text "UnMute", else sets "Mute"
      * if room was deleted, hide all components for working with this room
      */
-    private void switchRoom() {
+    public void switchRoom() {
         try {
             String nameSelectedRoom =  getNameOfSelectedRoom();
             if (nameSelectedRoom != null) {

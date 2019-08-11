@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
 
           /*  Element element = document.getDocumentElement();
             String roomName = element.getTextContent();*/
-            NodeList nodeList = document.getElementsByTagName("prepareBanUser");
+            NodeList nodeList = document.getElementsByTagName("ban");
             Node node = nodeList.item(0);
             Element element = (Element) node;
             String roomName = element.getTextContent();
@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document document = builder.parse(new InputSource(new StringReader(msg)));
 
-            NodeList nodeList = document.getElementsByTagName("prepareUnBanUser");
+            NodeList nodeList = document.getElementsByTagName("unban");
             Node node = nodeList.item(0);
             String roomName = node.getTextContent();
             room = new Room(roomName);

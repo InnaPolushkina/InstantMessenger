@@ -65,8 +65,9 @@ public class HistoryMessage {
                     }*/
                     for (String name: room.getUserList()) {
                         if(name.equals(userConnectionRecipient.getUser().getName())) {
-                            userConnectionRecipient.getOut().write(messageService.createServerAction("SEND_MSG") + s + "\n");
-                            userConnectionRecipient.getOut().flush();
+                            /*userConnectionRecipient.getOut().write(messageService.createServerAction("SEND_MSG") + s + "\n");
+                            userConnectionRecipient.getOut().flush();*/
+                            userConnectionRecipient.sendMessage(messageService.createServerAction("SEND_MSG") + s + "\n");
                             break;
                         }
                     }
@@ -101,8 +102,9 @@ public class HistoryMessage {
                     for (String name: room.getUserList()) {
                         if(name.equals(userConnectionRecipient.getUser().getName())) {
                             UserConnection uc = Router.getInstense().getUserConnectionByName(name);
-                            userConnectionRecipient.getOut().write(messageService.createServerAction("SEND_MSG") + s + "\n");
-                            userConnectionRecipient.getOut().flush();
+                            /*userConnectionRecipient.getOut().write(messageService.createServerAction("SEND_MSG") + s + "\n");
+                            userConnectionRecipient.getOut().flush();*/
+                            uc.sendMessage(messageService.createServerAction("SEND_MSG") + s + "\n");
                             break;
                         }
                     }
@@ -161,8 +163,9 @@ public class HistoryMessage {
                     for (Room room: Router.getInstense().getRoomList()) {
                         if(room.getRoomName().equals(roomGetter) && room.getRoomName().equals(roomForUser)) {
                             try {
-                                userConnection.getOut().write(messageService.createServerAction("SEND_MSG") + s + "\n");
-                                userConnection.getOut().flush();
+                               /* userConnection.getOut().write(messageService.createServerAction("SEND_MSG") + s + "\n");
+                                userConnection.getOut().flush();*/
+                               userConnection.sendMessage(messageService.createServerAction("SEND_MSG") + s + "\n");
                             }
                             catch (IOException e) {
                                 logger.warn("sending messages of room to user",e);

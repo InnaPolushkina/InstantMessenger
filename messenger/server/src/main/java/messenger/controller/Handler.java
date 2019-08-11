@@ -203,7 +203,7 @@ public class Handler extends Thread{
                         case LEAVE_ROOM:
                             //leave user from room
                             //roomActivity.setMessageService(messageService);
-                            roomActivity.leaveRoom(clientData);
+                            roomActivity.leaveRoom();
                             //senderMessage.createMessage(messageService.createMessage(new MessageServer(userConnection.getUser(),"!!! Leaved room !!!")));
                             break;
                         case HISTORY:

@@ -109,6 +109,7 @@ public class Listener extends Thread {
                             Notificator notificator = new Notificator();
                             notificator.notifyUser(banRoom.getRoomName(),"You was banned ", TrayIcon.MessageType.WARNING);
                             viewChat.setFocusToRoom(banRoom.getRoomName());
+                            viewChat.switchRoom();
                         });
                         break;
                     case UNBAN:
@@ -224,6 +225,9 @@ public class Listener extends Thread {
         this.userService = userService;
     }
 
+    /**
+     * Stop thread
+     */
     public void stopThread() {
         running = false;
     }

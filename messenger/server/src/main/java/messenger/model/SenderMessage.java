@@ -43,18 +43,12 @@ public class SenderMessage {
 
         for (Room room: Router.getInstense().getRoomList()) {
             if(room.getRoomName().equals(getter.getRoomName())) {
-                /*for (UserConnection userInRoom: room.getUserList()) {
-                    if(userInRoom.getUser().isOnline()) {
-                        userInRoom.getOut().write(messageService.createServerAction("SEND_MSG") + message + "\n");
-                        userInRoom.getOut().flush();
-                    }
-                }*/
-
                 for (String name: room.getUserList()) {
                     UserConnection userInRoom = Router.getInstense().getUserConnectionByName(name);
                     if(userInRoom.getUser().isOnline()) {
-                        userInRoom.getOut().write(messageService.createServerAction("SEND_MSG") + message + "\n");
-                        userInRoom.getOut().flush();
+                        /*userInRoom.getOut().write(messageService.createServerAction("SEND_MSG") + message + "\n");
+                        userInRoom.getOut().flush();*/
+                        userInRoom.sendMessage(messageService.createServerAction("SEND_MSG") + message + "\n");
                     }
                 }
             }
