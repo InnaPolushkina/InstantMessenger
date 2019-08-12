@@ -1,5 +1,5 @@
 messenger/.idea/
 messenger/client/target
 messenger/server/target
-*.log
-
+messenger/client/src/main/log_file.log
+messenger/server/scr/main/log_file.log
