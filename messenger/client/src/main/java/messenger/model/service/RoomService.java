@@ -51,7 +51,15 @@ public interface RoomService {
      * @return string with data of rooms and date of user disconnection
      * @see Room
      */
-    String parseRoomList(Set<Room> rooms, LocalDateTime lastConnection);
+    String prepareRoomListForGettingHistory(Set<Room> rooms, LocalDateTime lastConnection);
+
+    /**
+     * The method for parsing string with rooms data into Set<Room>
+     * @param data string with data about rooms
+     * @return set of rooms
+     * @see Room
+     */
+    Set<Room> parseRooms(String data);
 
     /**
      * The method parses string from server with list of users who can be banned or unbanned

@@ -6,16 +6,13 @@ import java.util.Set;
 
 /**
  * The class for containing data about room and methods for working with room
- * @author Danil
  */
 public class Room {
 
     private String roomName;
-
-    //private Set<UserConnection> userList = new HashSet<>();
-    private Set<String> userList = new HashSet<>();
     private String admin;
-    //private Set<UserConnection> banList = new HashSet<>();
+    private Set<String> userList = new HashSet<>();
+
     private Set<String> banList = new HashSet<>();
 
     /**

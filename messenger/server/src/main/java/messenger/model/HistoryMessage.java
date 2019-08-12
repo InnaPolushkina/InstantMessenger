@@ -52,21 +52,9 @@ public class HistoryMessage {
 
             for (Room room: Router.getInstense().getRoomList()) {
 
-                if(room.getRoomName().equals(getter.getRoomName()) /*&& getter.getRoomName().equals(roomName) */) {
-
-                    /*for (UserConnection uc: room.getUserList()) {
-
-                        if (uc.getUser().getName().equals(userConnectionRecipient.getUser().getName())) {
-                            //userConnectionRecipient.getOut().write( "<action>SEND_MSG</action>\n" + s + "\n");
-                            userConnectionRecipient.getOut().write(messageService.createServerAction("SEND_MSG") + s + "\n");
-                            userConnectionRecipient.getOut().flush();
-                            break;
-                        }
-                    }*/
+                if(room.getRoomName().equals(getter.getRoomName()) ) {
                     for (String name: room.getUserList()) {
                         if(name.equals(userConnectionRecipient.getUser().getName())) {
-                            /*userConnectionRecipient.getOut().write(messageService.createServerAction("SEND_MSG") + s + "\n");
-                            userConnectionRecipient.getOut().flush();*/
                             userConnectionRecipient.sendMessage(messageService.createServerAction("SEND_MSG") + s + "\n");
                             break;
                         }
@@ -90,20 +78,10 @@ public class HistoryMessage {
             Room getter = messageServer.getRecipient();
             for (Room room: Router.getInstense().getRoomList()) {
                 if (getter.getRoomName().equals(roomRecipient.getRoomName()) && room.getRoomName().equals(getter.getRoomName())) {
-                    /*for (UserConnection uc: room.getUserList()) {
-                        if (uc.getUser().getName().equals(userConnectionRecipient.getUser().getName())) {
-                            //userConnectionRecipient.getOut().write( "<action>SEND_MSG</action>\n" + s + "\n");
-                            userConnectionRecipient.getOut().write(messageService.createServerAction("SEND_MSG") + s + "\n");
-                            userConnectionRecipient.getOut().flush();
-                            break;
-                        }
-                    }*/
 
                     for (String name: room.getUserList()) {
                         if(name.equals(userConnectionRecipient.getUser().getName())) {
                             UserConnection uc = Router.getInstense().getUserConnectionByName(name);
-                            /*userConnectionRecipient.getOut().write(messageService.createServerAction("SEND_MSG") + s + "\n");
-                            userConnectionRecipient.getOut().flush();*/
                             uc.sendMessage(messageService.createServerAction("SEND_MSG") + s + "\n");
                             break;
                         }
@@ -135,20 +113,12 @@ public class HistoryMessage {
             logger.info("room " + roomForUser.getRoomName() + "created and user added to it");
         }
         try {
-            //UserConnection uc = r.getUserConnectionByName(userConnection.getUser().getName());
-           /* UserConnection uc = Router.getInstense().getUserConnectionByName(userConnection.getUser().getName());
-            if(uc == null) {
-                Router.getInstense().getRoomByName(roomForUser.getRoomName()).addUser(userConnection);
-                logger.info("user added to room " + roomForUser.getRoomName());
-            }*/
-
             if(!r.isUserInRoom(userConnection)) {
                 Router.getInstense().getRoomByName(roomForUser.getRoomName()).addUser(userConnection);
                 logger.info("user added to room " + roomForUser.getRoomName());
             }
 
         }catch (NullPointerException e) {
-            //Router.getInstense().getRoomByName(roomForUser.getRoomName()).addUser(userConnection);
             logger.info("user added to room " + roomForUser.getRoomName());
         }
 
@@ -163,8 +133,6 @@ public class HistoryMessage {
                     for (Room room: Router.getInstense().getRoomList()) {
                         if(room.getRoomName().equals(roomGetter) && room.getRoomName().equals(roomForUser)) {
                             try {
-                               /* userConnection.getOut().write(messageService.createServerAction("SEND_MSG") + s + "\n");
-                                userConnection.getOut().flush();*/
                                userConnection.sendMessage(messageService.createServerAction("SEND_MSG") + s + "\n");
                             }
                             catch (IOException e) {

@@ -138,7 +138,7 @@ public class Router {
             sendAction("AUTH");
             userRegistrationService.auth(name,pass);
             showMainChat(name);
-            getHistory();
+            //getHistory();
             listener.start();
             listener.setDaemon(true);
 
@@ -205,8 +205,47 @@ public class Router {
         if(roomList != null) {
             try {
                 sendAction("HISTORY");
-                String roomList = roomService.parseRoomList(getRoomList(), historySaver.getLastOnlineDate());
+                String roomList = roomService.prepareRoomListForGettingHistory(getRoomList(), historySaver.getLastOnlineDate());
                 sendMessageToServer(roomList);
+            }catch (IOException e) {
+                logger.warn("while getting history from server",e);
+            }
+        }
+    }
+
+    public void getHistory(Set<Room> rooms) {
+        Set<Room> serverRooms = rooms;
+
+        HistorySaver historySaver = new HistorySaver();
+        Set<Room> clientRooms = historySaver.loadHistory();
+
+        Set<Room> resultSet = new HashSet<>();
+
+
+        for (Room serverRoom: serverRooms) {
+            boolean containt = false;
+            for (Room clientRoom: clientRooms) {
+                if(clientRoom.getRoomName().equals(serverRoom.getRoomName())) {
+                    resultSet.add(clientRoom);
+                    containt = true;
+                    break;
+                }
+            }
+            if(!containt) {
+                resultSet.add(serverRoom);
+            }
+        }
+
+        roomList = resultSet;
+        for (Room room: roomList) {
+            viewChat.addRoom(room.getRoomName());
+        }
+        if(roomList != null) {
+            try {
+                sendAction("HISTORY");
+                String roomList = roomService.prepareRoomListForGettingHistory(getRoomList(), historySaver.getLastOnlineDate());
+                sendMessageToServer(roomList);
+                System.out.println("Send to server request about history of messages ");
             }catch (IOException e) {
                 logger.warn("while getting history from server",e);
             }
@@ -217,7 +256,7 @@ public class Router {
      * the method send string message to server
      * @param msgText String message
      */
-    public void  sendMessage(/*Message msg*/String msgText) {
+    public void  sendMessage(String msgText) {
         try {
             String roomName = viewChat.getNameRoom();
             Message msg = new Message(msgText,userConnection.getUser(),roomName);

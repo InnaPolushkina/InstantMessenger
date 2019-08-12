@@ -4,6 +4,7 @@ import messenger.controller.Router;
 import messenger.model.exceptions.ServerRegistrationException;
 import messenger.model.serverEntity.User;
 import messenger.model.serverEntity.UserConnection;
+import messenger.model.serverServices.RoomKeeper;
 import messenger.model.serverServices.UserKeeper;
 import messenger.model.serverServices.UserRegistrationService;
 
@@ -16,6 +17,7 @@ public class Recoder {
     private UserConnection userConnection;
     private UserRegistrationService userRegistrationService;
     private UserKeeper userKeeper;
+    private RoomKeeper roomKeeper;
 
 
     /**
@@ -38,10 +40,9 @@ public class Recoder {
 
                 userConnection.setUser(user);
                 Router.getInstense().addUserToBigRoom(userConnection);
+                userConnection.sendMessage(userRegistrationService.prepareAuthRegResponse("successful",result) + "\n");
 
-               /* userConnection.getOut().write(userRegistrationService.prepareAuthRegResponse("successful",result) + "\n");
-                userConnection.getOut().flush();*/
-               userConnection.sendMessage(userRegistrationService.prepareAuthRegResponse("successful",result) + "\n");
+                roomKeeper.saveRoomsInfo(Router.getInstense().getRoomList());
 
                 return user;
             }
@@ -71,4 +72,12 @@ public class Recoder {
         this.userKeeper = userKeeper;
     }
 
+    /**
+     * The setter for room keeper
+     * @param roomKeeper object of class that implements interface RoomKeeper
+     * @see RoomKeeper
+     */
+    public void setRoomKeeper(RoomKeeper roomKeeper) {
+        this.roomKeeper = roomKeeper;
+    }
 }

@@ -32,4 +32,12 @@
 <nick>New User</nick>
 <password>1134</password>
 </user>
+<user>
+<nick>Ivan</nick>
+<password>1234</password>
+</user>
+<user>
+<nick>122222222</nick>
+<password>1234</password>
+</user>
 </users>

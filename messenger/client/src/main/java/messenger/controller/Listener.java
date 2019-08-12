@@ -17,6 +17,7 @@ import java.io.*;
 import java.net.Socket;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 /**
  * This class listen entering massages from socket and show its to user
@@ -138,6 +139,10 @@ public class Listener extends Thread {
                         Platform.runLater(() -> {
                             ViewRoomInfo viewRoomInfo = new ViewRoomInfo(users);
                         });
+                        break;
+                    case ROOM_LIST:
+                        Set<Room> rooms = roomService.parseRooms(messageFromServer());
+                        Router.getInstance().getHistory(rooms);
                         break;
                 }
 

@@ -28,6 +28,7 @@ public class Router {
     private static MessageService messageService;
     private static RoomService roomService;
     private static UserService userService;
+    private static RoomKeeper roomKeeper;
 
     private static HistoryMessage historyMessage;
 
@@ -41,6 +42,7 @@ public class Router {
         viewLogs.print("The chat server is running.");
         ServerSocket listener = new ServerSocket(PORT);
         userKeeper = new UserKeeperXml("server/src/main/java/messenger/model/db/users.xml");
+        roomKeeper = new RoomKeeperImpl("server/src/main/java/messenger/model/db/rooms.xml");
         userRegistrationService = new UserRegistrationServiceImpl(userKeeper);
         messageService = new MessageServiceImpl();
         historyMessage = new HistoryMessage(messageService);
@@ -57,6 +59,7 @@ public class Router {
                 handler.setRoomService(roomService);
                 handler.setHistoryMessage(historyMessage);
                 handler.setUserService(userService);
+                handler.setRoomKeeper(roomKeeper);
 
                 handler.start();
             }

@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -73,7 +74,7 @@ public class RoomServiceImlp implements RoomService {
     }
 
     @Override
-    public String parseRoomList(Set<Room> rooms, LocalDateTime lastConnection) {
+    public String prepareRoomListForGettingHistory(Set<Room> rooms, LocalDateTime lastConnection) {
         String result;
         StringBuilder stringBuilder = new StringBuilder();
         String s = "<rooms after = \"" + lastConnection + "\">";
@@ -199,5 +200,44 @@ public class RoomServiceImlp implements RoomService {
             logger.warn("while parsing user list from room",e);
         }
         return list;
+    }
+
+    @Override
+    public Set<Room> parseRooms(String data) {
+        Set<Room> rooms = new HashSet<>();
+
+        try {
+            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            Document document = documentBuilder.parse(new InputSource(new StringReader(data)));
+
+            Element root = document.getDocumentElement();
+
+            NodeList nodeList = root.getElementsByTagName("room");
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                Node roomNode = nodeList.item(i);
+                if(roomNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element element = (Element) roomNode;
+                    String roomName = element.getTextContent();
+                    String admin = element.getAttribute("admin");
+                    boolean banned = Boolean.parseBoolean(element.getAttribute("banned"));
+                    Room room = new Room(roomName);
+                    room.setAdmin(new User(admin));
+                    room.setBanned(banned);
+                    rooms.add(room);
+                }
+            }
+        }
+        catch (IOException e) {
+            logger.warn("while parsing rooms list",e);
+        }
+        catch (ParserConfigurationException e) {
+            logger.warn("while parsing rooms list",e);
+        }
+        catch (SAXException e) {
+            logger.warn("while parsing rooms list",e);
+        }
+
+        return rooms;
     }
 }

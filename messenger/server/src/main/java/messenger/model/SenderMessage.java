@@ -46,8 +46,6 @@ public class SenderMessage {
                 for (String name: room.getUserList()) {
                     UserConnection userInRoom = Router.getInstense().getUserConnectionByName(name);
                     if(userInRoom.getUser().isOnline()) {
-                        /*userInRoom.getOut().write(messageService.createServerAction("SEND_MSG") + message + "\n");
-                        userInRoom.getOut().flush();*/
                         userInRoom.sendMessage(messageService.createServerAction("SEND_MSG") + message + "\n");
                     }
                 }
