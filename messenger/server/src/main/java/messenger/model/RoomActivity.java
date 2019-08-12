@@ -127,6 +127,7 @@ public class RoomActivity {
     /**
      * The method for leaving user room
      * if user leaved room, server sends notify to room about it
+     * if count of users in room = 0, server delete this room
      */
     public void leaveRoom() {
         for (Room room: Router.getInstense().getRoomList()) {
@@ -134,6 +135,11 @@ public class RoomActivity {
                 room.removeUser(userConnection);
                 notifyRoom("User " + userConnection.getUser().getName() + " leaved room",room.getRoomName());
                 roomKeeper.saveRoomsInfo(Router.getInstense().getRoomList());
+                if(room.getUserList().size() == 0) {
+                    Router.getInstense().getRoomList().remove(room);
+                    roomKeeper.saveRoomsInfo(Router.getInstense().getRoomList());
+                    System.out.println("Room removed");
+                }
                 break;
             }
         }
@@ -328,7 +334,8 @@ public class RoomActivity {
             }
         }
         notifyRoom("This room was deleted by admin, but you can read history messages",roomName);
-        Router.getInstense().getRoomList().remove(room);
+        Router.getInstense().getRoomByName(roomName).setDeleted(true);
+        Router.getInstense().getRoomByName(roomName).removeUser(userConnection);
     }
 
     public void sendListUserFromRoom(String data) {

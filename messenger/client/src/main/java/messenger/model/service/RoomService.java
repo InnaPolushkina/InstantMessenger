@@ -59,7 +59,7 @@ public interface RoomService {
      * @return set of rooms
      * @see Room
      */
-    Set<Room> parseRooms(String data);
+    Set<Room> parseUserRoomsFromServer(String data);
 
     /**
      * The method parses string from server with list of users who can be banned or unbanned

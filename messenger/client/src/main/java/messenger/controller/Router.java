@@ -447,6 +447,7 @@ public class Router {
         sendAction("DELETE_ROOM");
         sendMessage(roomService.prepareDeleteRoom(roomName));
         viewChat.setFocusToRoom(roomName);
+        viewChat.switchRoom();
     }
 
     public void logout() {

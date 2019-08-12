@@ -24,6 +24,11 @@ import java.io.*;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The class RoomKeeperImpl contains implemented methods from RoomKeeper interface
+ * this class uses xml for realization of methods
+ * @see RoomKeeper
+ */
 public class RoomKeeperImpl implements RoomKeeper {
 
     private String fileName;
@@ -48,7 +53,7 @@ public class RoomKeeperImpl implements RoomKeeper {
                 Element elementRoom = document.createElement("room");
                 elementRoom.setAttribute("name",room.getRoomName());
                 elementRoom.setAttribute("admin",room.getAdmin());
-
+                elementRoom.setAttribute("deleted", String.valueOf(room.isDeleted()));
 
                 for (String user: room.getUserList()) {
                     Element elementUser = document.createElement("user");
@@ -95,7 +100,9 @@ public class RoomKeeperImpl implements RoomKeeper {
                     Element element = (Element) node;
                     String roomName = element.getAttribute("name");
                     String admin = element.getAttribute("admin");
+                    boolean deleted = Boolean.parseBoolean(element.getAttribute("deleted"));
                     Room room = new Room(roomName);
+                    room.setDeleted(deleted);
                     room.setAdmin(admin);
                     NodeList usersNodeList = element.getElementsByTagName("user");
                     for (int j = 0; j < usersNodeList.getLength(); j++) {
@@ -135,6 +142,7 @@ public class RoomKeeperImpl implements RoomKeeper {
     @Override
     public String roomsToString(Set<Room> rooms, UserConnection user) {
         String result = null;
+        int countOfUserRooms = 0;
         try {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -149,10 +157,22 @@ public class RoomKeeperImpl implements RoomKeeper {
                     elementRoom.setTextContent(room.getRoomName());
                     elementRoom.setAttribute("admin", room.getAdmin());
                     elementRoom.setAttribute("banned", String.valueOf(room.isUserBanned(user)));
+                    elementRoom.setAttribute("deleted", String.valueOf(room.isDeleted()));
                     root.appendChild(elementRoom);
+                    countOfUserRooms++;
                 }
 
             }
+
+            if(countOfUserRooms == 0) {
+                Element elementRoom = document.createElement("room");
+                elementRoom.setTextContent("Big chat");
+                elementRoom.setAttribute("admin", "Server");
+                elementRoom.setAttribute("banned", String.valueOf(false));
+                elementRoom.setAttribute("deleted", String.valueOf(false));
+                root.appendChild(elementRoom);
+            }
+
             StringWriter sw = new StringWriter();
             TransformerFactory tf = TransformerFactory.newInstance();
             Transformer transformer = tf.newTransformer();
@@ -160,9 +180,9 @@ public class RoomKeeperImpl implements RoomKeeper {
             transformer.transform(domSource, new StreamResult(sw));
             result = sw.toString();
         } catch (TransformerException e) {
-            logger.warn("when transformed list of user to xml");
+            logger.warn("when transformed rooms to xml");
         } catch (ParserConfigurationException e) {
-            logger.warn("when parsing list of users to xml ");
+            logger.warn("when parsing rooms to xml ");
         }
         return result;
 

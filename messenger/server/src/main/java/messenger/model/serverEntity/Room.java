@@ -15,6 +15,8 @@ public class Room {
 
     private Set<String> banList = new HashSet<>();
 
+    private boolean isDeleted;
+
     /**
      * The constructor of this class
      * @param roomName name of room
@@ -27,9 +29,6 @@ public class Room {
      * The method adds user to room
      * @param userConnection user data
      */
-   /* public void addUser(UserConnection userConnection){
-        userList.add(userConnection);
-    }*/
    public void addUser(UserConnection userConnection) {
        userList.add(userConnection.getUser().getName());
    }
@@ -39,8 +38,6 @@ public class Room {
      * @param userConnection user data
      */
     public void removeUser(UserConnection userConnection) {
-        /*userList.remove(userConnection);
-        banList.remove(userConnection);*/
         userList.remove(userConnection.getUser().getName());
         userList.remove(userConnection.getUser().getName());
     }
@@ -66,9 +63,6 @@ public class Room {
      * The getter for user connection
      * @return connection of user
      */
-  /*  public Set<UserConnection> getUserList() {
-        return userList;
-    }*/
       public Set<String> getUserList() {
           return userList;
       }
@@ -93,9 +87,6 @@ public class Room {
      * The getter for list with banned users
      * @return set of users connections
      */
-    /*public Set<UserConnection> getBanList() {
-        return banList;
-    }*/
     public Set<String> getBanList() {
         return banList;
     }
@@ -105,7 +96,6 @@ public class Room {
      * @param userConnection user connection
      */
     public void unBanUser(UserConnection userConnection) {
-        //banList.remove(userConnection);
         banList.remove(userConnection.getUser().getName());
     }
 
@@ -126,7 +116,6 @@ public class Room {
     }
 
     public boolean isUserBanned(String userName) {
-        //String userName = uc.getUser().getName();
         for (String name: banList) {
             if(name.equals(userName)) {
                 return true;
@@ -149,5 +138,13 @@ public class Room {
             }
         }
         return false;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 }

@@ -141,7 +141,7 @@ public class Listener extends Thread {
                         });
                         break;
                     case ROOM_LIST:
-                        Set<Room> rooms = roomService.parseRooms(messageFromServer());
+                        Set<Room> rooms = roomService.parseUserRoomsFromServer(messageFromServer());
                         Router.getInstance().getHistory(rooms);
                         break;
                 }

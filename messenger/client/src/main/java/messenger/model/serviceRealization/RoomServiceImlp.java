@@ -203,7 +203,7 @@ public class RoomServiceImlp implements RoomService {
     }
 
     @Override
-    public Set<Room> parseRooms(String data) {
+    public Set<Room> parseUserRoomsFromServer(String data) {
         Set<Room> rooms = new HashSet<>();
 
         try {
@@ -221,7 +221,9 @@ public class RoomServiceImlp implements RoomService {
                     String roomName = element.getTextContent();
                     String admin = element.getAttribute("admin");
                     boolean banned = Boolean.parseBoolean(element.getAttribute("banned"));
+                    boolean deleted = Boolean.parseBoolean(element.getAttribute("deleted"));
                     Room room = new Room(roomName);
+                    room.setDeleted(deleted);
                     room.setAdmin(new User(admin));
                     room.setBanned(banned);
                     rooms.add(room);

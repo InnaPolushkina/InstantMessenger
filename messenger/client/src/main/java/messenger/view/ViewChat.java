@@ -295,14 +295,13 @@ public class ViewChat {
                 if(Router.getInstance().getRoomByName(nameSelectedRoom).isDeleted()) {
                     muteRoom.setVisible(false);
                     addUser.setVisible(false);
-                    leaveRoom.setVisible(false);
+                    //leaveRoom.setVisible(false);
                     deleteRoom.setVisible(false);
                     banUserButton.setVisible(false);
                     unbanUserButton.setVisible(false);
                 } else {
                     muteRoom.setVisible(true);
                     addUser.setVisible(true);
-                    leaveRoom.setVisible(true);
                     String roomAdmin = Router.getInstance().getRoomByName(nameRoom.getText()).getAdmin().getName();
                     if (roomAdmin.equals(userName.getText())) {
                         banUserButton.setVisible(true);

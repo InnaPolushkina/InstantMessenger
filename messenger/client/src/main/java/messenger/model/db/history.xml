@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<history disconnect="2019-08-12T17:52:56.822">
-<room admin="Server" deleted="false" name="Big chat">
-<message sender="Inna">wfwf</message>
-<message sender="Inna">wffff</message>
-<message sender="122222222">wvwv</message>
-<message sender="122222222">svvvvvv</message>
-</room>
+<history disconnect="2019-08-12T23:16:29.497">
+<room admin="" deleted="false" name="Big chat"/>
 </history>
