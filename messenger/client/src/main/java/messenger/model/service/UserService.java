@@ -9,16 +9,18 @@ import messenger.model.entity.User;
  */
 public interface UserService {
     /**
-     * the method bans user in room
+     * The method prepare user for banning
+     * parses user info for banning into string with server format before sending to server
      * @param user contains object of class User
      */
-    String ban(User user);
+    String prepareBanUser(User user);
 
     /**
-     * the method unbans user in room
+     * The method prepare user for unbanning
+     * parses user info for unbanning into string with server format before sending to server
      * @param user contains object of class User
      */
-    String unban(User user);
+    String prepareUnBanUser(User user);
 
     /**
      * The method parses notification from server about banning user

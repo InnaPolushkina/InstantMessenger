@@ -28,6 +28,7 @@ public class Router {
     private static MessageService messageService;
     private static RoomService roomService;
     private static UserService userService;
+    private static RoomKeeper roomKeeper;
 
     private static HistoryMessage historyMessage;
 
@@ -41,12 +42,13 @@ public class Router {
         viewLogs.print("The chat server is running.");
         ServerSocket listener = new ServerSocket(PORT);
         userKeeper = new UserKeeperXml("server/src/main/java/messenger/model/db/users.xml");
+        roomKeeper = new RoomKeeperImpl("server/src/main/java/messenger/model/db/rooms.xml");
         userRegistrationService = new UserRegistrationServiceImpl(userKeeper);
         messageService = new MessageServiceImpl();
         historyMessage = new HistoryMessage(messageService);
         roomService = new RoomServiceImpl();
         userService = new UserServiceImpl();
-        try {
+        //try {
             while (true) {
                 Handler handler = new Handler();
 
@@ -57,14 +59,16 @@ public class Router {
                 handler.setRoomService(roomService);
                 handler.setHistoryMessage(historyMessage);
                 handler.setUserService(userService);
+                handler.setRoomKeeper(roomKeeper);
 
                 handler.start();
             }
-        }
-        finally {
-            listener.close();
+        //}
+
+        /*finally {
+            //listener.close();
             System.out.println("Router closed socket");
-        }
+        }*/
     }
 
     /**
@@ -131,5 +135,16 @@ public class Router {
      */
     public Set<Room> getRoomList() {
         return roomList;
+    }
+
+    public UserConnection getUserConnectionByName(String name) {
+        UserConnection result = null;
+        for (UserConnection uc: userList) {
+            if(uc.getUser().getName().equals(name)) {
+                result = uc;
+            }
+        }
+
+        return result;
     }
 }

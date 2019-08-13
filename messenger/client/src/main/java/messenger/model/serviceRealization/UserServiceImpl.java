@@ -22,13 +22,13 @@ public class UserServiceImpl implements UserService {
     private static final Logger logger = Logger.getLogger(UserServiceImpl.class);
 
     @Override
-    public String ban(User user) {
+    public String prepareBanUser(User user) {
         return "<parseBanUser>" + user.getName() + "</parseBanUser>";
     }
 
     @Override
-    public String unban(User user) {
-        return "<parseUnbanUser>" + user.getName() + "</parseUnbanUser>";
+    public String prepareUnBanUser(User user) {
+        return "<parseUnBanUser>" + user.getName() + "</parseUnBanUser>";
     }
 
     @Override

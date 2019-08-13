@@ -7,19 +7,20 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="375.0" prefWidth="419.0" style="-fx-background-color: #28064D; -fx-background-radius: 1px; -fx-border-radius: 1px;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="390.0" prefWidth="419.0" style="-fx-background-color: #28064D; -fx-background-radius: 1px; -fx-border-radius: 1px;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane layoutX="12.0" layoutY="56.0" prefHeight="293.0" prefWidth="399.0" style="-fx-background-color: #DEC6F9; -fx-background-radius: 10px;">
+      <AnchorPane layoutX="12.0" layoutY="56.0" prefHeight="314.0" prefWidth="399.0" style="-fx-background-color: #DEC6F9; -fx-background-radius: 10px;">
          <children>
             <Button fx:id="registrationButton" layoutX="137.0" layoutY="204.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="125.0" style="-fx-background-radius: 5px;" text="Registrate" />
             <TextField fx:id="userName" layoutX="125.0" layoutY="67.0" />
             <PasswordField fx:id="userPassword" layoutX="125.0" layoutY="132.0" />
             <Label layoutX="182.0" layoutY="38.0" text="Login" />
             <Label layoutX="175.0" layoutY="106.0" text="Password" />
-            <Label fx:id="errorMsg" alignment="TOP_CENTER" layoutX="71.0" layoutY="176.0" prefHeight="17.0" prefWidth="280.0" text="Label" textFill="#f80a0a">
+            <Label fx:id="errorMsg" alignment="TOP_CENTER" layoutX="18.0" layoutY="176.0" prefHeight="17.0" prefWidth="371.0" text="Label" textFill="#f80a0a">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
+            <Button fx:id="returnToLoginView" layoutX="15.0" layoutY="275.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="64.0" text="Return" />
          </children>
       </AnchorPane>
       <Label layoutX="168.0" layoutY="13.0" text="Registration" textFill="WHITE">

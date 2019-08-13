@@ -1,24 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<history disconnect="2019-08-01T18:06:41.012">
-<room admin="Kit" deleted="true" name="Inna">
-<message sender="Kit">2eeeeeeeee</message>
-<message sender="Inna">qeeeeeeeeee</message>
-<message sender="Inna">qeeeeeeee</message>
-<message sender="Inna">qeeeeeeeee</message>
-<message sender="Inna">qeeeeeeeeee</message>
-<message sender="Kit">wfffffff</message>
-<message sender="Kit">wfffffffffff</message>
-<message sender="Room notify">This room was deleted by admin, but you can read history messages</message>
-<message sender="Room notify">This room was deleted by admin, but you can read history messages</message>
-</room>
-<room admin="Inna" deleted="true" name="44">
-<message sender="Room notify">This room was deleted by admin, but you can read history messages</message>
-</room>
-<room admin="Inna" deleted="false" name="qdddq"/>
-<room admin="Server" deleted="false" name="Big chat">
-<message sender="testing">45454545</message>
-<message sender="Inna">wdddddddddddd</message>
-<message sender="Kit">wddddddddddd</message>
-<message sender="Inna">wd</message>
-</room>
+<history disconnect="2019-08-12T23:16:29.497">
+<room admin="" deleted="false" name="Big chat"/>
 </history>

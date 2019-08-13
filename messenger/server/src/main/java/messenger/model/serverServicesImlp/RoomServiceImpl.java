@@ -16,8 +16,14 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.IOException;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +32,7 @@ public class RoomServiceImpl implements RoomService {
     private static final Logger logger = Logger.getLogger(RoomServiceImpl.class);
 
     @Override
-    public Room createRoom(String roomData) {
+    public Room parseNewRoomData(String roomData) {
         Room room = null;
         try {
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
@@ -53,7 +59,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public User addUserToRoom(/*UserConnection user, Room room*/ String data) {
+    public User parseUserForAddToRoom(/*UserConnection user, Room room*/ String data) {
         User result = null;
         try {
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
@@ -81,12 +87,12 @@ public class RoomServiceImpl implements RoomService {
     }
 
 
-    public Room changeRoom(String roomName){
+    public Room parseRoomForSwitch(String data){
         Room result = null;
         try {
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = builderFactory.newDocumentBuilder();
-            Document document = builder.parse(new InputSource(new StringReader(roomName)));
+            Document document = builder.parse(new InputSource(new StringReader(data)));
 
             NodeList nodeList = document.getElementsByTagName("goToRoom");
             Element element = (Element)nodeList.item(0);
@@ -141,7 +147,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public String parseListUserForBan(List<User> list) {
+    public String prepareListUserForBan(List<User> list) {
         String s = "<listForBan>";
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(s);
@@ -171,7 +177,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public String deleteRoom(String data) {
+    public String parseRoomNameForDelete(String data) {
         String  result = null;
         try {
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
@@ -196,7 +202,70 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public String deletedRoomNotification(String roomName) {
+    public String prepareDeletedRoomNotification(String roomName) {
         return "<deleted>" + roomName + "</deleted>";
+    }
+
+    @Override
+    public String prepareUsersForSending(Room room) {
+        String result = null;
+        String admin = room.getAdmin();
+
+        try {
+            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            Document document = documentBuilder.newDocument();
+
+            Element root = document.createElement("room");
+            root.setAttribute("admin",admin);
+            document.appendChild(root);
+
+            for (String user: room.getUserList()) {
+                Element element = document.createElement("user");
+                element.setAttribute("banned", String.valueOf(room.isUserBanned(user)));
+                element.setAttribute("online", String.valueOf(Router.getInstense().getUserConnectionByName(user).getUser().isOnline()));
+                element.setTextContent(user);
+                root.appendChild(element);
+            }
+            StringWriter sw = new StringWriter();
+            TransformerFactory tf = TransformerFactory.newInstance();
+            Transformer transformer = tf.newTransformer();
+            DOMSource domSource = new DOMSource(document);
+            transformer.transform(domSource, new StreamResult(sw));
+            result = sw.toString();
+
+        }
+        catch (TransformerException e) {
+            logger.warn("when transformed list of user to xml");
+        } catch (ParserConfigurationException e) {
+            logger.warn("when parsing list of users to xml ");
+        }
+        return result;
+    }
+
+    @Override
+    public String parseRoomName(String data) {
+        String result = null;
+        try {
+            DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = builderFactory.newDocumentBuilder();
+            Document document = builder.parse(new InputSource(new StringReader(data)));
+
+            NodeList nodeList = document.getElementsByTagName("room");
+            Element element = (Element)nodeList.item(0);
+            result = element.getTextContent();
+
+        }
+        catch (ParserConfigurationException e) {
+            logger.warn("exception while parsing string with xml from client when one switch on rooms ",e);
+        }
+        catch (SAXException e) {
+            logger.warn("exception while parsing string with xml from client when one switch on rooms ",e);
+        }
+        catch (IOException e) {
+            logger.warn("exception while parsing string with xml from client when one switch on rooms ",e);
+        }
+
+        return result;
     }
 }

@@ -45,13 +45,13 @@ public class ViewLogin {
         FXMLLoader loader = new FXMLLoader();
         loader.setController(this);
         try {
-            //loadForm("/login.fxml",viewLogin);
             loader.setLocation(Router.class.getResource("/login.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
             stage.setTitle("Authorization");
             stage.setScene(scene);
             stage.show();
+            //Router.getInstance().connectToServer();
             logger.info("show login scene ");
         }
         catch (IOException e) {
@@ -66,19 +66,28 @@ public class ViewLogin {
     public void initialize() {
       errorUserMessage.setText(" ");
       loginButton.setOnAction(event -> {
-            String name = userName.getText().trim();
-            String password = userPassword.getText().trim();
-            Router.getInstance().getUserConnection().getUser().setName(name);
-            Router.getInstance().login(name,password);
+          try {
+              String name = userName.getText().trim();
+              String password = userPassword.getText().trim();
+              Router.getInstance().getUserConnection().getUser().setName(name);
+              Router.getInstance().login(name, password);
+          }
+          catch (NullPointerException e) {
+              setErrorUserMessage("All fields must be filled !");
+          }
         });
       registerButton.setOnAction(event -> {
           viewRegister = new ViewRegister(stage);
       });
+      stage.setOnCloseRequest(event -> {
+          System.out.println("Close stage");
+          System.exit(0);
+      });
    }
 
     /**
-     * The getter for button for user registration
-     * @return registration Button
+     * The getter for button for user checkRegisteringUserInfo
+     * @return checkRegisteringUserInfo Button
      */
     public Button getRegisterButton() {
         return registerButton;
@@ -92,4 +101,7 @@ public class ViewLogin {
         this.errorUserMessage.setText(errorUserMessage);
     }
 
+    public Button getLoginButton() {
+        return loginButton;
+    }
 }

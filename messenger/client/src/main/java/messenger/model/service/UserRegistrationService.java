@@ -7,12 +7,14 @@ import messenger.model.exceptions.UserRegistrationException;
 import java.util.List;
 
 /**
- * Interface UserRegistrationService contains methods for authorization and registration user
+ * Interface UserRegistrationService contains methods for authorization/registration users
  * @author Inna
  */
 public interface UserRegistrationService {
     /**
-     * the method for registration user
+     * The method for servicing user registration
+     * sends to server data registered user and listen server response
+     * if user was not registered at the server throws exception
      * @param username contain String with user's name
      * @param password contain String with user's password
      * @throws UserRegistrationException if fall exception when user is registering
@@ -21,7 +23,9 @@ public interface UserRegistrationService {
     void registration(String username, String password) throws UserRegistrationException;
 
     /**
-     * the method for authorization user
+     * The method for servicing user authorization
+     * sends to server data authorized user and listen server response
+     * if user was not authorized at the server throws exception
      * @param username contain String with user's name
      * @param password contain String with user's password
      * @throws AuthException if fall exception when user is authorizing

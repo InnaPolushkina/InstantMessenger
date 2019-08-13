@@ -33,6 +33,9 @@ public class Handler extends Thread{
     private SenderMessage senderMessage;
     private HistoryMessage historyMessage;
     private UserService userService;
+    private RoomKeeper roomKeeper;
+
+    private boolean running = true;
 
     /**
      * The public constructor of class Handler
@@ -60,8 +63,8 @@ public class Handler extends Thread{
      */
     public void setUserConnection(UserConnection userConnection) throws IOException{
         this.userConnection = userConnection;
-        userConnection.setIn(new BufferedReader(new InputStreamReader((userConnection.getUserSocket().getInputStream()))));
-        userConnection.setOut(new BufferedWriter(new OutputStreamWriter(userConnection.getUserSocket().getOutputStream())));
+        this.userConnection.setIn(new BufferedReader(new InputStreamReader((userConnection.getUserSocket().getInputStream()))));
+        this.userConnection.setOut(new BufferedWriter(new OutputStreamWriter(userConnection.getUserSocket().getOutputStream())));
     }
 
     /**
@@ -97,6 +100,10 @@ public class Handler extends Thread{
      */
     public void setMessageService(MessageService messageService) {
         this.messageService = messageService;
+    }
+
+    public void setRoomKeeper(RoomKeeper roomKeeper) {
+        this.roomKeeper = roomKeeper;
     }
 
     /**
@@ -147,7 +154,7 @@ public class Handler extends Thread{
    @Override
    public void run() {
        try {
-           while (true) {
+           while (running) {
                 String clientMsgAction = userConnection.getIn().readLine();
                 String clientData = userConnection.getIn().readLine();
                 if(clientMsgAction != null && clientData != null) {
@@ -155,11 +162,13 @@ public class Handler extends Thread{
                     System.out.println(clientAction);
                     switch (clientAction) {
                         case REGISTER:
-                            //call methods from class for registration
+                            //call methods from class for checkRegisteringUserInfo
                             try {
                                 Recoder recoder = new Recoder(userConnection, userRegistrationService, userKeeper);
+                                recoder.setRoomKeeper(roomKeeper);
                                 user = recoder.register(clientData);
                                 roomActivity = new RoomActivity(userConnection, roomService, userKeeper, historyMessage, messageService);
+                                roomActivity.setRoomKeeper(roomKeeper);
                                 senderMessage = new SenderMessage(messageService, userConnection, historyMessage);
                                 historyMessage.sendStory(userConnection);
                             } catch (ServerRegistrationException e) {
@@ -172,8 +181,9 @@ public class Handler extends Thread{
                                 Authorizer authorizer = new Authorizer(userConnection, userRegistrationService, userKeeper);
                                 user = authorizer.authorize(clientData);
                                 roomActivity = new RoomActivity(userConnection, roomService, userKeeper, historyMessage, messageService);
+                                roomActivity.setRoomKeeper(roomKeeper);
                                 senderMessage = new SenderMessage(messageService, userConnection, historyMessage);
-                                //historyMessage.sendStory(userConnection);
+                                userConnection.sendMessage(messageService.createServerAction("ROOM_LIST") + roomKeeper.roomsToString(roomKeeper.loadRoomsInfo(),userConnection) +  "\n");
                             } catch (ServerAuthorizationException e) {
                                 logger.warn(e.getMessage(), e);
                             }
@@ -181,7 +191,6 @@ public class Handler extends Thread{
                         case SEND_MSG:
                             //send message
                             senderMessage.sendMessage(clientData);
-                            // sendMessage(clientData);
                             break;
                         //There are cases for other client actions . . .
                         case CREATE_ROOM:
@@ -200,9 +209,7 @@ public class Handler extends Thread{
                             break;
                         case LEAVE_ROOM:
                             //leave user from room
-                            //roomActivity.setMessageService(messageService);
-                            roomActivity.leaveRoom(clientData);
-                            //senderMessage.sendMessage(messageService.sendMessage(new MessageServer(userConnection.getUser(),"!!! Leaved room !!!")));
+                            roomActivity.leaveRoom();
                             break;
                         case HISTORY:
                             roomActivity.setUserService(userService);
@@ -224,23 +231,40 @@ public class Handler extends Thread{
                             roomActivity.deleteRoomByAdmin(clientData);
                             System.out.println("room deleted");
                             break;
+                        case LOGOUT:
+                            disconnect();
+                            break;
+                        case USERS_IN_ROOM:
+                            roomActivity.sendListUserFromRoom(clientData);
+                            break;
                     }
                 }
            }
        }
        catch (IOException e) {
-           logger.warn("client " + user.getName() + " disconnected ",e);
-           view.print("client " + user.getName() + " disconnected or connection was lost");
-           userConnection.getUser().setOnline(false);
+           try {
+               logger.warn("client " + user.getName() + " disconnected ", e);
+               view.print("client " + user.getName() + " disconnected or connection was lost");
+               userConnection.getUser().setOnline(false);
+           }
+           catch (NullPointerException ex) {
+               logger.info("some client disconnected before authorizing/registering ",ex);
+           }
        }
        catch (NullPointerException e) {
-           logger.warn("connection was lost", e);
-           view.print("client " + user.getName() + " disconnected or connection was lost");
-           userConnection.getUser().setOnline(false);
+           try {
+               logger.warn("client " + user.getName() + " disconnected ", e);
+               view.print("client " + user.getName() + " disconnected or connection was lost");
+               userConnection.getUser().setOnline(false);
+           }
+           catch (NullPointerException ex) {
+               logger.info("some client disconnected before authorizing/registering ",ex);
+           }
        }
-       finally {
+      finally {
            try {
                userConnection.getUserSocket().close();
+               System.out.println("Closed user socket in finally block . . .");
            } catch (IOException e) {
                logger.warn("close client socket in sever", e);
                view.print("close client socket");
@@ -248,6 +272,11 @@ public class Handler extends Thread{
        }
    }
 
-
+  public void disconnect() throws IOException{
+       Router.getInstense().getUserConnectionByName(userConnection.getUser().getName()).getUser().setOnline(false);
+       userConnection.getUserSocket().close();
+       running = false;
+       System.out.println("User disconnected  . . . ");
+   }
 
 }

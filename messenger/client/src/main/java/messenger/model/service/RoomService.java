@@ -13,25 +13,27 @@ import java.util.Set;
  */
 public interface RoomService {
     /**
-     * the method creates new room
+     * The method prepares for sending to server info about creating room
      * @param roomName contain String for name creating room
+     * @return ready for sending string with data about new room in server format
      */
-    String  createRoom(String roomName);
+    String prepareCreateRoom(String roomName);
 
     /**
-     * the method adds user to room
+     * The method prepares for sending to server user info for add to some room
      * @param user contain object of Class User for adding to room
      * @see Room
      * @see User
+     * @return ready for sending string with data about adding user in server format
      */
-    String addUserToRoom(User user);
+    String prepareAddUserToRoom(User user);
 
     /**
-     * The method for parsing name of room for switching room at the server side
+     * The method prepares for sending name of room for switching room at the server side
      * @param roomName name of room for switching
-     * @return string with switching room in server format
+     * @return string with switching room data in server format
      */
-    String switchRoom(String roomName);
+    String prepareSwitchRoom(String roomName);
 
     /**
      * The method parse notification from server about adding user to room
@@ -49,7 +51,15 @@ public interface RoomService {
      * @return string with data of rooms and date of user disconnection
      * @see Room
      */
-    String parseRoomList(Set<Room> rooms, LocalDateTime lastConnection);
+    String prepareRoomListForGettingHistory(Set<Room> rooms, LocalDateTime lastConnection);
+
+    /**
+     * The method for parsing string with rooms data into Set<Room>
+     * @param data string with data about rooms
+     * @return set of rooms
+     * @see Room
+     */
+    Set<Room> parseUserRoomsFromServer(String data);
 
     /**
      * The method parses string from server with list of users who can be banned or unbanned
@@ -68,10 +78,24 @@ public interface RoomService {
     Room parseDeletedRoom(String data);
 
     /**
-     * The method for parses message to server about deleting room where user is admin
+     * The method prepares for sending to server data about delete room by admin of this room
      * @param roomName name of room for deleting
-     * @return string with message to server
+     * @return string with data about deleting room in server format
      */
-    String deleteRoom(String roomName);
+    String prepareDeleteRoom(String roomName);
 
+    /**
+     * The method prepares for sending to server data about some room
+     * @param roomName name of room
+     * @return string with data about room in server format
+     */
+    String prepareForSendRoom(String roomName);
+
+    /**
+     * The method parses string with user list from some into List of Users
+     * @see User
+     * @param data string with list of users in server format
+     * @return list of users
+     */
+    List<User> parseUserListFromRoom(String data);
 }

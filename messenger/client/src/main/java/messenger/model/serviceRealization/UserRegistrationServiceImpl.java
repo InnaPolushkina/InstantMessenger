@@ -40,27 +40,56 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
         boolean result = false;
         router.sendSimpleMsg(regMsg);
         try {
-            result = Boolean.parseBoolean(router.getListener().messageFromServer());
-        } catch (IOException e) {
-            throw new UserRegistrationException(e.getMessage(),e);
+            result = parseResponse(router.getListener().messageFromServer());
         }
-        if(!result) {
-            throw new UserRegistrationException("Name is not correct, one of users have this nick");
+        catch (AuthException e) {
+            throw new UserRegistrationException(e.getMessage());
+        }
+        catch (IOException e) {
+            throw new UserRegistrationException("Can't register, problems with server response");
+        }
+        catch (SAXException e) {
+            throw new UserRegistrationException("Can't register, problems with server response");
+        }
+        catch (ParserConfigurationException e) {
+            throw new UserRegistrationException("Can't register, problems with server response");
         }
     }
 
     @Override
     public void auth(String username, String password) throws AuthException {
-        String authMsg = "<auth><nick>" + username + "</nick><password>" + password + "</password></auth>";
+        String authMsg = "<checkAuthorizingUserInfo><nick>" + username + "</nick><password>" + password + "</password></checkAuthorizingUserInfo>";
         boolean result = false;
         router.sendSimpleMsg(authMsg);
         try {
-            result = Boolean.parseBoolean(router.getListener().messageFromServer());
-        } catch (IOException e) {
-            throw new AuthException(e);
+            result = parseResponse(router.getListener().messageFromServer());
         }
-        if(!result) {
-            throw new AuthException("Name or password is not correct");
+        catch (AuthException e) {
+            throw new AuthException(e.getMessage());
+        }
+        catch (IOException e) {
+            throw new AuthException("Can't authorize, problems with server response");
+        }
+        catch (SAXException e) {
+            throw new AuthException("Can't authorize, problems with server response");
+        }
+        catch (ParserConfigurationException e) {
+            throw new AuthException("Can't authorize, problems with server response");
+        }
+    }
+
+    private boolean parseResponse(String response) throws AuthException, IOException, SAXException, ParserConfigurationException {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document document = builder.parse(new InputSource(new StringReader(response)));
+        Element element = document.getDocumentElement();
+        boolean resp = Boolean.parseBoolean(element.getTextContent());
+        if(resp) {
+            return resp;
+        }
+        else {
+            String message = element.getAttribute("message");
+            throw new AuthException(message);
         }
     }
 

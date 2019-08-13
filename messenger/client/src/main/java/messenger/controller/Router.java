@@ -20,7 +20,6 @@ import messenger.model.serviceRealization.UserServiceImpl;
 import messenger.view.ViewChat;
 import messenger.view.ViewLogin;
 
-import messenger.view.ViewRegister;
 import org.apache.log4j.Logger;
 
 import java.io.*;
@@ -46,7 +45,6 @@ public class Router {
     private Stage stage ;
     private ViewLogin viewLogin;
     private ViewChat viewChat;
-    private ViewRegister viewRegister;
     private static final Router instance = new Router();
     private UserRegistrationService userRegistrationService;
     private MessageService messageService;
@@ -71,12 +69,16 @@ public class Router {
         userRegistrationService = new UserRegistrationServiceImpl(this);
         roomService = new RoomServiceImlp();
         userService = new UserServiceImpl();
+        messageService = new MessageServiceImpl();
+        connectToServer();
+
+    }
+
+    public void connectToServer() {
         try {
             socket = new Socket("localhost", 2020);
             userConnection = new UserServerConnection(new User(),socket);
             listener = new Listener(socket);
-            //create object of interface MessageService
-            messageService = new MessageServiceImpl();
             listener.setMessageService(messageService);
             listener.setRoomService(roomService);
             listener.setUserRegistrationService(userRegistrationService);
@@ -86,10 +88,19 @@ public class Router {
         catch (IOException ex) {
             logger.error(ex);
             viewLogin.setErrorUserMessage("Can't connect to server");
+            viewLogin.getLoginButton().setVisible(false);
             viewLogin.getRegisterButton().setVisible(false);
         }
+    }
 
-
+    public void disconnect() {
+        listener.stopThread();
+        try {
+            socket.close();
+        }
+        catch (IOException e) {
+            logger.info(e);
+        }
     }
 
     /**
@@ -127,13 +138,13 @@ public class Router {
             sendAction("AUTH");
             userRegistrationService.auth(name,pass);
             showMainChat(name);
-            getHistory();
+            //getHistory();
             listener.start();
             listener.setDaemon(true);
 
         } catch (AuthException e) {
             logger.warn("User can't authorize",e);
-            viewLogin.setErrorUserMessage("Name or password is`t true");
+            viewLogin.setErrorUserMessage(e.getMessage());
         }
         catch (Exception e) {
             logger.info(e);
@@ -141,34 +152,32 @@ public class Router {
     }
 
     /**
-     * the method for registration user
+     * the method for checkRegisteringUserInfo user
      * @param name of user
      * @param password of user
      */
-    public void register(String name, String password) {
-        if(password.length()>=4) {
-            try {
-                sendAction("REGISTER");
-                userRegistrationService.registration(name,password);
-                roomList = new HashSet<>();
-                roomList.add(new Room("Big chat"));
-                showMainChat(name);
-                viewChat.addRoom("Big chat");
+    public void register(String name, String password) throws UserRegistrationException {
+        try {
+            sendAction("REGISTER");
+            userRegistrationService.registration(name,password);
+            roomList = new HashSet<>();
+            Room bigChat = new Room("Big chat");
+            bigChat.setAdmin(new User("Server"));
+            roomList.add(bigChat);
+            showMainChat(name);
+            viewChat.addRoom("Big chat");
 
-                listener.start();
-                listener.setDaemon(true);
+            listener.start();
+            listener.setDaemon(true);
 
-            } catch (UserRegistrationException e) {
-                logger.warn("when registering new user ",e);
-                viewRegister.setErrorMsg(e.getMessage());
-            }
-            catch (Exception e) {
-                logger.info(e);
-            }
+        } catch (UserRegistrationException e) {
+            logger.warn("when registering new user ",e);
+            throw e;
         }
-        else {
-            viewRegister.setErrorMsg("password can't be less 4 symbols ");
+        catch (Exception e) {
+            logger.info(e);
         }
+
     }
 
     /**
@@ -196,8 +205,47 @@ public class Router {
         if(roomList != null) {
             try {
                 sendAction("HISTORY");
-                String roomList = roomService.parseRoomList(getRoomList(), historySaver.getLastOnlineDate());
+                String roomList = roomService.prepareRoomListForGettingHistory(getRoomList(), historySaver.getLastOnlineDate());
                 sendMessageToServer(roomList);
+            }catch (IOException e) {
+                logger.warn("while getting history from server",e);
+            }
+        }
+    }
+
+    public void getHistory(Set<Room> rooms) {
+        Set<Room> serverRooms = rooms;
+
+        HistorySaver historySaver = new HistorySaver();
+        Set<Room> clientRooms = historySaver.loadHistory();
+
+        Set<Room> resultSet = new HashSet<>();
+
+
+        for (Room serverRoom: serverRooms) {
+            boolean containt = false;
+            for (Room clientRoom: clientRooms) {
+                if(clientRoom.getRoomName().equals(serverRoom.getRoomName())) {
+                    resultSet.add(clientRoom);
+                    containt = true;
+                    break;
+                }
+            }
+            if(!containt) {
+                resultSet.add(serverRoom);
+            }
+        }
+
+        roomList = resultSet;
+        for (Room room: roomList) {
+            viewChat.addRoom(room.getRoomName());
+        }
+        if(roomList != null) {
+            try {
+                sendAction("HISTORY");
+                String roomList = roomService.prepareRoomListForGettingHistory(getRoomList(), historySaver.getLastOnlineDate());
+                sendMessageToServer(roomList);
+                System.out.println("Send to server request about history of messages ");
             }catch (IOException e) {
                 logger.warn("while getting history from server",e);
             }
@@ -208,11 +256,11 @@ public class Router {
      * the method send string message to server
      * @param msgText String message
      */
-    public void  sendMessage(/*Message msg*/String msgText) {
+    public void  sendMessage(String msgText) {
         try {
             String roomName = viewChat.getNameRoom();
             Message msg = new Message(msgText,userConnection.getUser(),roomName);
-            sendMessageToServer(messageService.sendMessage(msg));
+            sendMessageToServer(messageService.createMessage(msg));
         } catch (IOException e) {
             logger.info(e);
         }
@@ -224,7 +272,7 @@ public class Router {
      */
     public void sendAction(String msg) {
         try {
-            sendMessageToServer(messageService.sendAction(msg));
+            sendMessageToServer(messageService.createServerAction(msg));
         }
         catch (IOException e) {
             logger.info(e);
@@ -288,7 +336,7 @@ public class Router {
             sendAction("CREATE_ROOM");
 
             BufferedWriter out = userConnection.getOut();
-            out.write(roomService.createRoom(roomName) + "\n");
+            out.write(roomService.prepareCreateRoom(roomName) + "\n");
             out.flush();
             Room room = new Room(roomName);
             room.addNewUser(userConnection);
@@ -309,13 +357,25 @@ public class Router {
             sendAction("ADD_TO_ROOM");
 
             BufferedWriter out = userConnection.getOut();
-            out.write(roomService.addUserToRoom(user) + "\n");
+            out.write(roomService.prepareAddUserToRoom(user) + "\n");
             out.flush();
         }
         catch (IOException e) {
             logger.warn(e);
         }
 
+    }
+
+    public void getUserFromRoom(String roomName) {
+        sendAction("USERS_IN_ROOM");
+        try {
+            BufferedWriter out = userConnection.getOut();
+            out.write(roomService.prepareForSendRoom(roomName) + "\n");
+            out.flush();
+        }
+        catch (IOException e) {
+            logger.warn(e);
+        }
     }
 
     /**
@@ -326,7 +386,7 @@ public class Router {
         sendAction("SWITCH_ROOM");
         try {
             BufferedWriter out = userConnection.getOut();
-            out.write(roomService.switchRoom(roomName) + "\n");
+            out.write(roomService.prepareSwitchRoom(roomName) + "\n");
             out.flush();
         }
         catch (IOException e) {
@@ -355,13 +415,13 @@ public class Router {
      * The method sends to server request for banning/unbanning user
      * @param user user for banning/unbanning
      * @param room data about room
-     * @param banStatus ban status
+     * @param banStatus prepareBanUser status
      */
     public void banUser(User user, Room room, boolean banStatus) {
         if (banStatus) {
             sendAction("BAN");
             try {
-                sendMessageToServer(userService.ban(user));
+                sendMessageToServer(userService.prepareBanUser(user));
             }
             catch (IOException e) {
                 logger.warn("while banning user in room",e);
@@ -370,7 +430,7 @@ public class Router {
         else {
             sendAction("UNBAN");
             try {
-                sendMessageToServer(userService.unban(user));
+                sendMessageToServer(userService.prepareUnBanUser(user));
             }
             catch (IOException e) {
                 logger.warn("while unbanning user in room",e);
@@ -385,8 +445,16 @@ public class Router {
      */
     public void deleteRoom(String roomName) {
         sendAction("DELETE_ROOM");
-        sendMessage(roomService.deleteRoom(roomName));
+        sendMessage(roomService.prepareDeleteRoom(roomName));
         viewChat.setFocusToRoom(roomName);
+        viewChat.switchRoom();
+    }
+
+    public void logout() {
+        sendAction("LOGOUT");
+        sendMessage("test . . .");
+        disconnect();
+        connectToServer();
     }
 
 }

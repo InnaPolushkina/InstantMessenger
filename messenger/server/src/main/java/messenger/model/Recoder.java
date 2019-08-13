@@ -4,6 +4,7 @@ import messenger.controller.Router;
 import messenger.model.exceptions.ServerRegistrationException;
 import messenger.model.serverEntity.User;
 import messenger.model.serverEntity.UserConnection;
+import messenger.model.serverServices.RoomKeeper;
 import messenger.model.serverServices.UserKeeper;
 import messenger.model.serverServices.UserRegistrationService;
 
@@ -16,6 +17,7 @@ public class Recoder {
     private UserConnection userConnection;
     private UserRegistrationService userRegistrationService;
     private UserKeeper userKeeper;
+    private RoomKeeper roomKeeper;
 
 
     /**
@@ -23,14 +25,12 @@ public class Recoder {
      * checks unique user name, if it's true, register new user and add to big chat
      * @param userData have string with about new user
      * @return authorized user
-     * @throws ServerRegistrationException if user have any problems with registration
+     * @throws ServerRegistrationException if user have any problems with checkRegisteringUserInfo
      */
     public User register(String userData) throws ServerRegistrationException{
-        boolean result = userRegistrationService.registration(userData);
+        boolean result = userRegistrationService.checkRegisteringUserInfo(userData);
         User user;
         try {
-            userConnection.getOut().write(String.valueOf(result) + "\n");
-            userConnection.getOut().flush();
 
             if (result) {
                 Router.getInstense().getUserList().add(userConnection);
@@ -40,15 +40,21 @@ public class Recoder {
 
                 userConnection.setUser(user);
                 Router.getInstense().addUserToBigRoom(userConnection);
+                userConnection.sendMessage(userRegistrationService.prepareAuthRegResponse("successful",result) + "\n");
+
+                roomKeeper.saveRoomsInfo(Router.getInstense().getRoomList());
 
                 return user;
             }
             else {
+                /*userConnection.getOut().write(userRegistrationService.prepareAuthRegResponse("Can't register, server have user with such nick",result) + "\n");
+                userConnection.getOut().flush();*/
+                userConnection.sendMessage(userRegistrationService.prepareAuthRegResponse("Can't register, server have user with such nick",result) + "\n");
                 throw new ServerRegistrationException("Can't register, server have user with such nick");
             }
         }
         catch (IOException e) {
-            throw new ServerRegistrationException("Can't give response on registration query",e);
+            throw new ServerRegistrationException("Can't give response on checkRegisteringUserInfo query",e);
         }
     }
 
@@ -66,4 +72,12 @@ public class Recoder {
         this.userKeeper = userKeeper;
     }
 
+    /**
+     * The setter for room keeper
+     * @param roomKeeper object of class that implements interface RoomKeeper
+     * @see RoomKeeper
+     */
+    public void setRoomKeeper(RoomKeeper roomKeeper) {
+        this.roomKeeper = roomKeeper;
+    }
 }

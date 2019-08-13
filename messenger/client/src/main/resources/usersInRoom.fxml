@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="453.0" prefWidth="727.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TableView fx:id="usersTable" layoutX="50.0" layoutY="61.0" prefHeight="298.0" prefWidth="642.0">
+        <columns>
+          <TableColumn fx:id="userName" prefWidth="158.0" text="Name" />
+          <TableColumn fx:id="userOnlineStatus" prefWidth="167.0" text="Online" />
+            <TableColumn fx:id="userBannedStatus" prefWidth="158.0" text="Banned" />
+            <TableColumn fx:id="userAdminStatus" prefWidth="158.0" text="Admin" />
+        </columns>
+      </TableView>
+      <Label layoutX="270.0" layoutY="14.0" text="Users in this room">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
+      </Label>
+      <Button fx:id="okButton" layoutX="587.0" layoutY="387.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="90.0" text="OK" />
+      <Label layoutX="50.0" layoutY="370.0" text="All in room : ">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="countUsersInRoom" layoutX="160.0" layoutY="370.0" prefHeight="27.0" prefWidth="135.0" text="Label">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

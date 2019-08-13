@@ -20,7 +20,7 @@ import java.util.List;
 
 public class UserRegistrationServiceImpl implements UserRegistrationService {
 
-    private List<User> userList = new ArrayList<>();
+    private List<User> userList;
     private static final Logger logger = Logger.getLogger(UserRegistrationServiceImpl.class);
     private User user;
     private UserKeeper userKeeper;
@@ -36,7 +36,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     }
 
     @Override
-    public boolean registration(String userData) {
+    public boolean checkRegisteringUserInfo(String userData) {
        userList = userKeeper.loadFromFile();
         try {
 
@@ -77,14 +77,14 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     }
 
     @Override
-    public boolean auth(String userData) {
+    public boolean checkAuthorizingUserInfo(String userData) {
         userList = userKeeper.loadFromFile();
         try {
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = builderFactory.newDocumentBuilder();
             Document document = builder.parse(new InputSource(new StringReader(userData)));
 
-            NodeList nodeList = document.getElementsByTagName("auth");
+            NodeList nodeList = document.getElementsByTagName("checkAuthorizingUserInfo");
 
             Node node = nodeList.item(0);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
@@ -119,5 +119,10 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
      */
     public User getAuthorizedUser() {
         return user;
+    }
+
+    @Override
+    public String prepareAuthRegResponse(String message, boolean status) {
+        return "<authRegResp message = \"" + message + "\">" + status + "</authRegResp>";
     }
 }

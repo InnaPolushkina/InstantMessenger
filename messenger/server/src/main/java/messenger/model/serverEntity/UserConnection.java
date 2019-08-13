@@ -2,6 +2,7 @@ package messenger.model.serverEntity;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.net.Socket;
 
 /**
@@ -29,6 +30,18 @@ public class UserConnection {
      */
     public UserConnection(Socket userSocket) {
         this.userSocket = userSocket;
+    }
+
+
+    /**
+     * The method for sending any messages to socket from user connection
+     * @param message string with message to client
+     * @throws IOException
+     */
+    public void sendMessage(String message) throws IOException {
+        BufferedWriter out = getOut();
+        out.write(message);
+        out.flush();
     }
 
     /**
@@ -95,7 +108,7 @@ public class UserConnection {
             return false;
         }
         UserConnection guest = (UserConnection) obj;
-        return this.getUser().getName().equals(guest.getUser().getName());
+        return this.getUser().getName().equals(guest.getUser().getName()) && userSocket.equals(guest.userSocket);
     }
 
 }

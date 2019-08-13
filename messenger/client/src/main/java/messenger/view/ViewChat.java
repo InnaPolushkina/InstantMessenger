@@ -66,6 +66,10 @@ public class ViewChat {
     private Label adminInfo;
     @FXML
     private Button deleteRoom;
+    @FXML
+    private Button roomInfo;
+
+    private Stage stage;
 
     private User user;
     private Notificator notificator;
@@ -91,6 +95,7 @@ public class ViewChat {
      */
     public ViewChat(Stage stage) {
         this.router = Router.getInstance();
+        this.stage = stage;
         FXMLLoader loader = new FXMLLoader();
         loader.setController(this);
 
@@ -132,10 +137,7 @@ public class ViewChat {
             }
         });
         logoutButton.setOnAction(event -> {
-            //router.saveHistory();
-            HistorySaver historySaver = new HistorySaver();
-            historySaver.saveHistory(Router.getInstance().getRoomList(), LocalDateTime.now());
-            System.exit(0);
+            showViewExit();
         });
         createNewRoom.setOnAction(event -> {
             ViewCreateRoom viewCreateRoom = new ViewCreateRoom(new Stage(),this);
@@ -173,6 +175,14 @@ public class ViewChat {
         deleteRoom.setOnAction(event -> {
             router.deleteRoom(nameRoom.getText());
         });
+        stage.setOnCloseRequest(event -> {
+            //ViewExit viewExit = new ViewExit(stage);
+            showViewExit();
+            event.consume();
+        });
+        roomInfo.setOnAction(event -> {
+            Router.getInstance().getUserFromRoom(nameRoom.getText());
+        });
     }
 
     /**
@@ -180,6 +190,7 @@ public class ViewChat {
      */
     private void hideComponents() {
         muteRoom.setVisible(false);
+        roomInfo.setVisible(false);
         addUser.setVisible(false);
         leaveRoom.setVisible(false);
         deleteRoom.setVisible(false);
@@ -195,6 +206,10 @@ public class ViewChat {
      */
     public void showAddUserView() {
         ViewAddUser viewAddUser = new ViewAddUser(list);
+    }
+
+    private void showViewExit() {
+        ViewExit viewExit = new ViewExit(stage);
     }
 
     /**
@@ -248,23 +263,17 @@ public class ViewChat {
      * method hide or show some components of form depending on user status in this room:
      * if room is not "Big chat", shows button for adding new online user, else hides this button,
      * if user is banned in the room, hides text area and button for sending messages, else shows its,
-     * if user is admin of room, shows buttons for ban/unBan users in this room, else hides its,
+     * if user is admin of room, shows buttons for prepareBanUser/unBan users in this room, else hides its,
      * if user muted room, sets to muteButton text "UnMute", else sets "Mute"
      * if room was deleted, hide all components for working with this room
      */
-    private void switchRoom() {
+    public void switchRoom() {
         try {
             String nameSelectedRoom =  getNameOfSelectedRoom();
             if (nameSelectedRoom != null) {
                 nameRoom.setText(nameSelectedRoom);
-                if (nameRoom.getText().equals("Big chat")) {
-                    addUser.setVisible(false);
-                    banUserButton.setVisible(false);
-                    unbanUserButton.setVisible(false);
-                }
-                else {
-                    addUser.setVisible(true);
-                }
+
+                roomInfo.setVisible(true);
 
                 setMessageList(nameSelectedRoom);
                 if (Router.getInstance().getRoomByName(nameRoom.getText()).isMuted()) {
@@ -286,14 +295,13 @@ public class ViewChat {
                 if(Router.getInstance().getRoomByName(nameSelectedRoom).isDeleted()) {
                     muteRoom.setVisible(false);
                     addUser.setVisible(false);
-                    leaveRoom.setVisible(false);
+                    //leaveRoom.setVisible(false);
                     deleteRoom.setVisible(false);
                     banUserButton.setVisible(false);
                     unbanUserButton.setVisible(false);
                 } else {
                     muteRoom.setVisible(true);
                     addUser.setVisible(true);
-                    leaveRoom.setVisible(true);
                     String roomAdmin = Router.getInstance().getRoomByName(nameRoom.getText()).getAdmin().getName();
                     if (roomAdmin.equals(userName.getText())) {
                         banUserButton.setVisible(true);
@@ -306,6 +314,17 @@ public class ViewChat {
                         adminInfo.setText("You isn't admin");
                         deleteRoom.setVisible(false);
                     }
+                }
+
+                if (nameSelectedRoom.trim().equals("Big chat")) {
+                    addUser.setVisible(false);
+                    banUserButton.setVisible(false);
+                    unbanUserButton.setVisible(false);
+                    leaveRoom.setVisible(false);
+                }
+                else {
+                    addUser.setVisible(true);
+                    leaveRoom.setVisible(true);
                 }
 
             }

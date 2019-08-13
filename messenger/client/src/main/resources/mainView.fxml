@@ -40,12 +40,12 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="createNewRoom" layoutX="702.0" layoutY="144.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="95.0" text="New room" />
-      <Button fx:id="addUser" layoutX="702.0" layoutY="215.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Add users" />
-      <Button fx:id="leaveRoom" layoutX="702.0" layoutY="181.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Leave room" />
-      <Button fx:id="banUserButton" layoutX="702.0" layoutY="249.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Ban user" />
-      <Button fx:id="unbanUserButton" layoutX="702.0" layoutY="285.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="UnBan user" />
-      <Button fx:id="muteRoom" layoutX="702.0" layoutY="108.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Mute room" />
+      <Button fx:id="createNewRoom" layoutX="702.0" layoutY="180.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="95.0" text="New room" />
+      <Button fx:id="addUser" layoutX="702.0" layoutY="251.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Add users" />
+      <Button fx:id="leaveRoom" layoutX="702.0" layoutY="217.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Leave room" />
+      <Button fx:id="banUserButton" layoutX="702.0" layoutY="285.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Ban user" />
+      <Button fx:id="unbanUserButton" layoutX="702.0" layoutY="321.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="UnBan user" />
+      <Button fx:id="muteRoom" layoutX="702.0" layoutY="144.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Mute room" />
       <Label fx:id="serverError" layoutX="94.0" layoutY="8.0" prefHeight="19.0" prefWidth="382.0" text="Label" textFill="#f80f07">
          <font>
             <Font name="System Bold" size="13.0" />
@@ -66,6 +66,7 @@
             <Font name="System Italic" size="14.0" />
          </font>
       </Label>
-      <Button fx:id="deleteRoom" layoutX="702.0" layoutY="318.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Delete room" />
+      <Button fx:id="deleteRoom" layoutX="702.0" layoutY="354.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Delete room" />
+      <Button fx:id="roomInfo" layoutX="702.0" layoutY="106.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Room info" />
    </children>
 </AnchorPane>

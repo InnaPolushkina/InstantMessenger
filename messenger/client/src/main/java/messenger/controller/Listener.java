@@ -17,6 +17,7 @@ import java.io.*;
 import java.net.Socket;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 /**
  * This class listen entering massages from socket and show its to user
@@ -32,6 +33,8 @@ public class Listener extends Thread {
     private RoomService roomService;
     private UserRegistrationService userRegistrationService;
     private UserService userService;
+
+    private boolean running = true;
 
     /**
      * The public constructor for class Listener
@@ -49,7 +52,7 @@ public class Listener extends Thread {
      */
     @Override
     public void run() {
-        while (true) {
+        while (running) {
             try {
                 ServerAction serverAction = messageService.parseServerAction(messageFromServer());
                 switch (serverAction) {
@@ -107,6 +110,7 @@ public class Listener extends Thread {
                             Notificator notificator = new Notificator();
                             notificator.notifyUser(banRoom.getRoomName(),"You was banned ", TrayIcon.MessageType.WARNING);
                             viewChat.setFocusToRoom(banRoom.getRoomName());
+                            viewChat.switchRoom();
                         });
                         break;
                     case UNBAN:
@@ -130,9 +134,20 @@ public class Listener extends Thread {
                             notificator.notifyUser(deletedRoom.getRoomName(),"Room was deleted",TrayIcon.MessageType.WARNING);
                         });
                         break;
+                    case USERS_IN_ROOM:
+                        List<User> users = roomService.parseUserListFromRoom(messageFromServer());
+                        Platform.runLater(() -> {
+                            ViewRoomInfo viewRoomInfo = new ViewRoomInfo(users);
+                        });
+                        break;
+                    case ROOM_LIST:
+                        Set<Room> rooms = roomService.parseUserRoomsFromServer(messageFromServer());
+                        Router.getInstance().getHistory(rooms);
+                        break;
                 }
 
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 logger.error("catch NullPointerException, server don't work ",e);
                 Platform.runLater(
                         () -> {
@@ -198,7 +213,7 @@ public class Listener extends Thread {
     }
 
     /**
-     * The setter for user service for registration
+     * The setter for user service for checkRegisteringUserInfo
      * @param userRegistrationService object of class that implements interface UserRegistrationService
      * @see UserRegistrationService
      */
@@ -213,5 +228,12 @@ public class Listener extends Thread {
      */
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    /**
+     * Stop thread
+     */
+    public void stopThread() {
+        running = false;
     }
 }
