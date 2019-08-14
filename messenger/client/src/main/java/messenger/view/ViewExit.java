@@ -57,7 +57,7 @@ public class ViewExit {
             HistorySaver historySaver = new HistorySaver();
             historySaver.saveHistory(Router.getInstance().getRoomList(), LocalDateTime.now());
             Router.getInstance().logout();
-            ViewLogin viewLogin = new ViewLogin(mainStage);
+            new ViewLogin(mainStage);
             simpleStage.close();
         });
     }

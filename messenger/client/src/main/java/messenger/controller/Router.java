@@ -222,7 +222,7 @@ public class Router {
         if(roomList != null) {
             try {
                 sendAction("HISTORY");
-                String roomList = roomService.prepareRoomListForGettingHistory(getRoomList(), historySaver.getLastOnlineDate());
+                String roomList = roomService.prepareRoomListForGettingHistory(resultSet, historySaver.getLastOnlineDate());
                 sendMessageToServer(roomList);
                 System.out.println("Send to server request about history of messages ");
             }catch (IOException e) {

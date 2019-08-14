@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="531.0" prefWidth="811.0" style="-fx-background-color: #977AF6;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="531.0" prefWidth="814.0" style="-fx-background-color: #977AF6;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox fx:id="vBox" layoutX="216.0" layoutY="62.0" prefHeight="399.0" prefWidth="475.0" style="-fx-background-color: #D5F9F9; -fx-background-radius: 5;">
          <children>
@@ -40,12 +40,12 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="createNewRoom" layoutX="702.0" layoutY="180.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="95.0" text="New room" />
-      <Button fx:id="addUser" layoutX="702.0" layoutY="251.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Add users" />
-      <Button fx:id="leaveRoom" layoutX="702.0" layoutY="217.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Leave room" />
-      <Button fx:id="banUserButton" layoutX="702.0" layoutY="285.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Ban user" />
-      <Button fx:id="unbanUserButton" layoutX="702.0" layoutY="321.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="UnBan user" />
-      <Button fx:id="muteRoom" layoutX="702.0" layoutY="144.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Mute room" />
+      <Button fx:id="createNewRoom" layoutX="702.0" layoutY="100.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="95.0" text="New room" />
+      <Button fx:id="addUser" layoutX="702.0" layoutY="274.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Add users" />
+      <Button fx:id="leaveRoom" layoutX="702.0" layoutY="241.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Leave room" />
+      <Button fx:id="banUserButton" layoutX="702.0" layoutY="341.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Ban user" />
+      <Button fx:id="unbanUserButton" layoutX="702.0" layoutY="374.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="UnBan user" />
+      <Button fx:id="muteRoom" layoutX="702.0" layoutY="207.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Mute room" />
       <Label fx:id="serverError" layoutX="94.0" layoutY="8.0" prefHeight="19.0" prefWidth="382.0" text="Label" textFill="#f80f07">
          <font>
             <Font name="System Bold" size="13.0" />
@@ -66,7 +66,7 @@
             <Font name="System Italic" size="14.0" />
          </font>
       </Label>
-      <Button fx:id="deleteRoom" layoutX="702.0" layoutY="354.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Delete room" />
-      <Button fx:id="roomInfo" layoutX="702.0" layoutY="106.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Room info" />
+      <Button fx:id="deleteRoom" layoutX="702.0" layoutY="411.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Delete room" />
+      <Button fx:id="roomInfo" layoutX="702.0" layoutY="173.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="95.0" text="Room info" />
    </children>
 </AnchorPane>

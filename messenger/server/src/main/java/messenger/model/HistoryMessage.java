@@ -131,18 +131,20 @@ public class HistoryMessage {
                     MessageServer messageServer = messageService.parseMessage(s);
                     String roomGetter = messageServer.getRecipient().getRoomName();
                     for (Room room: Router.getInstense().getRoomList()) {
-                        if(room.getRoomName().equals(roomGetter) && room.getRoomName().equals(roomForUser)) {
+                        if(room.getRoomName().equals(roomGetter) && room.getRoomName().equals(roomForUser.getRoomName())) {
                             try {
                                userConnection.sendMessage(messageService.createServerAction("SEND_MSG") + s + "\n");
+                                break;
                             }
                             catch (IOException e) {
                                 logger.warn("sending messages of room to user",e);
                             }
-                            break;
+
                         }
                     }
 
                 }
+                break;
             }
         }
     }

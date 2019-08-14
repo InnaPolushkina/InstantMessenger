@@ -181,13 +181,14 @@ public class RoomActivity {
      * @param roomName name of notified room
      */
     private void notifyRoom(String msg, String roomName) {
-        String testNotify = messageService.createMessage(msg,"Room notify",roomName);
+        String roomNotify = messageService.createMessage(msg,"Room notify",roomName);
         for (Room r: Router.getInstense().getRoomList()) {
             if(r.getRoomName().equals(roomName)) {
                for(String name: r.getUserList()) {
                    try {
                        UserConnection uc = Router.getInstense().getUserConnectionByName(name);
-                      uc.sendMessage(messageService.createServerAction("SEND_MSG") + testNotify + "\n");
+                      uc.sendMessage(messageService.createServerAction("SEND_MSG") + roomNotify + "\n");
+                      historyMessage.addMessageToStory(roomNotify);
                    }
                    catch (IOException e) {
                        logger.warn("while sending notify to room");
