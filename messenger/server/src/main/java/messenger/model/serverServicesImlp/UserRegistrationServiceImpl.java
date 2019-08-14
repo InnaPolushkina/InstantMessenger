@@ -15,7 +15,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserRegistrationServiceImpl implements UserRegistrationService {
@@ -29,9 +28,8 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
      * the public constructor
      * create object of this class
      */
-    public UserRegistrationServiceImpl(/*List<User> userList*/ UserKeeper userKeeper) {
+    public UserRegistrationServiceImpl( UserKeeper userKeeper ) {
         this.userList = userKeeper.loadFromFile();
-       // getUsers(fileUsers);
         this.userKeeper = userKeeper;
     }
 

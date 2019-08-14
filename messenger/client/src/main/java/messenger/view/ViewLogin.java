@@ -5,15 +5,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import messenger.controller.Router;
-import messenger.model.serverEntity.MessageServer;
-import messenger.model.serverEntity.Room;
-import messenger.model.entity.User;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
-import java.util.Set;
 
 /**
  * the class contain methods and FXML components for handling actions of user with form for authorization user
@@ -51,7 +48,6 @@ public class ViewLogin {
             stage.setTitle("Authorization");
             stage.setScene(scene);
             stage.show();
-            //Router.getInstance().connectToServer();
             logger.info("show login scene ");
         }
         catch (IOException e) {
@@ -66,23 +62,41 @@ public class ViewLogin {
     public void initialize() {
       errorUserMessage.setText(" ");
       loginButton.setOnAction(event -> {
-          try {
-              String name = userName.getText().trim();
-              String password = userPassword.getText().trim();
-              Router.getInstance().getUserConnection().getUser().setName(name);
-              Router.getInstance().login(name, password);
-          }
-          catch (NullPointerException e) {
-              setErrorUserMessage("All fields must be filled !");
-          }
+          login();
         });
       registerButton.setOnAction(event -> {
           viewRegister = new ViewRegister(stage);
       });
+      userName.setOnKeyPressed(event -> {
+          if ( event.getCode() == KeyCode.ENTER ) {
+              userPassword.requestFocus();
+          }
+      });
+      userPassword.setOnKeyPressed(event -> {
+          if ( event.getCode() == KeyCode.ENTER ) {
+             login();
+          }
+      });
       stage.setOnCloseRequest(event -> {
-          System.out.println("Close stage");
           System.exit(0);
       });
+   }
+
+    /**
+     * The method for user authorizing
+     * calls methods from Router for user login
+     * @see Router
+     */
+   private void login() {
+       try {
+           String name = userName.getText().trim();
+           String password = userPassword.getText().trim();
+           Router.getInstance().getUserConnection().getUser().setName(name);
+           Router.getInstance().login(name, password);
+       }
+       catch (NullPointerException e) {
+           setErrorUserMessage("All fields must be filled !");
+       }
    }
 
     /**
@@ -101,6 +115,10 @@ public class ViewLogin {
         this.errorUserMessage.setText(errorUserMessage);
     }
 
+    /**
+     * The getter for login button
+     * @return login button
+     */
     public Button getLoginButton() {
         return loginButton;
     }

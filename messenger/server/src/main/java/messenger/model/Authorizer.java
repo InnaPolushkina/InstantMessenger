@@ -6,6 +6,7 @@ import messenger.model.serverEntity.User;
 import messenger.model.serverEntity.UserConnection;
 import messenger.model.serverServices.UserKeeper;
 import messenger.model.serverServices.UserRegistrationService;
+import messenger.view.ViewLogs;
 import org.apache.log4j.Logger;
 
 import java.io.*;
@@ -16,7 +17,6 @@ import java.io.*;
 public class Authorizer {
     private UserConnection userConnection;
     private UserRegistrationService userRegistrationService;
-    private UserKeeper userKeeper;
     private static final Logger logger = Logger.getLogger(Authorizer.class);
 
     /**
@@ -44,7 +44,7 @@ public class Authorizer {
                     Router.getInstense().addUserToBigRoom(userConnection);
                     Router.getInstense().getUserConnectionByName(userConnection.getUser().getName()).getUser().setOnline(true);
                     userConnection.sendMessage(userRegistrationService.prepareAuthRegResponse("successful",true) + "\n");
-                    Router.getInstense().getViewLogs().print("User  authorized");
+                    ViewLogs.printInfo("User " + userConnection.getUser().getName() + " was successfully  authorized");
                 }
                 //second check
                 else if (authConn.getUser().isOnline()) {
@@ -56,10 +56,9 @@ public class Authorizer {
                     Router.getInstense().getUserConnectionByName(user.getName()).setIn(new BufferedReader(new InputStreamReader(userConnection.getUserSocket().getInputStream())));
                     Router.getInstense().getUserConnectionByName(userConnection.getUser().getName()).getUser().setOnline(true);
                     userConnection.sendMessage(userRegistrationService.prepareAuthRegResponse("successful",true) + "\n");
-                    Router.getInstense().getViewLogs().print("User  authorized");
+                    ViewLogs.printInfo("User " + userConnection.getUser().getName() + " was successfully  authorized ");
+                    logger.info("User" + user.getName() + " authorized");
                 }
-
-                System.out.println("Count of users " + Router.getInstense().getUserList().size());
 
                 return user;
             }
@@ -78,13 +77,11 @@ public class Authorizer {
      * @param userConnection user connection for authorizing
      * @param userRegistrationService object of class that implements interface UserRegistrationService
      * @see UserRegistrationService
-     * @param userKeeper object of class that implements interface UserKeeper
      * @see UserKeeper
      */
-    public Authorizer(UserConnection userConnection, UserRegistrationService userRegistrationService, UserKeeper userKeeper) {
+    public Authorizer(UserConnection userConnection, UserRegistrationService userRegistrationService) {
         this.userConnection = userConnection;
         this.userRegistrationService = userRegistrationService;
-        this.userKeeper = userKeeper;
     }
 
 }

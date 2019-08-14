@@ -4,17 +4,14 @@ package messenger.model.serverEntity;
  * The class contains methods for working with messages data
  */
 public class MessageServer {
-    private User sender;
     private String text;
     private Room recipient;
 
     /**
      * The constructor of this class
-     * @param sender
      * @param text
      */
-    public MessageServer(User sender, String text) {
-        this.sender = sender;
+    public MessageServer( String text) {
         this.text = text;
     }
 

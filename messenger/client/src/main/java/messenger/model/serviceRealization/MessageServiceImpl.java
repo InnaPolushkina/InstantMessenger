@@ -2,7 +2,6 @@ package messenger.model.serviceRealization;
 
 
 import messenger.model.entity.Message;
-import messenger.model.entity.Room;
 import messenger.model.entity.ServerAction;
 import messenger.model.entity.User;
 import messenger.model.service.MessageService;

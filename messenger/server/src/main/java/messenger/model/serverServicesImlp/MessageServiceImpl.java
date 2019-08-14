@@ -22,13 +22,6 @@ import java.io.StringReader;
 public class MessageServiceImpl implements MessageService {
 
     private static final Logger logger = Logger.getLogger(MessageServiceImpl.class);
-    private String historyMessages = "messenger/model/db/messagesHistory.xml";
-
-
-  /*  @Override
-    public String createMessage(MessageServer msg) {
-        return "<message><nick>" + msg.getSender().getName() + "</nick><text>" + msg.getText() + "</text><recipient>" + msg.getRecipient().getRoomName() + "</recipient></message>";
-    }*/
 
     @Override
     public String createMessage(String text, String nameSender, String roomRecipient) {
@@ -47,14 +40,12 @@ public class MessageServiceImpl implements MessageService {
             Node node = nodeList.item(0);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element element = (Element) node;
-                String nick = element.getElementsByTagName("nick").item(0).getTextContent();
+
                 String text = element.getElementsByTagName("text").item(0).getTextContent();
                 String recipient = element.getElementsByTagName("recipient").item(0).getTextContent();
-                System.out.println(recipient);
-                User userSender = new User();
-                userSender.setName(nick);
+
                 Room roomRecipient = new Room(recipient);
-                msg = new MessageServer(userSender, text);
+                msg = new MessageServer( text);
                 msg.setRecipient(roomRecipient);
             }
         }

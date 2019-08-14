@@ -21,7 +21,6 @@ public class Router {
     private static Set<UserConnection> userList = new HashSet<>();
     private Set<Room> roomList = new HashSet<>();
     private static final int PORT = 2020;
-    private static ViewLogs viewLogs = new ViewLogs();
     private static Router instense = new Router();
     private static UserRegistrationService userRegistrationService;
     private static UserKeeper userKeeper;
@@ -39,7 +38,7 @@ public class Router {
      * @throws Exception if any exception occur
      */
     public static void main(String[] args) throws Exception{
-        viewLogs.print("The chat server is running.");
+        ViewLogs.printInfo("The chat server is running.");
         ServerSocket listener = new ServerSocket(PORT);
         userKeeper = new UserKeeperXml("server/src/main/java/messenger/model/db/users.xml");
         roomKeeper = new RoomKeeperImpl("server/src/main/java/messenger/model/db/rooms.xml");
@@ -48,27 +47,21 @@ public class Router {
         historyMessage = new HistoryMessage(messageService);
         roomService = new RoomServiceImpl();
         userService = new UserServiceImpl();
-        //try {
-            while (true) {
-                Handler handler = new Handler();
+        while (true) {
+            ViewLogs.printInfo("Waiting new connecting . . .");
+            Handler handler = new Handler();
 
-                handler.setUserConnection(new UserConnection(listener.accept()));
-                handler.setUserRegistrationService(userRegistrationService);
-                handler.setMessageService(messageService);
-                handler.setUserKeeper(userKeeper);
-                handler.setRoomService(roomService);
-                handler.setHistoryMessage(historyMessage);
-                handler.setUserService(userService);
-                handler.setRoomKeeper(roomKeeper);
+            handler.setUserConnection(new UserConnection(listener.accept()));
+            handler.setUserRegistrationService(userRegistrationService);
+            handler.setMessageService(messageService);
+            handler.setUserKeeper(userKeeper);
+            handler.setRoomService(roomService);
+            handler.setHistoryMessage(historyMessage);
+            handler.setUserService(userService);
+            handler.setRoomKeeper(roomKeeper);
 
-                handler.start();
-            }
-        //}
-
-        /*finally {
-            //listener.close();
-            System.out.println("Router closed socket");
-        }*/
+            handler.start();
+        }
     }
 
     /**
@@ -88,7 +81,8 @@ public class Router {
        for (Room room: roomList) {
            if(room.getRoomName().equals("Big chat")) {
                room.addUser(userConnection);
-               System.out.println("authorized user added to big chat");
+               ViewLogs.printInfo("User was added to \"Big chat\", chat has " + room.getUserList().size() + " users");
+               break;
            }
        }
    }
@@ -117,10 +111,6 @@ public class Router {
         return instense;
     }
 
-    public ViewLogs getViewLogs() {
-        return viewLogs;
-    }
-
     /**
      * The getter for userConnection's set
      * @return Set of UserConnection
@@ -137,6 +127,11 @@ public class Router {
         return roomList;
     }
 
+    /**
+     * The method for searching user connection by user name
+     * @param name user name
+     * @return if user connection was found return this connection, else return null
+     */
     public UserConnection getUserConnectionByName(String name) {
         UserConnection result = null;
         for (UserConnection uc: userList) {

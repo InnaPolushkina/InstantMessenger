@@ -3,7 +3,6 @@ package messenger.model.serverServicesImlp;
 import messenger.controller.Router;
 import messenger.model.serverEntity.Room;
 import messenger.model.serverEntity.User;
-import messenger.model.serverEntity.UserConnection;
 import messenger.model.serverServices.RoomService;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
@@ -59,7 +58,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public User parseUserForAddToRoom(/*UserConnection user, Room room*/ String data) {
+    public User parseUserForAddToRoom( String data ) {
         User result = null;
         try {
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
@@ -130,7 +129,6 @@ public class RoomServiceImpl implements RoomService {
                     Room room = new Room(roomName);
                     room.setAdmin(roomAdmin);
                     roomList.add(room);
-                   // roomNameList.add(roomName);
                 }
             }
         }
@@ -155,16 +153,6 @@ public class RoomServiceImpl implements RoomService {
         stringBuilder.append("</listForBan>");
         return stringBuilder.toString();
     }
-
-   /* @Override
-    public String parseListUserForUnBan(List<User> list) {
-        String s = "<listForUnBan>";
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(s);
-        stringBuilder.append(parseList(list));
-        stringBuilder.append("</listForUnBan>");
-        return stringBuilder.toString();
-    }*/
 
     private String parseList(List<User> list) {
         StringBuilder stringBuilder = new StringBuilder();

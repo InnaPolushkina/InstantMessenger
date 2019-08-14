@@ -43,7 +43,6 @@ public class Listener extends Thread {
     public Listener(Socket socket) throws IOException {
         user = new User();
         userServerConnection = new UserServerConnection(user,socket);
-        this.viewChat = viewChat;
         userServerConnection.setIn();
     }
 
@@ -63,7 +62,7 @@ public class Listener extends Thread {
                         //set online list to observable list from view
                         String onlineList = messageFromServer();
                         List<User> userList = userRegistrationService.parseUserList(onlineList);
-                        Platform.runLater(() -> {
+                        Platform.runLater( () -> {
                             viewChat.setList(userList);
                             viewChat.showAddUserView();
                         });
@@ -84,8 +83,7 @@ public class Listener extends Thread {
                         //if user is admin in room server send him list with users, whose can will be banned
                         String banList = messageFromServer();
                         List<User> listForBan = roomService.parseListForBanUnBan(banList);
-                        System.out.println(listForBan.toString());
-                        Platform.runLater(() -> {
+                        Platform.runLater( () -> {
                             viewChat.setList(listForBan);
                             viewChat.showBanUserView();
                         });
@@ -94,7 +92,7 @@ public class Listener extends Thread {
                         //if user is admin in room server send him list with users, whose can will be unbanned
                         String unBanList = messageFromServer();
                         List<User> listForUnBan = roomService.parseListForBanUnBan(unBanList);
-                        Platform.runLater(() -> {
+                        Platform.runLater( () -> {
                             viewChat.setList(listForUnBan);
                             viewChat.showUnBanUserView();
                         });
@@ -129,15 +127,15 @@ public class Listener extends Thread {
                         Room deletedRoom = roomService.parseDeletedRoom(messageFromServer());
                         Router.getInstance().getRoomByName(deletedRoom.getRoomName()).setDeleted(true);
                         Router.getInstance().getRoomByName(deletedRoom.getRoomName()).setMuted(false);
-                        Platform.runLater(() -> {
+                        Platform.runLater( () -> {
                             Notificator notificator = new Notificator();
                             notificator.notifyUser(deletedRoom.getRoomName(),"Room was deleted",TrayIcon.MessageType.WARNING);
                         });
                         break;
                     case USERS_IN_ROOM:
                         List<User> users = roomService.parseUserListFromRoom(messageFromServer());
-                        Platform.runLater(() -> {
-                            ViewRoomInfo viewRoomInfo = new ViewRoomInfo(users);
+                        Platform.runLater( () -> {
+                           viewChat.showRoomInfoView(users);
                         });
                         break;
                     case ROOM_LIST:
@@ -181,8 +179,7 @@ public class Listener extends Thread {
      * @throws IOException If an I/O error occurs
      */
     public String messageFromServer() throws IOException{
-        String s = userServerConnection.getIn().readLine();
-        return s;
+        return userServerConnection.getIn().readLine();
     }
 
     /**

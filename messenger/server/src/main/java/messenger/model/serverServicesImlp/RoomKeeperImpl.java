@@ -90,8 +90,6 @@ public class RoomKeeperImpl implements RoomKeeper {
 
             Document document = documentBuilder.parse(new InputSource(new FileReader(fileName)));
 
-            Element root = document.getDocumentElement();
-
             NodeList nodeList = document.getElementsByTagName("room");
 
             for (int i = 0; i < nodeList.getLength(); i++) {

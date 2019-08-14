@@ -36,7 +36,6 @@ import java.util.Set;
  * @author Inna
  */
 public class Router {
-    //private User user;
     private Set<Room> roomList;
     private Listener listener;
     private Socket socket;
@@ -138,7 +137,6 @@ public class Router {
             sendAction("AUTH");
             userRegistrationService.auth(name,pass);
             showMainChat(name);
-            //getHistory();
             listener.start();
             listener.setDaemon(true);
 
@@ -192,27 +190,9 @@ public class Router {
     }
 
     /**
-     * The method loads history of all room where is user
-     * saved history loads to list of room,
-     * sends to server request for getting history of rooms when user was online
+     * The method for getting history from client's rooms
+     * @param rooms
      */
-    private void getHistory() {
-        HistorySaver historySaver = new HistorySaver();
-        roomList = historySaver.loadHistory();
-        for (Room room: roomList) {
-            viewChat.addRoom(room.getRoomName());
-        }
-        if(roomList != null) {
-            try {
-                sendAction("HISTORY");
-                String roomList = roomService.prepareRoomListForGettingHistory(getRoomList(), historySaver.getLastOnlineDate());
-                sendMessageToServer(roomList);
-            }catch (IOException e) {
-                logger.warn("while getting history from server",e);
-            }
-        }
-    }
-
     public void getHistory(Set<Room> rooms) {
         Set<Room> serverRooms = rooms;
 
@@ -220,7 +200,6 @@ public class Router {
         Set<Room> clientRooms = historySaver.loadHistory();
 
         Set<Room> resultSet = new HashSet<>();
-
 
         for (Room serverRoom: serverRooms) {
             boolean containt = false;
@@ -243,9 +222,8 @@ public class Router {
         if(roomList != null) {
             try {
                 sendAction("HISTORY");
-                String roomList = roomService.prepareRoomListForGettingHistory(getRoomList(), historySaver.getLastOnlineDate());
+                String roomList = roomService.prepareRoomListForGettingHistory(resultSet, historySaver.getLastOnlineDate());
                 sendMessageToServer(roomList);
-                System.out.println("Send to server request about history of messages ");
             }catch (IOException e) {
                 logger.warn("while getting history from server",e);
             }
@@ -450,6 +428,11 @@ public class Router {
         viewChat.switchRoom();
     }
 
+    /**
+     * The method for logout
+     * method sends to server logout notify
+     * disconnect from server and connect again in order to client can authorize
+     */
     public void logout() {
         sendAction("LOGOUT");
         sendMessage("test . . .");

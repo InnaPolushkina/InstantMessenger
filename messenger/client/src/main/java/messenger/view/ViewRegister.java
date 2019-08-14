@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import messenger.controller.Router;
 import messenger.model.exceptions.UserRegistrationException;
@@ -69,26 +70,38 @@ public class ViewRegister {
     public void initialize() {
         setErrorMsg("");
         registrationButton.setOnAction(event -> {
-            String name = userName.getText().trim();
-            String password = userPassword.getText().trim();
-            if (name.length() != 0 && password.length() !=0 ) {
-                if(password.length() >= 4) {
-                    try {
-                        Router.getInstance().register(name, password);
-                        Router.getInstance().getUser().setName(name);
-                    } catch (UserRegistrationException e) {
-                        setErrorMsg(e.getMessage());
-                    }
-                }
-                else {
-                    setErrorMsg("Password length can't be less then 4 symbols !");
+           register();
+        });
+        userName.setOnKeyPressed(event -> {
+            if ( event.getCode() == KeyCode.ENTER ) {
+                userPassword.requestFocus();
+            }
+        });
+        userPassword.setOnKeyPressed(event -> {
+            register();
+        });
+        returnToLoginView.setOnAction(event -> returnToLoginView());
+    }
+
+    private void register() {
+        String name = userName.getText().trim();
+        String password = userPassword.getText().trim();
+        if (name.length() != 0 && password.length() !=0 ) {
+            if(password.length() >= 4) {
+                try {
+                    Router.getInstance().register(name, password);
+                    Router.getInstance().getUser().setName(name);
+                } catch (UserRegistrationException e) {
+                    setErrorMsg(e.getMessage());
                 }
             }
             else {
-                setErrorMsg("Fields can't be empty !");
+                setErrorMsg("Password length can't be less then 4 symbols !");
             }
-        });
-        returnToLoginView.setOnAction(event -> returnToLoginView());
+        }
+        else {
+            setErrorMsg("Fields can't be empty !");
+        }
     }
 
     /**
@@ -99,7 +112,10 @@ public class ViewRegister {
         this.errorMsg.setText(errorMsg);
     }
 
+    /**
+     * The method for returning to login form
+     */
     public void returnToLoginView() {
-        ViewLogin viewLogin = new ViewLogin(stage);
+        new ViewLogin(stage);
     }
 }

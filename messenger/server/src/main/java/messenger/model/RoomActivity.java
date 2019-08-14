@@ -5,6 +5,7 @@ import messenger.model.serverEntity.Room;
 import messenger.model.serverEntity.User;
 import messenger.model.serverEntity.UserConnection;
 import messenger.model.serverServices.*;
+import messenger.view.ViewLogs;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -80,7 +81,7 @@ public class RoomActivity {
         room.addUser(userConnection);
         room.setAdmin(userConnection.getUser().getName());
         Router.getInstense().getRoomList().add(room);
-        System.out.println("new room created");
+        ViewLogs.printInfo(" New room was created, name - " + room.getRoomName());
 
         roomNow = room;
         roomKeeper.saveRoomsInfo(Router.getInstense().getRoomList());
@@ -103,7 +104,6 @@ public class RoomActivity {
             if(r.getRoomName().equals(roomNow.getRoomName()) && !r.getUserList().contains(connectionAdd) && connectionAdd != null) {
                 if(!r.isUserInRoom(connectionAdd)) {
                     r.addUser(connectionAdd);
-                    System.out.println("user successfully added");
                     try {
                         connectionAdd.sendMessage(messageService.createServerAction("ADDED_TO_ROOM") + messageService.createAddToRoomNotify(r));
 
@@ -112,6 +112,8 @@ public class RoomActivity {
                         notifyRoom(notification, r.getRoomName());
 
                         roomKeeper.saveRoomsInfo(Router.getInstense().getRoomList());
+
+                        ViewLogs.printInfo("User " + connectionAdd.getUser().getName() + " was added to room " + r.getRoomName() + "\nThis room have " + r.getUserList().size() + " users");
 
                     } catch (IOException e) {
                         logger.warn("while sending notify to user about addition to room and sending history messages of room", e);
@@ -134,11 +136,12 @@ public class RoomActivity {
             if(room.getRoomName().equals(roomNow.getRoomName())) {
                 room.removeUser(userConnection);
                 notifyRoom("User " + userConnection.getUser().getName() + " leaved room",room.getRoomName());
+                ViewLogs.printInfo("User " + userConnection.getUser().getName() + " was leaved room " + room.getRoomName() + "\nThis room have " + room.getUserList().size() + " users");
                 roomKeeper.saveRoomsInfo(Router.getInstense().getRoomList());
                 if(room.getUserList().size() == 0) {
+                    ViewLogs.printInfo("Room " + room.getRoomName() + " was removed, because doesn't contain any users");
                     Router.getInstense().getRoomList().remove(room);
                     roomKeeper.saveRoomsInfo(Router.getInstense().getRoomList());
-                    System.out.println("Room removed");
                 }
                 break;
             }
@@ -150,7 +153,7 @@ public class RoomActivity {
      */
     public void sendOnlineUserList() {
         try {
-           userConnection.sendMessage(messageService.createServerAction("ONLINE_LIST") + userKeeper.userListToString(getOnlineUser()) + "\n");
+           userConnection.sendMessage(messageService.createServerAction("ONLINE_LIST") + userKeeper.userListToString(getOnlineUsers()) + "\n");
         }
         catch (IOException e) {
             logger.info("while sending list of online users to client",e);
@@ -159,18 +162,19 @@ public class RoomActivity {
     }
 
     /**
-     * The method for searching online user
+     * The method for searching online users
      * @return list of online users
      */
-    private List<User> getOnlineUser() {
+    private List<User> getOnlineUsers() {
         List<User> resultList = new ArrayList<>();
 
         for (UserConnection connection: Router.getInstense().getUserList()) {
-            System.out.println(connection.getUser().getName());
             if( connection.getUser() != null  && !connection.getUser().getName().equals(userConnection.getUser().getName()) && connection.getUser().isOnline()) {
                 resultList.add(connection.getUser());
             }
         }
+
+        ViewLogs.printInfo("Now is online " + resultList.size() + " users");
 
         return resultList;
     }
@@ -181,13 +185,14 @@ public class RoomActivity {
      * @param roomName name of notified room
      */
     private void notifyRoom(String msg, String roomName) {
-        String testNotify = messageService.createMessage(msg,"Room notify",roomName);
+        String roomNotify = messageService.createMessage(msg,"Room notify",roomName);
         for (Room r: Router.getInstense().getRoomList()) {
             if(r.getRoomName().equals(roomName)) {
                for(String name: r.getUserList()) {
                    try {
                        UserConnection uc = Router.getInstense().getUserConnectionByName(name);
-                      uc.sendMessage(messageService.createServerAction("SEND_MSG") + testNotify + "\n");
+                      uc.sendMessage(messageService.createServerAction("SEND_MSG") + roomNotify + "\n");
+                      historyMessage.addMessageToStory(roomNotify);
                    }
                    catch (IOException e) {
                        logger.warn("while sending notify to room");

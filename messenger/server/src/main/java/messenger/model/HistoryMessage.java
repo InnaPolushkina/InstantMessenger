@@ -6,6 +6,7 @@ import messenger.model.serverEntity.MessageServer;
 import messenger.model.serverEntity.Room;
 import messenger.model.serverEntity.UserConnection;
 import messenger.model.serverServices.MessageService;
+import messenger.view.ViewLogs;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -62,6 +63,8 @@ public class HistoryMessage {
                 }
             }
         }
+
+        ViewLogs.printInfo(" messages history was sent to user " + userConnectionRecipient.getUser().getName());
 
     }
 
@@ -131,20 +134,23 @@ public class HistoryMessage {
                     MessageServer messageServer = messageService.parseMessage(s);
                     String roomGetter = messageServer.getRecipient().getRoomName();
                     for (Room room: Router.getInstense().getRoomList()) {
-                        if(room.getRoomName().equals(roomGetter) && room.getRoomName().equals(roomForUser)) {
+                        if(room.getRoomName().equals(roomGetter) && room.getRoomName().equals(roomForUser.getRoomName())) {
                             try {
                                userConnection.sendMessage(messageService.createServerAction("SEND_MSG") + s + "\n");
+                                break;
                             }
                             catch (IOException e) {
                                 logger.warn("sending messages of room to user",e);
                             }
-                            break;
+
                         }
                     }
 
                 }
+                break;
             }
         }
+        ViewLogs.printInfo("messages history after disconnect at " + disconnectedDate + " was sent to user " + userConnection.getUser().getName());
     }
 
 }

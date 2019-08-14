@@ -26,10 +26,6 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     private Router router;
     private static final Logger logger = Logger.getLogger(UserRegistrationServiceImpl.class);
 
-    public UserRegistrationServiceImpl() {
-        this.router = Router.getInstance();
-    }
-
     public UserRegistrationServiceImpl(Router router) {
         this.router = router;
     }
@@ -59,10 +55,9 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     @Override
     public void auth(String username, String password) throws AuthException {
         String authMsg = "<checkAuthorizingUserInfo><nick>" + username + "</nick><password>" + password + "</password></checkAuthorizingUserInfo>";
-        boolean result = false;
         router.sendSimpleMsg(authMsg);
         try {
-            result = parseResponse(router.getListener().messageFromServer());
+           parseResponse(router.getListener().messageFromServer());
         }
         catch (AuthException e) {
             throw new AuthException(e.getMessage());

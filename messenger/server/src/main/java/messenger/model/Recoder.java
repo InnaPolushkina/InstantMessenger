@@ -7,6 +7,7 @@ import messenger.model.serverEntity.UserConnection;
 import messenger.model.serverServices.RoomKeeper;
 import messenger.model.serverServices.UserKeeper;
 import messenger.model.serverServices.UserRegistrationService;
+import messenger.view.ViewLogs;
 
 import java.io.IOException;
 
@@ -16,7 +17,6 @@ import java.io.IOException;
 public class Recoder {
     private UserConnection userConnection;
     private UserRegistrationService userRegistrationService;
-    private UserKeeper userKeeper;
     private RoomKeeper roomKeeper;
 
 
@@ -34,7 +34,6 @@ public class Recoder {
 
             if (result) {
                 Router.getInstense().getUserList().add(userConnection);
-                Router.getInstense().getViewLogs().print("User registered and authorized");
                 user = userRegistrationService.getAuthorizedUser();
                 user.setOnline(true);
 
@@ -44,11 +43,11 @@ public class Recoder {
 
                 roomKeeper.saveRoomsInfo(Router.getInstense().getRoomList());
 
+                ViewLogs.printInfo("New user was registered and authorized ");
+
                 return user;
             }
             else {
-                /*userConnection.getOut().write(userRegistrationService.prepareAuthRegResponse("Can't register, server have user with such nick",result) + "\n");
-                userConnection.getOut().flush();*/
                 userConnection.sendMessage(userRegistrationService.prepareAuthRegResponse("Can't register, server have user with such nick",result) + "\n");
                 throw new ServerRegistrationException("Can't register, server have user with such nick");
             }
@@ -63,13 +62,11 @@ public class Recoder {
      * @param userConnection connection with user
      * @param userRegistrationService object of class that implements interface UserRegistrationService
      * @see UserRegistrationService
-     * @param userKeeper object of class that implements interface UserKeeper
      * @see UserKeeper
      */
-    public Recoder(UserConnection userConnection, UserRegistrationService userRegistrationService, UserKeeper userKeeper) {
+    public Recoder(UserConnection userConnection, UserRegistrationService userRegistrationService) {
         this.userConnection = userConnection;
         this.userRegistrationService = userRegistrationService;
-        this.userKeeper = userKeeper;
     }
 
     /**
