@@ -37,7 +37,6 @@ public class SenderMessage {
      */
     public void sendMessage(String message) throws IOException {
         MessageServer messageServer = messageService.parseMessage(message);
-        //Router router = Router.getInstense();
         Room getter = messageServer.getRecipient();
 
 

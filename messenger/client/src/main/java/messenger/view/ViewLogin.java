@@ -7,13 +7,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import messenger.controller.Router;
-import messenger.model.serverEntity.MessageServer;
-import messenger.model.serverEntity.Room;
-import messenger.model.entity.User;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
-import java.util.Set;
 
 /**
  * the class contain methods and FXML components for handling actions of user with form for authorization user
@@ -51,7 +47,6 @@ public class ViewLogin {
             stage.setTitle("Authorization");
             stage.setScene(scene);
             stage.show();
-            //Router.getInstance().connectToServer();
             logger.info("show login scene ");
         }
         catch (IOException e) {
@@ -101,6 +96,10 @@ public class ViewLogin {
         this.errorUserMessage.setText(errorUserMessage);
     }
 
+    /**
+     * The getter for login button
+     * @return login button
+     */
     public Button getLoginButton() {
         return loginButton;
     }

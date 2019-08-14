@@ -39,8 +39,6 @@ public class UserServiceImpl implements UserService {
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document document = builder.parse(new InputSource(new StringReader(msg)));
 
-          /*  Element element = document.getDocumentElement();
-            String roomName = element.getTextContent();*/
             NodeList nodeList = document.getElementsByTagName("ban");
             Node node = nodeList.item(0);
             Element element = (Element) node;

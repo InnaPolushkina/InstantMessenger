@@ -16,7 +16,6 @@ import java.io.*;
 public class Authorizer {
     private UserConnection userConnection;
     private UserRegistrationService userRegistrationService;
-    private UserKeeper userKeeper;
     private static final Logger logger = Logger.getLogger(Authorizer.class);
 
     /**
@@ -57,9 +56,8 @@ public class Authorizer {
                     Router.getInstense().getUserConnectionByName(userConnection.getUser().getName()).getUser().setOnline(true);
                     userConnection.sendMessage(userRegistrationService.prepareAuthRegResponse("successful",true) + "\n");
                     Router.getInstense().getViewLogs().print("User  authorized");
+                    logger.info("User" + user.getName() + " authorized");
                 }
-
-                System.out.println("Count of users " + Router.getInstense().getUserList().size());
 
                 return user;
             }
@@ -78,13 +76,11 @@ public class Authorizer {
      * @param userConnection user connection for authorizing
      * @param userRegistrationService object of class that implements interface UserRegistrationService
      * @see UserRegistrationService
-     * @param userKeeper object of class that implements interface UserKeeper
      * @see UserKeeper
      */
-    public Authorizer(UserConnection userConnection, UserRegistrationService userRegistrationService, UserKeeper userKeeper) {
+    public Authorizer(UserConnection userConnection, UserRegistrationService userRegistrationService) {
         this.userConnection = userConnection;
         this.userRegistrationService = userRegistrationService;
-        this.userKeeper = userKeeper;
     }
 
 }

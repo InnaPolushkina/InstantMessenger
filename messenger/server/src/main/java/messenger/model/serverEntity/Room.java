@@ -42,7 +42,6 @@ public class Room {
         userList.remove(userConnection.getUser().getName());
     }
 
-
     /**
      * The getter for room name
      * @return name of room
@@ -115,6 +114,12 @@ public class Room {
         return false;
     }
 
+    /**
+     * The method for checking user banned status in room
+     * if user is banned in room return true, if user is not banned in room return false
+     * @param userName user name
+     * @return true if user is banned in room, else return false
+     */
     public boolean isUserBanned(String userName) {
         for (String name: banList) {
             if(name.equals(userName)) {
@@ -140,10 +145,18 @@ public class Room {
         return false;
     }
 
+    /**
+     * The getter for room delete status
+     * @return true if room was deleted, else return false
+     */
     public boolean isDeleted() {
         return isDeleted;
     }
 
+    /**
+     * The setter for room delete status
+     * @param deleted boolean value
+     */
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
     }

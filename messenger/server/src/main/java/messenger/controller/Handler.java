@@ -164,7 +164,7 @@ public class Handler extends Thread{
                         case REGISTER:
                             //call methods from class for checkRegisteringUserInfo
                             try {
-                                Recoder recoder = new Recoder(userConnection, userRegistrationService, userKeeper);
+                                Recoder recoder = new Recoder(userConnection, userRegistrationService);
                                 recoder.setRoomKeeper(roomKeeper);
                                 user = recoder.register(clientData);
                                 roomActivity = new RoomActivity(userConnection, roomService, userKeeper, historyMessage, messageService);
@@ -178,7 +178,7 @@ public class Handler extends Thread{
                         case AUTH:
                             //call methods from class for authorization
                             try {
-                                Authorizer authorizer = new Authorizer(userConnection, userRegistrationService, userKeeper);
+                                Authorizer authorizer = new Authorizer(userConnection, userRegistrationService);
                                 user = authorizer.authorize(clientData);
                                 roomActivity = new RoomActivity(userConnection, roomService, userKeeper, historyMessage, messageService);
                                 roomActivity.setRoomKeeper(roomKeeper);
@@ -194,7 +194,6 @@ public class Handler extends Thread{
                             break;
                         //There are cases for other client actions . . .
                         case CREATE_ROOM:
-                            //RoomActivity roomCreator = new RoomActivity(userConnection,roomService);
                             roomActivity.createRoom(clientData);
                             break;
                         case SWITCH_ROOM:
@@ -204,7 +203,6 @@ public class Handler extends Thread{
                             roomActivity.addUserToRoom(clientData);
                             break;
                         case ONLINE_USERS:
-                            //roomActivity.getOnlineUsers(userKeeper);
                             roomActivity.sendOnlineUserList();
                             break;
                         case LEAVE_ROOM:
@@ -241,17 +239,7 @@ public class Handler extends Thread{
                 }
            }
        }
-       catch (IOException e) {
-           try {
-               logger.warn("client " + user.getName() + " disconnected ", e);
-               view.print("client " + user.getName() + " disconnected or connection was lost");
-               userConnection.getUser().setOnline(false);
-           }
-           catch (NullPointerException ex) {
-               logger.info("some client disconnected before authorizing/registering ",ex);
-           }
-       }
-       catch (NullPointerException e) {
+       catch (IOException | NullPointerException e) {
            try {
                logger.warn("client " + user.getName() + " disconnected ", e);
                view.print("client " + user.getName() + " disconnected or connection was lost");
@@ -264,7 +252,7 @@ public class Handler extends Thread{
       finally {
            try {
                userConnection.getUserSocket().close();
-               System.out.println("Closed user socket in finally block . . .");
+               view.print("Closed user socket in finally block . . .");
            } catch (IOException e) {
                logger.warn("close client socket in sever", e);
                view.print("close client socket");
@@ -272,6 +260,11 @@ public class Handler extends Thread{
        }
    }
 
+    /**
+     * The method disconnects user from server
+     * stops Handler thread and closes client socket
+     * @throws IOException
+     */
   public void disconnect() throws IOException{
        Router.getInstense().getUserConnectionByName(userConnection.getUser().getName()).getUser().setOnline(false);
        userConnection.getUserSocket().close();

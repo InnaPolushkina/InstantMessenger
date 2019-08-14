@@ -27,7 +27,6 @@ public class UserKeeperXml implements UserKeeper {
 
     private static final Logger logger = Logger.getLogger(UserKeeperXml.class);
     private String fileName;
-    private String fileHistory = "server/src/main/java/messenger/model/db/messagesHistory.xml";
 
     public UserKeeperXml(String fileName) {
         this.fileName = fileName;
@@ -35,7 +34,7 @@ public class UserKeeperXml implements UserKeeper {
 
 
     @Override
-    public void saveToFile(/*String fileName,*/ List<User> userList) {
+    public void saveToFile( List<User> userList) {
         try {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -73,15 +72,13 @@ public class UserKeeperXml implements UserKeeper {
     }
 
     @Override
-    public List<User> loadFromFile(/*String fileName*/) {
+    public List<User> loadFromFile() {
         List<User> userList = new ArrayList<>();
         try {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 
             Document document = documentBuilder.parse(new InputSource(new FileReader(fileName)));
-
-            Element root = document.getDocumentElement();
 
             NodeList nodeList = document.getElementsByTagName("user");
 

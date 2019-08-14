@@ -16,7 +16,6 @@ import java.io.IOException;
 public class Recoder {
     private UserConnection userConnection;
     private UserRegistrationService userRegistrationService;
-    private UserKeeper userKeeper;
     private RoomKeeper roomKeeper;
 
 
@@ -47,8 +46,6 @@ public class Recoder {
                 return user;
             }
             else {
-                /*userConnection.getOut().write(userRegistrationService.prepareAuthRegResponse("Can't register, server have user with such nick",result) + "\n");
-                userConnection.getOut().flush();*/
                 userConnection.sendMessage(userRegistrationService.prepareAuthRegResponse("Can't register, server have user with such nick",result) + "\n");
                 throw new ServerRegistrationException("Can't register, server have user with such nick");
             }
@@ -63,13 +60,11 @@ public class Recoder {
      * @param userConnection connection with user
      * @param userRegistrationService object of class that implements interface UserRegistrationService
      * @see UserRegistrationService
-     * @param userKeeper object of class that implements interface UserKeeper
      * @see UserKeeper
      */
-    public Recoder(UserConnection userConnection, UserRegistrationService userRegistrationService, UserKeeper userKeeper) {
+    public Recoder(UserConnection userConnection, UserRegistrationService userRegistrationService) {
         this.userConnection = userConnection;
         this.userRegistrationService = userRegistrationService;
-        this.userKeeper = userKeeper;
     }
 
     /**

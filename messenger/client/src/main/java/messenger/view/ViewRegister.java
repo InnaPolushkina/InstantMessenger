@@ -99,6 +99,9 @@ public class ViewRegister {
         this.errorMsg.setText(errorMsg);
     }
 
+    /**
+     * The method for returning to login form
+     */
     public void returnToLoginView() {
         ViewLogin viewLogin = new ViewLogin(stage);
     }
