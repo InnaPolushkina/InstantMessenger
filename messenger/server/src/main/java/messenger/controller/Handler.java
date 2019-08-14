@@ -159,7 +159,6 @@ public class Handler extends Thread{
                 String clientData = userConnection.getIn().readLine();
                 if(clientMsgAction != null && clientData != null) {
                     clientAction = messageService.parseClientAction(clientMsgAction);
-                    System.out.println(clientAction);
                     switch (clientAction) {
                         case REGISTER:
                             //call methods from class for checkRegisteringUserInfo
@@ -169,10 +168,11 @@ public class Handler extends Thread{
                                 user = recoder.register(clientData);
                                 roomActivity = new RoomActivity(userConnection, roomService, userKeeper, historyMessage, messageService);
                                 roomActivity.setRoomKeeper(roomKeeper);
-                                senderMessage = new SenderMessage(messageService, userConnection, historyMessage);
+                                senderMessage = new SenderMessage(messageService, historyMessage);
                                 historyMessage.sendStory(userConnection);
                             } catch (ServerRegistrationException e) {
                                 logger.warn(e.getMessage(), e);
+                                view.printError(" user registration error");
                             }
                             break;
                         case AUTH:
@@ -182,10 +182,11 @@ public class Handler extends Thread{
                                 user = authorizer.authorize(clientData);
                                 roomActivity = new RoomActivity(userConnection, roomService, userKeeper, historyMessage, messageService);
                                 roomActivity.setRoomKeeper(roomKeeper);
-                                senderMessage = new SenderMessage(messageService, userConnection, historyMessage);
+                                senderMessage = new SenderMessage(messageService, historyMessage);
                                 userConnection.sendMessage(messageService.createServerAction("ROOM_LIST") + roomKeeper.roomsToString(roomKeeper.loadRoomsInfo(),userConnection) +  "\n");
                             } catch (ServerAuthorizationException e) {
                                 logger.warn(e.getMessage(), e);
+                                view.printError(" user authorization error");
                             }
                             break;
                         case SEND_MSG:
@@ -227,7 +228,6 @@ public class Handler extends Thread{
                             break;
                         case DELETE_ROOM:
                             roomActivity.deleteRoomByAdmin(clientData);
-                            System.out.println("room deleted");
                             break;
                         case LOGOUT:
                             disconnect();
@@ -242,20 +242,21 @@ public class Handler extends Thread{
        catch (IOException | NullPointerException e) {
            try {
                logger.warn("client " + user.getName() + " disconnected ", e);
-               view.print("client " + user.getName() + " disconnected or connection was lost");
+               view.printInfo("client " + user.getName() + " disconnected or connection was lost");
                userConnection.getUser().setOnline(false);
            }
            catch (NullPointerException ex) {
                logger.info("some client disconnected before authorizing/registering ",ex);
+               view.printError("some client disconnected before authorizing/registering");
            }
        }
       finally {
            try {
                userConnection.getUserSocket().close();
-               view.print("Closed user socket in finally block . . .");
+               view.printInfo("Closed user socket in finally block . . .");
            } catch (IOException e) {
                logger.warn("close client socket in sever", e);
-               view.print("close client socket");
+               view.printError("exception while closing client socket ");
            }
        }
    }
@@ -269,7 +270,7 @@ public class Handler extends Thread{
        Router.getInstense().getUserConnectionByName(userConnection.getUser().getName()).getUser().setOnline(false);
        userConnection.getUserSocket().close();
        running = false;
-       System.out.println("User disconnected  . . . ");
+       view.printInfo("Client disconnected");
    }
 
 }

@@ -43,7 +43,6 @@ public class UserServiceImpl implements UserService {
             Node node = nodeList.item(0);
             Element element = (Element) node;
             String roomName = element.getTextContent();
-            System.out.println("Room name " + roomName);
             room = new Room(roomName);
         }
         catch (IOException e) {

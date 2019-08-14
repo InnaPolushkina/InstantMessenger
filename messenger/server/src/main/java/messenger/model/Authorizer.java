@@ -6,6 +6,7 @@ import messenger.model.serverEntity.User;
 import messenger.model.serverEntity.UserConnection;
 import messenger.model.serverServices.UserKeeper;
 import messenger.model.serverServices.UserRegistrationService;
+import messenger.view.ViewLogs;
 import org.apache.log4j.Logger;
 
 import java.io.*;
@@ -43,7 +44,7 @@ public class Authorizer {
                     Router.getInstense().addUserToBigRoom(userConnection);
                     Router.getInstense().getUserConnectionByName(userConnection.getUser().getName()).getUser().setOnline(true);
                     userConnection.sendMessage(userRegistrationService.prepareAuthRegResponse("successful",true) + "\n");
-                    Router.getInstense().getViewLogs().print("User  authorized");
+                    ViewLogs.printInfo("User " + userConnection.getUser().getName() + " was successfully  authorized");
                 }
                 //second check
                 else if (authConn.getUser().isOnline()) {
@@ -55,7 +56,7 @@ public class Authorizer {
                     Router.getInstense().getUserConnectionByName(user.getName()).setIn(new BufferedReader(new InputStreamReader(userConnection.getUserSocket().getInputStream())));
                     Router.getInstense().getUserConnectionByName(userConnection.getUser().getName()).getUser().setOnline(true);
                     userConnection.sendMessage(userRegistrationService.prepareAuthRegResponse("successful",true) + "\n");
-                    Router.getInstense().getViewLogs().print("User  authorized");
+                    ViewLogs.printInfo("User " + userConnection.getUser().getName() + " was successfully  authorized ");
                     logger.info("User" + user.getName() + " authorized");
                 }
 

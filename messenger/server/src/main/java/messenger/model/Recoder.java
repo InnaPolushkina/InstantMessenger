@@ -7,6 +7,7 @@ import messenger.model.serverEntity.UserConnection;
 import messenger.model.serverServices.RoomKeeper;
 import messenger.model.serverServices.UserKeeper;
 import messenger.model.serverServices.UserRegistrationService;
+import messenger.view.ViewLogs;
 
 import java.io.IOException;
 
@@ -33,7 +34,6 @@ public class Recoder {
 
             if (result) {
                 Router.getInstense().getUserList().add(userConnection);
-                Router.getInstense().getViewLogs().print("User registered and authorized");
                 user = userRegistrationService.getAuthorizedUser();
                 user.setOnline(true);
 
@@ -42,6 +42,8 @@ public class Recoder {
                 userConnection.sendMessage(userRegistrationService.prepareAuthRegResponse("successful",result) + "\n");
 
                 roomKeeper.saveRoomsInfo(Router.getInstense().getRoomList());
+
+                ViewLogs.printInfo("New user was registered and authorized ");
 
                 return user;
             }

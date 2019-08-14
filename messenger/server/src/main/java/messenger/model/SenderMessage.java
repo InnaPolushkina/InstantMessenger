@@ -13,20 +13,17 @@ import java.io.IOException;
  */
 public class SenderMessage {
     private MessageService messageService;
-    private UserConnection userConnection;
     private HistoryMessage historyMessage;
 
     /**
      * The constructor of this class
      * @param messageService object of class that implements interface MessageServise
      * @see MessageService
-     * @param userConnection connection with user
      * @param historyMessage object of class HistoryMessage
      * @see HistoryMessage
      */
-    public SenderMessage(MessageService messageService, UserConnection userConnection, HistoryMessage historyMessage) {
+    public SenderMessage(MessageService messageService, HistoryMessage historyMessage) {
         this.messageService = messageService;
-        this.userConnection = userConnection;
         this.historyMessage = historyMessage;
     }
 
