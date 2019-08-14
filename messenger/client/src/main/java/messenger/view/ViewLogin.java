@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import messenger.controller.Router;
 import org.apache.log4j.Logger;
@@ -61,23 +62,42 @@ public class ViewLogin {
     public void initialize() {
       errorUserMessage.setText(" ");
       loginButton.setOnAction(event -> {
-          try {
-              String name = userName.getText().trim();
-              String password = userPassword.getText().trim();
-              Router.getInstance().getUserConnection().getUser().setName(name);
-              Router.getInstance().login(name, password);
-          }
-          catch (NullPointerException e) {
-              setErrorUserMessage("All fields must be filled !");
-          }
+          login();
         });
       registerButton.setOnAction(event -> {
           viewRegister = new ViewRegister(stage);
+      });
+      userName.setOnKeyPressed(event -> {
+          if ( event.getCode() == KeyCode.ENTER ) {
+              userPassword.requestFocus();
+          }
+      });
+      userPassword.setOnKeyPressed(event -> {
+          if ( event.getCode() == KeyCode.ENTER ) {
+             login();
+          }
       });
       stage.setOnCloseRequest(event -> {
           System.out.println("Close stage");
           System.exit(0);
       });
+   }
+
+    /**
+     * The method for user authorizing
+     * calls methods from Router for user login
+     * @see Router
+     */
+   private void login() {
+       try {
+           String name = userName.getText().trim();
+           String password = userPassword.getText().trim();
+           Router.getInstance().getUserConnection().getUser().setName(name);
+           Router.getInstance().login(name, password);
+       }
+       catch (NullPointerException e) {
+           setErrorUserMessage("All fields must be filled !");
+       }
    }
 
     /**

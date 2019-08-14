@@ -10,6 +10,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import messenger.controller.Router;
 import messenger.model.entity.Message;
@@ -79,6 +82,8 @@ public class ViewChat {
 
     private List<User> list;
 
+    private KeyCombination keyCombination;
+
 
     /**
      * Constructor of class ViewChat
@@ -119,20 +124,34 @@ public class ViewChat {
         nameRoom.setText("Select room ...");
         adminInfo.setText("");
         hideComponents();
+        keyCombination = new KeyCodeCombination(KeyCode.ENTER, KeyCombination.SHIFT_DOWN);
 
         sendButton.setOnAction(event -> {
-            if (messageText.getText() != null && !messageText.getText().trim().equals("")) {
-                router.sendAction("SEND_MSG");
-                router.sendMessage(messageText.getText().replace("\n", ""));
-                messageText.setText("");
-                messageText.requestFocus();
+            sendMessage();
+        });
+
+        messageText.setOnKeyPressed(event -> {
+            try {
+                if (keyCombination.match(event)) {
+                    if (messageText.getText() != null && !messageText.getText().trim().equals("")) {
+                        messageText.appendText("\n");
+                    }
+                }
+                else if( event.getCode() == KeyCode.ENTER ) {
+                    sendMessage();
+                }
+            }
+            catch (IllegalArgumentException e) {
+                logger.info(e);
             }
         });
+
+
         logoutButton.setOnAction(event -> {
             showViewExit();
         });
         createNewRoom.setOnAction(event -> {
-            ViewCreateRoom viewCreateRoom = new ViewCreateRoom(new Stage(),this);
+            new ViewCreateRoom(new Stage(),this);
         });
         addUser.setOnAction(event -> {
             router.switchRoom(nameRoom.getText());
@@ -174,6 +193,21 @@ public class ViewChat {
         roomInfo.setOnAction(event -> {
             Router.getInstance().getUserFromRoom(nameRoom.getText());
         });
+    }
+
+    /**
+     * The method for sending messages
+     * calls methods from Router for sending message
+     * @see Router
+     */
+    private void sendMessage() {
+        if (messageText.getText() != null && !messageText.getText().trim().equals("")) {
+            router.sendAction("SEND_MSG");
+            String mess = messageText.getText().replace("\n"," ").replace("&"," ");
+            router.sendMessage(mess);
+            messageText.setText("");
+            messageText.requestFocus();
+        }
     }
 
     /**
@@ -369,7 +403,7 @@ public class ViewChat {
 
     /**
      * The method for adding new room to form
-     * @param nameRoom
+     * @param nameRoom name of added room
      */
     public void addRoom(String nameRoom) {
         roomObservableList.add(nameRoom);
