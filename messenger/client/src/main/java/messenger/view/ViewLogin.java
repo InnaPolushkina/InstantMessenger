@@ -78,7 +78,6 @@ public class ViewLogin {
           }
       });
       stage.setOnCloseRequest(event -> {
-          System.out.println("Close stage");
           System.exit(0);
       });
    }

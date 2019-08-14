@@ -43,7 +43,6 @@ public class Listener extends Thread {
     public Listener(Socket socket) throws IOException {
         user = new User();
         userServerConnection = new UserServerConnection(user,socket);
-        this.viewChat = viewChat;
         userServerConnection.setIn();
     }
 
@@ -84,7 +83,6 @@ public class Listener extends Thread {
                         //if user is admin in room server send him list with users, whose can will be banned
                         String banList = messageFromServer();
                         List<User> listForBan = roomService.parseListForBanUnBan(banList);
-                        System.out.println(listForBan.toString());
                         Platform.runLater( () -> {
                             viewChat.setList(listForBan);
                             viewChat.showBanUserView();
@@ -181,8 +179,7 @@ public class Listener extends Thread {
      * @throws IOException If an I/O error occurs
      */
     public String messageFromServer() throws IOException{
-        String s = userServerConnection.getIn().readLine();
-        return s;
+        return userServerConnection.getIn().readLine();
     }
 
     /**

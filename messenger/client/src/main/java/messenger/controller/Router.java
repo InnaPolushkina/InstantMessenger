@@ -224,7 +224,6 @@ public class Router {
                 sendAction("HISTORY");
                 String roomList = roomService.prepareRoomListForGettingHistory(resultSet, historySaver.getLastOnlineDate());
                 sendMessageToServer(roomList);
-                System.out.println("Send to server request about history of messages ");
             }catch (IOException e) {
                 logger.warn("while getting history from server",e);
             }
