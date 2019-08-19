@@ -16,22 +16,6 @@ public class MessageServer {
     }
 
     /**
-     * The getter for message text
-     * @return text of message
-     */
-    public String getText() {
-        return text;
-    }
-
-    /**
-     * The setter for message text
-     * @param text text of message
-     */
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    /**
      * The getter for room recipient message
      * @return room
      */

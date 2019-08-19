@@ -21,16 +21,14 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 public class HistorySaver {
-    private  final String fileHistory = "client/src/main/java/messenger/model/db/history.xml";
+    //private  final String fileHistory = "client/src/main/java/messenger/model/db/history.xml";
+    private  final String fileHistory = "client/src/main/history.xml";
     private  LocalDateTime lastOnlineDate;
     private static final Logger logger = Logger.getLogger(HistorySaver.class);
 
@@ -118,6 +116,18 @@ public class HistorySaver {
         }
         catch (FileNotFoundException e) {
             logger.warn(e);
+            try {
+                PrintWriter writer = new PrintWriter(fileHistory, "UTF-8");
+                LocalDateTime dateTime = LocalDateTime.of(2019, 8, 1, 12, 30, 45);
+                writer.print("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n" +
+                        "<history disconnect=\"" + dateTime.toString() + "\">\n" +
+                        "<room admin=\"Server\" deleted=\"false\" name=\"Big chat\"/>\n" +
+                        "</history>");
+                writer.close();
+            }
+            catch (IOException ex) {
+                logger.info(ex);
+            }
         }
         catch (IOException e) {
             logger.warn(e);
@@ -133,7 +143,7 @@ public class HistorySaver {
 
     /**
      * The getter for date of last user disconnection
-     * @return
+     * @return last online date
      */
     public LocalDateTime getLastOnlineDate() {
         return lastOnlineDate;

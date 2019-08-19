@@ -12,13 +12,13 @@ public interface UserKeeper {
     /**
      * The method for saving user list to file in server
      */
-    void saveToFile(/*String fileName,*/ List<User> userList);
+    void saveToFile( List<User> userList);
 
     /**
      * The method for loading user list from server file
      * @return List of users
      */
-    List<User> loadFromFile(/*String fileName*/);
+    List<User> loadFromFile();
 
     /**
      * The method turns to String list of users

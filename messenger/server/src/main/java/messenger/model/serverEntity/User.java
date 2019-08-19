@@ -90,12 +90,4 @@ public class User {
     public String getPassword() {
         return password;
     }
-
-    /**
-     * The setter for user password
-     * @param password user password
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

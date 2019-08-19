@@ -3,7 +3,6 @@ package messenger.model.serverServicesImlp;
 import messenger.model.serverEntity.ClientAction;
 import messenger.model.serverEntity.MessageServer;
 import messenger.model.serverEntity.Room;
-import messenger.model.serverEntity.User;
 import messenger.model.serverServices.MessageService;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;

@@ -99,6 +99,15 @@ public class UserKeeperXml implements UserKeeper {
         }
         catch (FileNotFoundException e) {
             logger.warn(e);
+            try {
+                PrintWriter writer = new PrintWriter(fileName, "UTF-8");
+                writer.print("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n" +
+                        "<users/>");
+                writer.close();
+            }
+            catch (IOException ex) {
+                logger.info("while creating new file for user info",e);
+            }
         }
         catch (IOException e) {
             logger.warn(e);

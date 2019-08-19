@@ -40,8 +40,10 @@ public class Router {
     public static void main(String[] args) throws Exception{
         ViewLogs.printInfo("The chat server is running.");
         ServerSocket listener = new ServerSocket(PORT);
-        userKeeper = new UserKeeperXml("server/src/main/java/messenger/model/db/users.xml");
-        roomKeeper = new RoomKeeperImpl("server/src/main/java/messenger/model/db/rooms.xml");
+        //userKeeper = new UserKeeperXml("server/src/main/java/messenger/model/db/users.xml");
+        userKeeper = new UserKeeperXml("server/src/main/users.xml");
+        //roomKeeper = new RoomKeeperImpl("server/src/main/java/messenger/model/db/rooms.xml");
+        roomKeeper = new RoomKeeperImpl("server/src/main/rooms.xml");
         userRegistrationService = new UserRegistrationServiceImpl(userKeeper);
         messageService = new MessageServiceImpl();
         historyMessage = new HistoryMessage(messageService);

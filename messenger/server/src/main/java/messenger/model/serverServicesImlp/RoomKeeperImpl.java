@@ -125,6 +125,17 @@ public class RoomKeeperImpl implements RoomKeeper {
         }
         catch (FileNotFoundException e) {
             logger.warn(e);
+            try {
+                PrintWriter writer = new PrintWriter(fileName, "UTF-8");
+                writer.print("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n" +
+                        "<rooms>\n" +
+                        "<room admin=\"Server\" deleted=\"false\" name=\"Big chat\"/>\n" +
+                        "</rooms>");
+                writer.close();
+            }
+            catch (IOException ex) {
+                logger.info(ex);
+            }
         }
         catch (IOException e) {
             logger.warn(e);

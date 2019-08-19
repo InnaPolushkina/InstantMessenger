@@ -29,7 +29,7 @@ public class ViewBanUser {
     private List<User> list;
     private ObservableList<String> observableListUser = FXCollections.observableArrayList();
     private Router router;
-    private Room room;
+
     @FXML
     private ListView<String> listViewUsers;
     @FXML
@@ -42,13 +42,11 @@ public class ViewBanUser {
     /**
      * The constructor of this class
      * @param list list with user, who can be banned
-     * @param room room where user can be banned
      * @param adminName name of admin this room
      */
-    public ViewBanUser(List<User> list, Room room, String adminName) {
+    public ViewBanUser(List<User> list, String adminName) {
         this.stage = new Stage();
         this.list = list;
-        this.room = room;
         this.adminName = adminName;
         router = Router.getInstance();
         FXMLLoader loader = new FXMLLoader();
@@ -86,7 +84,7 @@ public class ViewBanUser {
         });
         banUser.setOnAction(event -> {
             User user = getSelectedUser();
-            router.banUser(user,room,true);
+            router.banUser(user,true);
             stage.close();
         });
     }
