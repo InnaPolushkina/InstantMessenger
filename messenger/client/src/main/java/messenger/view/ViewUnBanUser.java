@@ -26,8 +26,8 @@ public class ViewUnBanUser {
     private ObservableList<String> observableList = FXCollections.observableArrayList();
     private static final Logger logger = Logger.getLogger(ViewUnBanUser.class);
     private List<User> list;
-    Room room;
-    Router router;
+
+    private Router router;
     private Stage stage;
     @FXML
     private ListView<String> listViewUsers;
@@ -41,13 +41,12 @@ public class ViewUnBanUser {
     /**
      * The constructor of this class
      * @param list list with user, who can be unbanned
-     * @param room room where user can be unbanned
      * @param adminName name of admin this room
      */
-    public ViewUnBanUser(List<User> list, Room room, String adminName) {
+    public ViewUnBanUser(List<User> list, String adminName) {
         this.stage = new Stage();
         this.list = list;
-        this.room = room;
+
         this.adminName = adminName;
         router = Router.getInstance();
         FXMLLoader loader = new FXMLLoader();
@@ -86,7 +85,7 @@ public class ViewUnBanUser {
         });
         unBanUser.setOnAction(event -> {
             User user = getSelectedUser();
-            router.banUser(user,room,false);
+            router.banUser(user,false);
             stage.close();
         });
     }

@@ -191,7 +191,7 @@ public class ViewChat {
             event.consume();
         });
         roomInfo.setOnAction(event -> {
-            Router.getInstance().getUserFromRoom(nameRoom.getText());
+            Router.getInstance().getUsersFromRoom(nameRoom.getText());
         });
     }
 
@@ -242,7 +242,7 @@ public class ViewChat {
      * @see ViewBanUser
      */
     public void showBanUserView() {
-       new ViewBanUser(list,Router.getInstance().getRoomByName(nameRoom.getText()),userName.getText());
+       new ViewBanUser(list,userName.getText());
     }
 
     /**
@@ -250,7 +250,7 @@ public class ViewChat {
      * @see ViewUnBanUser
      */
     public void showUnBanUserView() {
-        new ViewUnBanUser(list,Router.getInstance().getRoomByName(nameRoom.getText()),userName.getText());
+        new ViewUnBanUser(list,userName.getText());
     }
 
     public void showRoomInfoView(List<User> users) {

@@ -6,7 +6,6 @@ import messenger.model.entity.Room;
 import messenger.model.entity.UserServerConnection;
 import messenger.model.exceptions.AuthException;
 import messenger.model.exceptions.UserRegistrationException;
-import messenger.model.serverEntity.UserConnection;
 import messenger.model.service.RoomService;
 import messenger.model.service.UserRegistrationService;
 import messenger.model.service.UserService;
@@ -31,7 +30,6 @@ import java.util.Set;
  * The main controller class of client side
  * @see Listener
  * @see User
- * @see UserConnection
  * @see UserRegistrationService
  * @author Inna
  */
@@ -344,7 +342,7 @@ public class Router {
 
     }
 
-    public void getUserFromRoom(String roomName) {
+    public void getUsersFromRoom(String roomName) {
         sendAction("USERS_IN_ROOM");
         try {
             BufferedWriter out = userConnection.getOut();
@@ -392,10 +390,9 @@ public class Router {
     /**
      * The method sends to server request for banning/unbanning user
      * @param user user for banning/unbanning
-     * @param room data about room
      * @param banStatus prepareBanUser status
      */
-    public void banUser(User user, Room room, boolean banStatus) {
+    public void banUser(User user, boolean banStatus) {
         if (banStatus) {
             sendAction("BAN");
             try {

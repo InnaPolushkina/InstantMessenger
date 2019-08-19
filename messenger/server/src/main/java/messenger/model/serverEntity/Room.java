@@ -51,14 +51,6 @@ public class Room {
     }
 
     /**
-     * The setter for room name
-     * @param roomName name of room
-     */
-    public void setRoomName(String roomName) {
-        this.roomName = roomName;
-    }
-
-    /**
      * The getter for user connection
      * @return connection of user
      */
