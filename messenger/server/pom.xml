@@ -56,7 +56,7 @@
                     </archive>
                 </configuration>
             </plugin>
-            
+
         </plugins>
         <resources>
             <resource>
