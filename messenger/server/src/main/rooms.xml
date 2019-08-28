@@ -3,4 +3,7 @@
 <room admin="" deleted="false" name="Big chat">
 <user banned="false">Inna</user>
 </room>
+<room admin="Inna" deleted="false" name="2314431">
+<user banned="false">Inna</user>
+</room>
 </rooms>

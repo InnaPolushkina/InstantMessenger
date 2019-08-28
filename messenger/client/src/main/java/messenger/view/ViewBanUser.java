@@ -48,6 +48,8 @@ public class ViewBanUser {
         this.stage = new Stage();
         this.list = list;
         this.adminName = adminName;
+
+
         router = Router.getInstance();
         FXMLLoader loader = new FXMLLoader();
         loader.setController(this);
@@ -87,6 +89,12 @@ public class ViewBanUser {
             router.banUser(user,true);
             stage.close();
         });
+        if(list.size() <= 1) {
+            banUser.setVisible(false);
+        }
+        else {
+            banUser.setVisible(true);
+        }
     }
 
 
